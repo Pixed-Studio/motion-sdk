@@ -1,0 +1,435 @@
+{
+  "id": "glean_3lines_3s",
+  "format": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationFrames": 90
+  },
+  "annotations": {
+    "primitiveName": "statement-converge",
+    "beatFrames": [
+      0,
+      18,
+      36
+    ],
+    "convergeStartFrame": 70,
+    "emblemSettleFrame": 89,
+    "focalBounds": {
+      "x": 433,
+      "y": 203,
+      "width": 413,
+      "height": 311
+    },
+    "safeMargin": {
+      "x": 102,
+      "y": 65
+    }
+  },
+  "audit": {
+    "ok": true,
+    "contrastRatio": 18.86,
+    "slotCounts": {
+      "intro-stage": 1,
+      "backdrop-ribbon": 1,
+      "headline-group": 1,
+      "headline-line": 3,
+      "orbit-ring": 1,
+      "orbit-item": 7,
+      "bokeh-group": 1,
+      "bokeh-item": 5,
+      "emblem-stage": 1,
+      "guide-path": 3,
+      "emblem-part": 2,
+      "emblem-host": 1,
+      "mask-source": 3,
+      "emblem-part-inside": 2,
+      "emblem-overlap": 1
+    },
+    "findings": []
+  },
+  "sampleReadSnapshot": [
+    {
+      "id": "central_lime_ribbon",
+      "slot": "backdrop-ribbon",
+      "role": "backdrop",
+      "label": "Central Chevron Ribbon",
+      "worldCenter": {
+        "x": 640,
+        "y": 360
+      },
+      "worldBBox": {
+        "x": 460,
+        "y": 20,
+        "width": 360,
+        "height": 680
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 0,
+      "scale": 1
+    },
+    {
+      "id": "txt_work",
+      "slot": "headline-line",
+      "role": "focal-text",
+      "label": "Work",
+      "worldCenter": {
+        "x": 640,
+        "y": 263.5
+      },
+      "worldBBox": {
+        "x": 530.9,
+        "y": 203,
+        "width": 218.1,
+        "height": 121
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 0,
+      "scale": 1
+    },
+    {
+      "id": "txt_differently",
+      "slot": "headline-line",
+      "role": "focal-text",
+      "label": "differently",
+      "worldCenter": {
+        "x": 640,
+        "y": 358.5
+      },
+      "worldBBox": {
+        "x": 433.3,
+        "y": 298,
+        "width": 413.4,
+        "height": 121
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 0,
+      "scale": 1
+    },
+    {
+      "id": "txt_with_ai",
+      "slot": "headline-line",
+      "role": "focal-text",
+      "label": "with AI",
+      "worldCenter": {
+        "x": 640,
+        "y": 453.5
+      },
+      "worldBBox": {
+        "x": 499.5,
+        "y": 393,
+        "width": 281,
+        "height": 121
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 0,
+      "scale": 1
+    },
+    {
+      "id": "mid_blue_big",
+      "slot": "orbit-item",
+      "role": "orbit-item",
+      "label": "Primary Orb Large",
+      "worldCenter": {
+        "x": 949.5,
+        "y": 214.6
+      },
+      "worldBBox": {
+        "x": 877.5,
+        "y": 142.6,
+        "width": 144,
+        "height": 144
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 26.2,
+      "scale": 1
+    },
+    {
+      "id": "mid_tri_big",
+      "slot": "orbit-item",
+      "role": "orbit-item",
+      "label": "Fresh Triangle Large",
+      "worldCenter": {
+        "x": 543.7,
+        "y": 48.2
+      },
+      "worldBBox": {
+        "x": 445.7,
+        "y": -36.7,
+        "width": 196,
+        "height": 169.7
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 433,
+      "scale": 1
+    },
+    {
+      "id": "mid_tri_small",
+      "slot": "orbit-item",
+      "role": "orbit-item",
+      "label": "Fresh Triangle Small",
+      "worldCenter": {
+        "x": 848.1,
+        "y": 644.7
+      },
+      "worldBBox": {
+        "x": 805.1,
+        "y": 607.4,
+        "width": 86,
+        "height": 74.5
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 347.6,
+      "scale": 1
+    },
+    {
+      "id": "mid_blue_small",
+      "slot": "orbit-item",
+      "role": "orbit-item",
+      "label": "Primary Orb Small",
+      "worldCenter": {
+        "x": 311.5,
+        "y": 474.2
+      },
+      "worldBBox": {
+        "x": 288.5,
+        "y": 451.2,
+        "width": 46,
+        "height": 46
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 46.4,
+      "scale": 1
+    },
+    {
+      "id": "mid_warm_tiny",
+      "slot": "orbit-item",
+      "role": "orbit-item",
+      "label": "Warm Square Tiny",
+      "worldCenter": {
+        "x": 491.6,
+        "y": 629.5
+      },
+      "worldBBox": {
+        "x": 472.6,
+        "y": 610.5,
+        "width": 38,
+        "height": 38
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 335.8,
+      "scale": 1
+    },
+    {
+      "id": "mid_warm_big",
+      "slot": "orbit-item",
+      "role": "orbit-item",
+      "label": "Warm Square Large",
+      "worldCenter": {
+        "x": 304.9,
+        "y": 245.7
+      },
+      "worldBBox": {
+        "x": 242.9,
+        "y": 183.7,
+        "width": 124,
+        "height": 124
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 319,
+      "scale": 1
+    },
+    {
+      "id": "mid_warm_med",
+      "slot": "orbit-item",
+      "role": "orbit-item",
+      "label": "Warm Square Medium",
+      "worldCenter": {
+        "x": 963.9,
+        "y": 433.8
+      },
+      "worldBBox": {
+        "x": 927.9,
+        "y": 397.8,
+        "width": 72,
+        "height": 72
+      },
+      "opacity": 1,
+      "blur": 0.2,
+      "rotation": 353.8,
+      "scale": 1
+    },
+    {
+      "id": "bokeh_b3_orb_big",
+      "slot": "bokeh-item",
+      "role": "bokeh-item",
+      "label": "Bokeh Orb Sweep Left",
+      "worldCenter": {
+        "x": 536,
+        "y": 227.3
+      },
+      "worldBBox": {
+        "x": 414,
+        "y": 105.3,
+        "width": 244,
+        "height": 244
+      },
+      "opacity": 1,
+      "blur": 40.2,
+      "rotation": 0,
+      "scale": 1
+    },
+    {
+      "id": "bokeh_b3_warm_right",
+      "slot": "bokeh-item",
+      "role": "bokeh-item",
+      "label": "Bokeh Warm Sweep Right",
+      "worldCenter": {
+        "x": 770,
+        "y": 680.6
+      },
+      "worldBBox": {
+        "x": 636,
+        "y": 546.6,
+        "width": 268,
+        "height": 268
+      },
+      "opacity": 1,
+      "blur": 44.2,
+      "rotation": 197.8,
+      "scale": 1
+    }
+  ],
+  "sampleEndSnapshot": [
+    {
+      "id": "hero_sq_out",
+      "slot": "emblem-part",
+      "role": "emblem-part",
+      "label": "Hero Square (Outside)",
+      "worldCenter": {
+        "x": 637,
+        "y": 225
+      },
+      "worldBBox": {
+        "x": 500.1,
+        "y": 88,
+        "width": 273.9,
+        "height": 273.9
+      },
+      "opacity": 1,
+      "blur": 0,
+      "rotation": 131,
+      "scale": 0.913
+    },
+    {
+      "id": "hero_tri_out",
+      "slot": "emblem-part",
+      "role": "emblem-part",
+      "label": "Hero Triangle (Outside)",
+      "worldCenter": {
+        "x": 732,
+        "y": 430
+      },
+      "worldBBox": {
+        "x": 555.6,
+        "y": 277.2,
+        "width": 352.8,
+        "height": 305.5
+      },
+      "opacity": 1,
+      "blur": 0,
+      "rotation": 95,
+      "scale": 0.98
+    },
+    {
+      "id": "hero_host_circle",
+      "slot": "emblem-host",
+      "role": "emblem-host",
+      "label": "Hero Brand Circle",
+      "worldCenter": {
+        "x": 634,
+        "y": 335
+      },
+      "worldBBox": {
+        "x": 340.7,
+        "y": 41.7,
+        "width": 586.6,
+        "height": 586.6
+      },
+      "opacity": 1,
+      "blur": 0,
+      "rotation": 0,
+      "scale": 0.838
+    },
+    {
+      "id": "hero_sq_in",
+      "slot": "emblem-part-inside",
+      "role": "emblem-part",
+      "label": "Hero Square (Inside Host)",
+      "worldCenter": {
+        "x": 637,
+        "y": 225
+      },
+      "worldBBox": {
+        "x": 500.1,
+        "y": 88,
+        "width": 273.9,
+        "height": 273.9
+      },
+      "opacity": 1,
+      "blur": 0,
+      "rotation": 131,
+      "scale": 0.913
+    },
+    {
+      "id": "hero_tri_in",
+      "slot": "emblem-part-inside",
+      "role": "emblem-part",
+      "label": "Hero Triangle (Inside Host)",
+      "worldCenter": {
+        "x": 732,
+        "y": 430
+      },
+      "worldBBox": {
+        "x": 555.6,
+        "y": 277.2,
+        "width": 352.8,
+        "height": 305.5
+      },
+      "opacity": 1,
+      "blur": 0,
+      "rotation": 95,
+      "scale": 0.98
+    },
+    {
+      "id": "overlap_hero_xor_dst",
+      "slot": "emblem-overlap",
+      "role": "emblem-part",
+      "label": "XOR Cutout (Square intersect Triangle)",
+      "worldCenter": {
+        "x": 732,
+        "y": 430
+      },
+      "worldBBox": {
+        "x": 555.6,
+        "y": 277.2,
+        "width": 352.8,
+        "height": 305.5
+      },
+      "opacity": 1,
+      "blur": 0,
+      "rotation": 95,
+      "scale": 0.98
+    }
+  ]
+}

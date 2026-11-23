@@ -1,0 +1,6947 @@
+[
+  {
+    "kind": "updateSceneName",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "name": "Ship fearless agentic systems at planetary scale -> Emblem"
+  },
+  {
+    "kind": "updateSceneDuration",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "durationFrames": 270
+  },
+  {
+    "kind": "setSceneBackgroundFill",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "background": {
+      "kind": "solid",
+      "color": "#0E131F"
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "intro_world",
+      "kind": "frame",
+      "name": "Intro World",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "central_lime_ribbon",
+      "kind": "shape",
+      "name": "Central Chevron Ribbon",
+      "parentId": "intro_world",
+      "layer": 1,
+      "base": {
+        "x": 460,
+        "y": 20,
+        "width": 360,
+        "height": 680
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#00000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addShader",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "shader": {
+      "kind": "custom",
+      "definitionId": "glean_chevron_ribbon_v3",
+      "version": 1,
+      "name": "Spinning Chevron Ribbon",
+      "description": "3D-projected rotating square-pillar chevron hourglass ribbon with vertical fade",
+      "cost": "light",
+      "sksl": "uniform float4 ms_contentRect;\nuniform float ms_dpr;\nuniform float p_spinAngle;\nuniform float p_pillarSize;\nuniform float p_baseHalfGap;\nuniform float p_chevronSlope;\nuniform float p_fadeHeight;\nuniform float4 p_limeColor;\n\nfloat2 frontProfile(float x, float S, float theta) {\n  float R = S * 0.70710678;\n  float a0 = theta + 0.78539816;\n  float a1 = theta + 2.35619449;\n  float a2 = theta + 3.92699082;\n  float a3 = theta + 5.49778714;\n  float2 v0 = float2(R * sin(a0), R * cos(a0));\n  float2 v1 = float2(R * sin(a1), R * cos(a1));\n  float2 v2 = float2(R * sin(a2), R * cos(a2));\n  float2 v3 = float2(R * sin(a3), R * cos(a3));\n\n  float xMin = min(min(v0.x, v1.x), min(v2.x, v3.x));\n  float xMax = max(max(v0.x, v1.x), max(v2.x, v3.x));\n  float insideX = min(x - xMin, xMax - x);\n\n  float zMax = -1e6;\n  float xc = clamp(x, xMin, xMax);\n  float lo0 = min(v0.x, v1.x); float hi0 = max(v0.x, v1.x);\n  if (hi0 - lo0 > 0.001 && xc >= lo0 - 0.001 && xc <= hi0 + 0.001) {\n    float t = clamp((xc - v0.x) / (v1.x - v0.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v0.y, v1.y, t));\n  }\n  float lo1 = min(v1.x, v2.x); float hi1 = max(v1.x, v2.x);\n  if (hi1 - lo1 > 0.001 && xc >= lo1 - 0.001 && xc <= hi1 + 0.001) {\n    float t = clamp((xc - v1.x) / (v2.x - v1.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v1.y, v2.y, t));\n  }\n  float lo2 = min(v2.x, v3.x); float hi2 = max(v2.x, v3.x);\n  if (hi2 - lo2 > 0.001 && xc >= lo2 - 0.001 && xc <= hi2 + 0.001) {\n    float t = clamp((xc - v2.x) / (v3.x - v2.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v2.y, v3.y, t));\n  }\n  float lo3 = min(v3.x, v0.x); float hi3 = max(v3.x, v0.x);\n  if (hi3 - lo3 > 0.001 && xc >= lo3 - 0.001 && xc <= hi3 + 0.001) {\n    float t = clamp((xc - v3.x) / (v0.x - v3.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v3.y, v0.y, t));\n  }\n  return float2(zMax, insideX);\n}\n\nhalf4 main(float2 fragCoord) {\n  float dpr = max(ms_dpr, 0.001);\n  float2 center = ms_contentRect.xy + 0.5 * ms_contentRect.zw;\n  float2 p = (fragCoord - center) / dpr;\n\n  float theta = p_spinAngle * 0.0174532925;\n  float2 prof = frontProfile(p.x, p_pillarSize, theta);\n  float zFront = prof.x;\n  float insideX = prof.y;\n\n  float aaX = smoothstep(-0.75, 0.75, insideX);\n  if (aaX <= 0.0001) return half4(0.0);\n\n  float innerHalf = max(3.0, p_baseHalfGap - p_chevronSlope * zFront);\n  float ay = abs(p.y);\n  float d = ay - innerHalf;\n\n  float aaInner = smoothstep(-0.75, 0.75, d);\n  float u = clamp(max(d, 0.0) / max(p_fadeHeight, 1.0), 0.0, 1.0);\n  float fadeAlpha = 1.0 - smoothstep(0.0, 1.0, pow(u, 1.2));\n\n  float a = aaX * aaInner * fadeAlpha * p_limeColor.a;\n  float3 rgb = p_limeColor.a > 0.001 ? (p_limeColor.rgb / p_limeColor.a) : float3(0.0);\n  return half4(half3(rgb * a), half(a));\n}",
+      "properties": [
+        {
+          "id": "spinAngle",
+          "name": "Spin Angle",
+          "label": "Spin Angle",
+          "type": "number",
+          "uniformName": "p_spinAngle",
+          "defaultValue": {
+            "kind": "number",
+            "value": -222
+          },
+          "control": {
+            "kind": "slider",
+            "min": -720,
+            "max": 360,
+            "step": 1,
+            "unit": "deg"
+          },
+          "animation": "continuous",
+          "order": 0
+        },
+        {
+          "id": "pillarSize",
+          "name": "Pillar Width",
+          "label": "Pillar Width",
+          "type": "number",
+          "uniformName": "p_pillarSize",
+          "defaultValue": {
+            "kind": "number",
+            "value": 161
+          },
+          "control": {
+            "kind": "slider",
+            "min": 40,
+            "max": 320,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 1
+        },
+        {
+          "id": "baseHalfGap",
+          "name": "Outer Half Gap",
+          "label": "Outer Half Gap",
+          "type": "number",
+          "uniformName": "p_baseHalfGap",
+          "defaultValue": {
+            "kind": "number",
+            "value": 95
+          },
+          "control": {
+            "kind": "slider",
+            "min": 10,
+            "max": 240,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 2
+        },
+        {
+          "id": "chevronSlope",
+          "name": "Chevron Slope",
+          "label": "Chevron Slope",
+          "type": "number",
+          "uniformName": "p_chevronSlope",
+          "defaultValue": {
+            "kind": "number",
+            "value": 0.86
+          },
+          "control": {
+            "kind": "slider",
+            "min": 0,
+            "max": 2,
+            "step": 0.01
+          },
+          "animation": "continuous",
+          "order": 3
+        },
+        {
+          "id": "fadeHeight",
+          "name": "Fade Height",
+          "label": "Fade Height",
+          "type": "number",
+          "uniformName": "p_fadeHeight",
+          "defaultValue": {
+            "kind": "number",
+            "value": 290
+          },
+          "control": {
+            "kind": "slider",
+            "min": 40,
+            "max": 520,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 4
+        },
+        {
+          "id": "limeColor",
+          "name": "Ribbon Color",
+          "label": "Ribbon Color",
+          "type": "color",
+          "uniformName": "p_limeColor",
+          "defaultValue": {
+            "kind": "color",
+            "value": "#3BF5C8"
+          },
+          "control": {
+            "kind": "color"
+          },
+          "animation": "continuous",
+          "order": 5
+        }
+      ]
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "headline_group",
+      "kind": "frame",
+      "name": "Headline Typography",
+      "parentId": "intro_world",
+      "layer": 3,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "txt_ship_fearless",
+      "kind": "text",
+      "name": "Ship fearless",
+      "parentId": "headline_group",
+      "layer": 1,
+      "base": {
+        "x": 640,
+        "y": 216
+      },
+      "content": {
+        "design": {
+          "text": "Ship fearless"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 85,
+        "fontWeight": 500,
+        "letterSpacing": -2,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#F6F8FC"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "txt_agentic_systems",
+      "kind": "text",
+      "name": "agentic systems",
+      "parentId": "headline_group",
+      "layer": 2,
+      "base": {
+        "x": 640,
+        "y": 303
+      },
+      "content": {
+        "design": {
+          "text": "agentic systems"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 85,
+        "fontWeight": 500,
+        "letterSpacing": -2,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#F6F8FC"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "txt_at_planetary_scale",
+      "kind": "text",
+      "name": "at planetary scale",
+      "parentId": "headline_group",
+      "layer": 3,
+      "base": {
+        "x": 640,
+        "y": 390
+      },
+      "content": {
+        "design": {
+          "text": "at planetary scale"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 85,
+        "fontWeight": 500,
+        "letterSpacing": -2,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#F6F8FC"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "midground_orbit_ring",
+      "kind": "frame",
+      "name": "Midground Orbit Ring",
+      "parentId": "intro_world",
+      "layer": 2,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "mid_blue_big",
+      "kind": "shape",
+      "name": "Primary Orb Large",
+      "parentId": "midground_orbit_ring",
+      "layer": 7,
+      "base": {
+        "x": 904.1,
+        "y": 390.8,
+        "width": 144,
+        "height": 144
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#3DF5D4"
+            },
+            {
+              "offset": 0.55,
+              "color": "#00B89C"
+            },
+            {
+              "offset": 1,
+              "color": "#007A6E"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mid_tri_big",
+    "name": "Fresh Triangle Large",
+    "parentId": "midground_orbit_ring",
+    "x": 696.5,
+    "y": -56.1,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#80FFDB"
+          },
+          {
+            "offset": 0.5,
+            "color": "#5390D9"
+          },
+          {
+            "offset": 1,
+            "color": "#6930C3"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 98,
+          "y": 0,
+          "cornerRadius": 34
+        },
+        {
+          "id": "v1",
+          "x": 196,
+          "y": 169.74,
+          "cornerRadius": 34
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 169.74,
+          "cornerRadius": 34
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mid_tri_big",
+    "layer": 8
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mid_tri_big",
+    "base": {
+      "rotation": 52
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mid_tri_small",
+    "name": "Fresh Triangle Small",
+    "parentId": "midground_orbit_ring",
+    "x": 561.9,
+    "y": 656.4,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#80FFDB"
+          },
+          {
+            "offset": 0.5,
+            "color": "#5390D9"
+          },
+          {
+            "offset": 1,
+            "color": "#6930C3"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 43,
+          "y": 0,
+          "cornerRadius": 15
+        },
+        {
+          "id": "v1",
+          "x": 86,
+          "y": 74.48,
+          "cornerRadius": 15
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 74.48,
+          "cornerRadius": 15
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mid_tri_small",
+    "layer": 9
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mid_tri_small",
+    "base": {
+      "rotation": -35
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "mid_blue_small",
+      "kind": "shape",
+      "name": "Primary Orb Small",
+      "parentId": "midground_orbit_ring",
+      "layer": 5,
+      "range": {
+        "startFrame": 75,
+        "durationFrames": 152
+      },
+      "base": {
+        "x": 286.1,
+        "y": 196.5,
+        "width": 46,
+        "height": 46
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#3DF5D4"
+            },
+            {
+              "offset": 0.55,
+              "color": "#00B89C"
+            },
+            {
+              "offset": 1,
+              "color": "#007A6E"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "mid_warm_tiny",
+      "kind": "shape",
+      "name": "Warm Square Tiny",
+      "parentId": "midground_orbit_ring",
+      "layer": 4,
+      "range": {
+        "startFrame": 75,
+        "durationFrames": 152
+      },
+      "base": {
+        "x": 305.7,
+        "y": 449.6,
+        "width": 38,
+        "height": 38,
+        "rotation": 18
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#FFD166"
+            },
+            {
+              "offset": 0.5,
+              "color": "#FF926B"
+            },
+            {
+              "offset": 1,
+              "color": "#FF5E7E"
+            }
+          ]
+        },
+        "borderRadius": 8
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "mid_warm_big",
+      "kind": "shape",
+      "name": "Warm Square Large",
+      "parentId": "midground_orbit_ring",
+      "layer": 6,
+      "range": {
+        "startFrame": 150,
+        "durationFrames": 77
+      },
+      "base": {
+        "x": 384.3,
+        "y": -51.4,
+        "width": 124,
+        "height": 124,
+        "rotation": 24
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#FFD166"
+            },
+            {
+              "offset": 0.5,
+              "color": "#FF926B"
+            },
+            {
+              "offset": 1,
+              "color": "#FF5E7E"
+            }
+          ]
+        },
+        "borderRadius": 27
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "mid_warm_med",
+      "kind": "shape",
+      "name": "Warm Square Medium",
+      "parentId": "midground_orbit_ring",
+      "layer": 5,
+      "range": {
+        "startFrame": 150,
+        "durationFrames": 77
+      },
+      "base": {
+        "x": 827.4,
+        "y": 643.1,
+        "width": 72,
+        "height": 72,
+        "rotation": 36
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#FFD166"
+            },
+            {
+              "offset": 0.5,
+              "color": "#FF926B"
+            },
+            {
+              "offset": 1,
+              "color": "#FF5E7E"
+            }
+          ]
+        },
+        "borderRadius": 15
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "foreground_bokeh_group",
+      "kind": "frame",
+      "name": "Foreground Bokeh Depth",
+      "parentId": "intro_world",
+      "layer": 4,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "bokeh_b2_orb",
+      "kind": "shape",
+      "name": "Bokeh Orb Beat 2",
+      "parentId": "foreground_bokeh_group",
+      "layer": 10,
+      "range": {
+        "startFrame": 75,
+        "durationFrames": 22
+      },
+      "base": {
+        "x": 1030,
+        "y": 284,
+        "width": 244,
+        "height": 244
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#3DF5D4"
+            },
+            {
+              "offset": 0.55,
+              "color": "#00B89C"
+            },
+            {
+              "offset": 1,
+              "color": "#007A6E"
+            }
+          ]
+        },
+        "blur": 40
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "bokeh_b2_warm",
+      "kind": "shape",
+      "name": "Bokeh Warm Beat 2",
+      "parentId": "foreground_bokeh_group",
+      "layer": 11,
+      "range": {
+        "startFrame": 75,
+        "durationFrames": 22
+      },
+      "base": {
+        "x": 77,
+        "y": 122,
+        "width": 256,
+        "height": 256,
+        "rotation": 44
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#FFD166"
+            },
+            {
+              "offset": 0.5,
+              "color": "#FF926B"
+            },
+            {
+              "offset": 1,
+              "color": "#FF5E7E"
+            }
+          ]
+        },
+        "borderRadius": 56,
+        "blur": 42
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "bokeh_b3_orb_big",
+      "kind": "shape",
+      "name": "Bokeh Orb Sweep Left",
+      "parentId": "foreground_bokeh_group",
+      "layer": 12,
+      "range": {
+        "startFrame": 154,
+        "durationFrames": 73
+      },
+      "base": {
+        "x": 63,
+        "y": 623,
+        "width": 244,
+        "height": 244
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#3DF5D4"
+            },
+            {
+              "offset": 0.55,
+              "color": "#00B89C"
+            },
+            {
+              "offset": 1,
+              "color": "#007A6E"
+            }
+          ]
+        },
+        "blur": 40
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "bokeh_b3_warm_right",
+      "kind": "shape",
+      "name": "Bokeh Warm Sweep Right",
+      "parentId": "foreground_bokeh_group",
+      "layer": 13,
+      "range": {
+        "startFrame": 162,
+        "durationFrames": 65
+      },
+      "base": {
+        "x": 1141,
+        "y": 101,
+        "width": 268,
+        "height": 268,
+        "rotation": 166
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#FFD166"
+            },
+            {
+              "offset": 0.5,
+              "color": "#FF926B"
+            },
+            {
+              "offset": 1,
+              "color": "#FF5E7E"
+            }
+          ]
+        },
+        "borderRadius": 59,
+        "blur": 44
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "bokeh_pre_tri",
+    "name": "Bokeh Fresh Finale",
+    "parentId": "foreground_bokeh_group",
+    "x": 50,
+    "y": 621,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#80FFDB"
+          },
+          {
+            "offset": 0.5,
+            "color": "#5390D9"
+          },
+          {
+            "offset": 1,
+            "color": "#6930C3"
+          }
+        ]
+      },
+      "blur": 36
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 160,
+          "y": 0,
+          "cornerRadius": 56
+        },
+        {
+          "id": "v1",
+          "x": 320,
+          "y": 277.13,
+          "cornerRadius": 56
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 277.13,
+          "cornerRadius": 56
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "bokeh_pre_tri",
+    "layer": 14
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "bokeh_pre_tri",
+    "range": {
+      "startFrame": 204,
+      "durationFrames": 18
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "object": {
+      "id": "emblem_assembly",
+      "kind": "frame",
+      "name": "Emblem Assembly",
+      "layer": 10,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_hex_host",
+    "name": "Guide: Veridian Hexagon Core",
+    "parentId": "emblem_assembly",
+    "x": -110,
+    "y": -160,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 0,
+          "y": 520
+        },
+        {
+          "id": "v1",
+          "x": 450,
+          "y": 0
+        },
+        {
+          "id": "v2",
+          "x": 1000,
+          "y": 100
+        },
+        {
+          "id": "v3",
+          "x": 1130,
+          "y": 420
+        },
+        {
+          "id": "v4",
+          "x": 970,
+          "y": 680
+        },
+        {
+          "id": "v5",
+          "x": 750,
+          "y": 520
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": 135,
+            "y": -156
+          },
+          "tangentEnd": {
+            "x": -150,
+            "y": 63
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": 150,
+            "y": -63
+          },
+          "tangentEnd": {
+            "x": -102,
+            "y": -63
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": 102,
+            "y": 63
+          },
+          "tangentEnd": {
+            "x": 4.5,
+            "y": -87
+          }
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4",
+          "tangentStart": {
+            "x": -4.5,
+            "y": 87
+          },
+          "tangentEnd": {
+            "x": 57,
+            "y": -15
+          }
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5",
+          "tangentStart": {
+            "x": -57,
+            "y": 15
+          },
+          "tangentEnd": {
+            "x": 66,
+            "y": 48
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_hex_host",
+    "layer": 30
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_hex_host",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_diamond_a",
+    "name": "Guide: Veridian North Wing",
+    "parentId": "emblem_assembly",
+    "x": 210,
+    "y": 255,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 0,
+          "y": 505
+        },
+        {
+          "id": "v1",
+          "x": 90,
+          "y": 235
+        },
+        {
+          "id": "v2",
+          "x": 240,
+          "y": 15
+        },
+        {
+          "id": "v3",
+          "x": 380,
+          "y": 0
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": 27,
+            "y": -81
+          },
+          "tangentEnd": {
+            "x": -36,
+            "y": 73.5
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": 36,
+            "y": -73.5
+          },
+          "tangentEnd": {
+            "x": -43.5,
+            "y": 35.25
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": 43.5,
+            "y": -35.25
+          },
+          "tangentEnd": {
+            "x": -42,
+            "y": 4.5
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_diamond_a",
+    "layer": 31
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_diamond_a",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_pent_b",
+    "name": "Guide: Veridian South Prism",
+    "parentId": "emblem_assembly",
+    "x": 705,
+    "y": -140,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 255,
+          "y": 0
+        },
+        {
+          "id": "v1",
+          "x": 235,
+          "y": 300
+        },
+        {
+          "id": "v2",
+          "x": 115,
+          "y": 500
+        },
+        {
+          "id": "v3",
+          "x": 0,
+          "y": 585
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": -6,
+            "y": 90
+          },
+          "tangentEnd": {
+            "x": 21,
+            "y": -75
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": -21,
+            "y": 75
+          },
+          "tangentEnd": {
+            "x": 35.25,
+            "y": -42.75
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": -35.25,
+            "y": 42.75
+          },
+          "tangentEnd": {
+            "x": 34.5,
+            "y": -25.5
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_pent_b",
+    "layer": 32
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "guide_veridian_pent_b",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_diamond_a_out",
+    "name": "Veridian North Wing (Outside)",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "linear",
+        "angle": 120,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#FF7A59"
+          },
+          {
+            "offset": 0.55,
+            "color": "#FFB56B"
+          },
+          {
+            "offset": 1,
+            "color": "#FFE082"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 165,
+          "y": 0,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v1",
+          "x": 330,
+          "y": 165,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v2",
+          "x": 165,
+          "y": 330,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v3",
+          "x": 0,
+          "y": 165,
+          "cornerRadius": 48
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_diamond_a_out",
+    "layer": 1
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_diamond_a_out",
+    "range": {
+      "startFrame": 217,
+      "durationFrames": 53
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_diamond_a_out",
+    "base": {
+      "rotation": -80,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_pent_b_out",
+    "name": "Veridian South Prism (Outside)",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#80FFDB"
+          },
+          {
+            "offset": 0.5,
+            "color": "#5390D9"
+          },
+          {
+            "offset": 1,
+            "color": "#6930C3"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 166.43,
+          "y": 0,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v1",
+          "x": 332.87,
+          "y": 120.92,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v2",
+          "x": 269.3,
+          "y": 316.58,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v3",
+          "x": 63.57,
+          "y": 316.58,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v4",
+          "x": 0,
+          "y": 120.92,
+          "cornerRadius": 46
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4"
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_pent_b_out",
+    "layer": 2
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_pent_b_out",
+    "range": {
+      "startFrame": 223,
+      "durationFrames": 47
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_pent_b_out",
+    "base": {
+      "rotation": 25,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_hex_host",
+    "name": "Veridian Hexagon Core",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "solid",
+        "color": "#00D4B2"
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 285.79,
+          "y": 0,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v1",
+          "x": 571.58,
+          "y": 165,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v2",
+          "x": 571.58,
+          "y": 495,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v3",
+          "x": 285.79,
+          "y": 660,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v4",
+          "x": 0,
+          "y": 495,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v5",
+          "x": 0,
+          "y": 165,
+          "cornerRadius": 68
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4"
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5"
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_hex_host",
+    "layer": 3
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_hex_host",
+    "range": {
+      "startFrame": 207,
+      "durationFrames": 63
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_hex_host",
+    "base": {
+      "rotation": -30,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_host_for_veridian_diamond_a",
+    "name": "Mask: Veridian Hexagon Core -> Veridian North Wing",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 285.79,
+          "y": 0,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v1",
+          "x": 571.58,
+          "y": 165,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v2",
+          "x": 571.58,
+          "y": 495,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v3",
+          "x": 285.79,
+          "y": 660,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v4",
+          "x": 0,
+          "y": 495,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v5",
+          "x": 0,
+          "y": 165,
+          "cornerRadius": 68
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4"
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5"
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_host_for_veridian_diamond_a",
+    "layer": 4
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_host_for_veridian_diamond_a",
+    "range": {
+      "startFrame": 207,
+      "durationFrames": 63
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_host_for_veridian_diamond_a",
+    "base": {
+      "rotation": -30,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_diamond_a_in",
+    "name": "Veridian North Wing (Inside Host)",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "linear",
+        "angle": 220,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#FFFDF7"
+          },
+          {
+            "offset": 0.6,
+            "color": "#B8FFF1"
+          },
+          {
+            "offset": 1,
+            "color": "#5CE6CC"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 165,
+          "y": 0,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v1",
+          "x": 330,
+          "y": 165,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v2",
+          "x": 165,
+          "y": 330,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v3",
+          "x": 0,
+          "y": 165,
+          "cornerRadius": 48
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_diamond_a_in",
+    "layer": 5
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_diamond_a_in",
+    "range": {
+      "startFrame": 217,
+      "durationFrames": 53
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_diamond_a_in",
+    "base": {
+      "rotation": -80,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_host_for_veridian_pent_b",
+    "name": "Mask: Veridian Hexagon Core -> Veridian South Prism",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 285.79,
+          "y": 0,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v1",
+          "x": 571.58,
+          "y": 165,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v2",
+          "x": 571.58,
+          "y": 495,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v3",
+          "x": 285.79,
+          "y": 660,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v4",
+          "x": 0,
+          "y": 495,
+          "cornerRadius": 68
+        },
+        {
+          "id": "v5",
+          "x": 0,
+          "y": 165,
+          "cornerRadius": 68
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4"
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5"
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_host_for_veridian_pent_b",
+    "layer": 6
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_host_for_veridian_pent_b",
+    "range": {
+      "startFrame": 207,
+      "durationFrames": 63
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_host_for_veridian_pent_b",
+    "base": {
+      "rotation": -30,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_pent_b_in",
+    "name": "Veridian South Prism (Inside Host)",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "linear",
+        "angle": 260,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#FFE66D"
+          },
+          {
+            "offset": 0.5,
+            "color": "#A8FF78"
+          },
+          {
+            "offset": 1,
+            "color": "#3BF5C8"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 166.43,
+          "y": 0,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v1",
+          "x": 332.87,
+          "y": 120.92,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v2",
+          "x": 269.3,
+          "y": 316.58,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v3",
+          "x": 63.57,
+          "y": 316.58,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v4",
+          "x": 0,
+          "y": 120.92,
+          "cornerRadius": 46
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4"
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_pent_b_in",
+    "layer": 7
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_pent_b_in",
+    "range": {
+      "startFrame": 223,
+      "durationFrames": 47
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "veridian_pent_b_in",
+    "base": {
+      "rotation": 25,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_veridian_lens_src",
+    "name": "Mask: Veridian North Wing -> Veridian Core Intersection Lens",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "solid",
+        "color": "#FFFFFF"
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 165,
+          "y": 0,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v1",
+          "x": 330,
+          "y": 165,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v2",
+          "x": 165,
+          "y": 330,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v3",
+          "x": 0,
+          "y": 165,
+          "cornerRadius": 48
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_veridian_lens_src",
+    "layer": 8
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_veridian_lens_src",
+    "range": {
+      "startFrame": 217,
+      "durationFrames": 53
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "mask_veridian_lens_src",
+    "base": {
+      "rotation": -80,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "overlap_veridian_lens_dst",
+    "name": "Veridian Core Intersection Lens",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "solid",
+        "color": "#0E131F"
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 166.43,
+          "y": 0,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v1",
+          "x": 332.87,
+          "y": 120.92,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v2",
+          "x": 269.3,
+          "y": 316.58,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v3",
+          "x": 63.57,
+          "y": 316.58,
+          "cornerRadius": 46
+        },
+        {
+          "id": "v4",
+          "x": 0,
+          "y": 120.92,
+          "cornerRadius": 46
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3"
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4"
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "overlap_veridian_lens_dst",
+    "layer": 9
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "overlap_veridian_lens_dst",
+    "range": {
+      "startFrame": 223,
+      "durationFrames": 47
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "objectId": "overlap_veridian_lens_dst",
+    "base": {
+      "rotation": 25,
+      "originX": 0.5,
+      "originY": 0.5
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_intro_blur_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "intro_blur_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "intro_blur_k1",
+                "frame": 193,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_blur_k2",
+                "frame": 209,
+                "value": 14,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_blur_k3",
+                "frame": 225,
+                "value": 42
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_intro_blur",
+        "name": "Focus pull blur out",
+        "target": {
+          "kind": "object",
+          "objectId": "intro_world"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 226
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_intro_fade_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "intro_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_out_k1",
+                "frame": 11,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_intro_fade_out",
+        "name": "Fade out intro world",
+        "target": {
+          "kind": "object",
+          "objectId": "intro_world"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 215,
+          "durationFrames": 12
+        }
+      }
+    }
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "spinAngle",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": -20
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 17,
+        "value": {
+          "kind": "number",
+          "value": -65
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutSine"
+        }
+      },
+      {
+        "frame": 74,
+        "value": {
+          "kind": "number",
+          "value": -70
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 75,
+        "value": {
+          "kind": "number",
+          "value": -92
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuart"
+        }
+      },
+      {
+        "frame": 92,
+        "value": {
+          "kind": "number",
+          "value": -137
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutSine"
+        }
+      },
+      {
+        "frame": 149,
+        "value": {
+          "kind": "number",
+          "value": -142
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 150,
+        "value": {
+          "kind": "number",
+          "value": -164
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuart"
+        }
+      },
+      {
+        "frame": 167,
+        "value": {
+          "kind": "number",
+          "value": -209
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutSine"
+        }
+      },
+      {
+        "frame": 225,
+        "value": {
+          "kind": "number",
+          "value": -236
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "pillarSize",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 126
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 75,
+        "value": {
+          "kind": "number",
+          "value": 89
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutCubic"
+        }
+      },
+      {
+        "frame": 88,
+        "value": {
+          "kind": "number",
+          "value": 161
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 225,
+        "value": {
+          "kind": "number",
+          "value": 161
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "baseHalfGap",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 103
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 75,
+        "value": {
+          "kind": "number",
+          "value": 91
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 225,
+        "value": {
+          "kind": "number",
+          "value": 95
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "fadeHeight",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 154
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 124,
+        "value": {
+          "kind": "number",
+          "value": 305
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 225,
+        "value": {
+          "kind": "number",
+          "value": 305
+        }
+      }
+    ]
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_ship_fearless_slide_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_ship_fearless_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 41,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_ship_fearless_move_k1",
+                "frame": 52,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_ship_fearless_slide",
+        "name": "Ship fearless slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_ship_fearless"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 53
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_ship_fearless_track_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_ship_fearless_track_k0",
+                "frame": 0,
+                "value": 2.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_ship_fearless_track_k1",
+                "frame": 48,
+                "value": -2
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_ship_fearless_track",
+        "name": "Ship fearless tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_ship_fearless"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 49
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_agentic_systems_slide_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_agentic_systems_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 53,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_agentic_systems_move_k1",
+                "frame": 52,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_agentic_systems_slide",
+        "name": "agentic systems slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_agentic_systems"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 75,
+          "durationFrames": 53
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_agentic_systems_track_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_agentic_systems_track_k0",
+                "frame": 0,
+                "value": 2.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_agentic_systems_track_k1",
+                "frame": 48,
+                "value": -2
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_agentic_systems_track",
+        "name": "agentic systems tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_agentic_systems"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 75,
+          "durationFrames": 49
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_at_planetary_scale_slide_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_at_planetary_scale_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 41,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_at_planetary_scale_move_k1",
+                "frame": 52,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_at_planetary_scale_slide",
+        "name": "at planetary scale slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_at_planetary_scale"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 150,
+          "durationFrames": 53
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_at_planetary_scale_track_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_at_planetary_scale_track_k0",
+                "frame": 0,
+                "value": 2.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_at_planetary_scale_track_k1",
+                "frame": 48,
+                "value": -2
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_at_planetary_scale_track",
+        "name": "at planetary scale tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_at_planetary_scale"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 150,
+          "durationFrames": 49
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_orbit_ring_spin_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "orb_spin_0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "orb_spin_post_0",
+                "frame": 13,
+                "value": 59,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "orb_spin_hit_1",
+                "frame": 75,
+                "value": 91,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "orb_spin_post_1",
+                "frame": 88,
+                "value": 151,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "orb_spin_hit_2",
+                "frame": 150,
+                "value": 183,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "orb_spin_post_2",
+                "frame": 163,
+                "value": 242,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "orb_spin_end",
+                "frame": 226,
+                "value": 372
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_orbit_ring_spin",
+        "name": "Orbit ring pulsed clockwise spin",
+        "target": {
+          "kind": "object",
+          "objectId": "midground_orbit_ring"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 227
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_big_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_blue_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_blue_big_rad_k1",
+                "frame": 71,
+                "value": {
+                  "x": 83.01,
+                  "y": 25.38
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_blue_big_rad_k2",
+                "frame": 152,
+                "value": {
+                  "x": 133.88,
+                  "y": 40.93
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_blue_big_rad_k3",
+                "frame": 222,
+                "value": {
+                  "x": 26.78,
+                  "y": 8.19
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_big_rad",
+        "name": "mid_blue_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 223
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_big_crot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_blue_big_crot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_blue_big_crot_k1",
+                "frame": 226,
+                "value": -360
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_big_crot",
+        "name": "Keep sphere lighting upright",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 227
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_big_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_tri_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_tri_big_rad_k1",
+                "frame": 71,
+                "value": {
+                  "x": 26.73,
+                  "y": -57.31
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_tri_big_rad_k2",
+                "frame": 152,
+                "value": {
+                  "x": 43.11,
+                  "y": -92.44
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_tri_big_rad_k3",
+                "frame": 222,
+                "value": {
+                  "x": 8.62,
+                  "y": -18.49
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_big_rad",
+        "name": "mid_tri_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 223
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_big_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_tri_big_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_tri_big_rot_k1",
+                "frame": 226,
+                "value": 78
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_big_rot",
+        "name": "Fresh Triangle Large gentle spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 227
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_small_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_tri_small_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_tri_small_rad_k1",
+                "frame": 71,
+                "value": {
+                  "x": -11.28,
+                  "y": 107.29
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_tri_small_rad_k2",
+                "frame": 152,
+                "value": {
+                  "x": -18.19,
+                  "y": 173.05
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_tri_small_rad_k3",
+                "frame": 222,
+                "value": {
+                  "x": -3.64,
+                  "y": 34.61
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_small_rad",
+        "name": "mid_tri_small radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 223
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_small_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_tri_small_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_tri_small_rot_k1",
+                "frame": 226,
+                "value": 80
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_small_rot",
+        "name": "Fresh Triangle Small gentle spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 227
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_small_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_blue_small_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_blue_small_rad_k1",
+                "frame": 47,
+                "value": {
+                  "x": -69.63,
+                  "y": -29.55
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_blue_small_rad_k2",
+                "frame": 101,
+                "value": {
+                  "x": -112.3,
+                  "y": -47.67
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_blue_small_rad_k3",
+                "frame": 147,
+                "value": {
+                  "x": -22.46,
+                  "y": -9.53
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_small_rad",
+        "name": "mid_blue_small radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 75,
+          "durationFrames": 148
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_small_crot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_blue_small_crot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_blue_small_crot_k1",
+                "frame": 151,
+                "value": -360
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_small_crot",
+        "name": "Keep sphere lighting upright",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 75,
+          "durationFrames": 152
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_warm_tiny_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_warm_tiny_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_tiny_rad_k1",
+                "frame": 47,
+                "value": {
+                  "x": -62.14,
+                  "y": 21.4
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_tiny_rad_k2",
+                "frame": 101,
+                "value": {
+                  "x": -100.22,
+                  "y": 34.51
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_warm_tiny_rad_k3",
+                "frame": 147,
+                "value": {
+                  "x": -20.04,
+                  "y": 6.9
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_warm_tiny_rad",
+        "name": "mid_warm_tiny radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_warm_tiny"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 75,
+          "durationFrames": 148
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_warm_big_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_warm_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_big_rad_k1",
+                "frame": 23,
+                "value": {
+                  "x": -22.24,
+                  "y": -40.13
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_big_rad_k2",
+                "frame": 50,
+                "value": {
+                  "x": -35.88,
+                  "y": -64.72
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_warm_big_rad_k3",
+                "frame": 72,
+                "value": {
+                  "x": -7.18,
+                  "y": -12.94
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_warm_big_rad",
+        "name": "mid_warm_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_warm_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 150,
+          "durationFrames": 73
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_warm_big_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_warm_big_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_warm_big_rot_k1",
+                "frame": 76,
+                "value": -35
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_warm_big_rot",
+        "name": "Warm Square Large gentle spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_warm_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 150,
+          "durationFrames": 77
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_warm_med_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_warm_med_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_med_rad_k1",
+                "frame": 23,
+                "value": {
+                  "x": 22.05,
+                  "y": 31.49
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_med_rad_k2",
+                "frame": 50,
+                "value": {
+                  "x": 35.56,
+                  "y": 50.79
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_warm_med_rad_k3",
+                "frame": 72,
+                "value": {
+                  "x": 7.11,
+                  "y": 10.16
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_warm_med_rad",
+        "name": "mid_warm_med radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_warm_med"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 150,
+          "durationFrames": 73
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_orb_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_orb_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_b2_orb_mv_k1",
+                "frame": 21,
+                "value": {
+                  "x": -187,
+                  "y": 349
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_orb_move",
+        "name": "Bokeh Orb Beat 2 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_orb"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 75,
+          "durationFrames": 22
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_orb_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_orb_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_b2_orb_out_k1",
+                "frame": 5,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_orb_out",
+        "name": "Bokeh Orb Beat 2 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_orb"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 91,
+          "durationFrames": 6
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_warm_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_warm_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_b2_warm_mv_k1",
+                "frame": 21,
+                "value": {
+                  "x": 255,
+                  "y": -360
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_warm_move",
+        "name": "Bokeh Warm Beat 2 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_warm"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 75,
+          "durationFrames": 22
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_warm_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_warm_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_b2_warm_rot_k1",
+                "frame": 21,
+                "value": 34
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_warm_rot",
+        "name": "Bokeh Warm Beat 2 rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_warm"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 75,
+          "durationFrames": 22
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_warm_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_warm_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_b2_warm_out_k1",
+                "frame": 5,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_warm_out",
+        "name": "Bokeh Warm Beat 2 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_warm"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 91,
+          "durationFrames": 6
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_orb_big_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b3_orb_big_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_b3_orb_big_mv_k1",
+                "frame": 72,
+                "value": {
+                  "x": 400,
+                  "y": -590
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_orb_big_move",
+        "name": "Bokeh Orb Sweep Left sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_orb_big"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 154,
+          "durationFrames": 73
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_warm_right_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b3_warm_right_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_b3_warm_right_mv_k1",
+                "frame": 64,
+                "value": {
+                  "x": -595,
+                  "y": 525
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_warm_right_move",
+        "name": "Bokeh Warm Sweep Right sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_warm_right"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 162,
+          "durationFrames": 65
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_warm_right_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b3_warm_right_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_b3_warm_right_rot_k1",
+                "frame": 64,
+                "value": 52
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_warm_right_rot",
+        "name": "Bokeh Warm Sweep Right rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_warm_right"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 162,
+          "durationFrames": 65
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_pre_tri_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_pre_tri_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_pre_tri_mv_k1",
+                "frame": 17,
+                "value": {
+                  "x": 183,
+                  "y": -445
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_pre_tri_move",
+        "name": "Bokeh Fresh Finale sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_pre_tri"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 204,
+          "durationFrames": 18
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_pre_tri_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_pre_tri_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_pre_tri_rot_k1",
+                "frame": 17,
+                "value": -25
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_pre_tri_rot",
+        "name": "Bokeh Fresh Finale rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_pre_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 204,
+          "durationFrames": 18
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "veridian_diamond_a_out",
+    "guidePathObjectId": "guide_veridian_diamond_a",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 217,
+      "durationFrames": 30
+    },
+    "ids": {
+      "motionBlockId": "fp_veridian_diamond_a_out",
+      "primitiveId": "fp_veridian_diamond_a_out:follow",
+      "progressFromKeyId": "fp_veridian_diamond_a_out:from",
+      "progressToKeyId": "fp_veridian_diamond_a_out:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_veridian_diamond_a_out",
+    "primitiveId": "fp_veridian_diamond_a_out:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_veridian_diamond_a_out:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.28,
+      "y1": 0.48,
+      "x2": 0.38,
+      "y2": 0.9
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_veridian_diamond_a_out_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_veridian_diamond_a_out_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.2,
+                  "scaleY": 1.2
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_diamond_a_out_k1",
+                "frame": 13,
+                "value": {
+                  "scaleX": 1.05,
+                  "scaleY": 1.05
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_diamond_a_out_k2",
+                "frame": 29,
+                "value": {
+                  "scaleX": 0.9,
+                  "scaleY": 0.9
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_veridian_diamond_a_out",
+        "name": "Veridian North Wing (Outside) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_diamond_a_out"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 217,
+          "durationFrames": 30
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_veridian_diamond_a_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_veridian_diamond_a_out_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_diamond_a_out_k1",
+                "frame": 12,
+                "value": 69,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_diamond_a_out_k2",
+                "frame": 29,
+                "value": 125
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_veridian_diamond_a_out",
+        "name": "Veridian North Wing (Outside) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_diamond_a_out"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 217,
+          "durationFrames": 30
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "veridian_pent_b_out",
+    "guidePathObjectId": "guide_veridian_pent_b",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 223,
+      "durationFrames": 24
+    },
+    "ids": {
+      "motionBlockId": "fp_veridian_pent_b_out",
+      "primitiveId": "fp_veridian_pent_b_out:follow",
+      "progressFromKeyId": "fp_veridian_pent_b_out:from",
+      "progressToKeyId": "fp_veridian_pent_b_out:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_veridian_pent_b_out",
+    "primitiveId": "fp_veridian_pent_b_out:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_veridian_pent_b_out:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.18,
+      "y1": 0.44,
+      "x2": 0.52,
+      "y2": 0.94
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_veridian_pent_b_out_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_veridian_pent_b_out_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_pent_b_out_k1",
+                "frame": 10,
+                "value": {
+                  "scaleX": 1.08,
+                  "scaleY": 1.08
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_pent_b_out_k2",
+                "frame": 23,
+                "value": {
+                  "scaleX": 0.94,
+                  "scaleY": 0.94
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_veridian_pent_b_out",
+        "name": "Veridian South Prism (Outside) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_pent_b_out"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 223,
+          "durationFrames": 24
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_veridian_pent_b_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_veridian_pent_b_out_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_pent_b_out_k1",
+                "frame": 10,
+                "value": -52,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_pent_b_out_k2",
+                "frame": 23,
+                "value": -95
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_veridian_pent_b_out",
+        "name": "Veridian South Prism (Outside) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_pent_b_out"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 223,
+          "durationFrames": 24
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "veridian_hex_host",
+    "guidePathObjectId": "guide_veridian_hex_host",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 207,
+      "durationFrames": 40
+    },
+    "ids": {
+      "motionBlockId": "fp_veridian_hex_host",
+      "primitiveId": "fp_veridian_hex_host:follow",
+      "progressFromKeyId": "fp_veridian_hex_host:from",
+      "progressToKeyId": "fp_veridian_hex_host:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_veridian_hex_host",
+    "primitiveId": "fp_veridian_hex_host:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_veridian_hex_host:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.82,
+      "x2": 0.44,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_veridian_hex_host_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_veridian_hex_host_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.18,
+                  "scaleY": 1.18
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_hex_host_k1",
+                "frame": 18,
+                "value": {
+                  "scaleX": 1.02,
+                  "scaleY": 1.02
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_hex_host_k2",
+                "frame": 39,
+                "value": {
+                  "scaleX": 0.82,
+                  "scaleY": 0.82
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_veridian_hex_host",
+        "name": "Veridian Hexagon Core scale",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_hex_host"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 207,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_veridian_hex_host_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_veridian_hex_host_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_hex_host_k1",
+                "frame": 16,
+                "value": 17,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_hex_host_k2",
+                "frame": 39,
+                "value": 30
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_veridian_hex_host",
+        "name": "Veridian Hexagon Core spin",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_hex_host"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 207,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "mask_host_for_veridian_diamond_a",
+    "guidePathObjectId": "guide_veridian_hex_host",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 207,
+      "durationFrames": 40
+    },
+    "ids": {
+      "motionBlockId": "fp_mask_host_for_veridian_diamond_a",
+      "primitiveId": "fp_mask_host_for_veridian_diamond_a:follow",
+      "progressFromKeyId": "fp_mask_host_for_veridian_diamond_a:from",
+      "progressToKeyId": "fp_mask_host_for_veridian_diamond_a:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_mask_host_for_veridian_diamond_a",
+    "primitiveId": "fp_mask_host_for_veridian_diamond_a:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_mask_host_for_veridian_diamond_a:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.82,
+      "x2": 0.44,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_mask_host_for_veridian_diamond_a_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_mask_host_for_veridian_diamond_a_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.18,
+                  "scaleY": 1.18
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_host_for_veridian_diamond_a_k1",
+                "frame": 18,
+                "value": {
+                  "scaleX": 1.02,
+                  "scaleY": 1.02
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_host_for_veridian_diamond_a_k2",
+                "frame": 39,
+                "value": {
+                  "scaleX": 0.82,
+                  "scaleY": 0.82
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_mask_host_for_veridian_diamond_a",
+        "name": "Mask Veridian Hexagon Core scale",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_host_for_veridian_diamond_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 207,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_mask_host_for_veridian_diamond_a_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_mask_host_for_veridian_diamond_a_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_mask_host_for_veridian_diamond_a_k1",
+                "frame": 16,
+                "value": 17,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_mask_host_for_veridian_diamond_a_k2",
+                "frame": 39,
+                "value": 30
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_mask_host_for_veridian_diamond_a",
+        "name": "Mask Veridian Hexagon Core spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_host_for_veridian_diamond_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 207,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "veridian_diamond_a_in",
+    "guidePathObjectId": "guide_veridian_diamond_a",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 217,
+      "durationFrames": 30
+    },
+    "ids": {
+      "motionBlockId": "fp_veridian_diamond_a_in",
+      "primitiveId": "fp_veridian_diamond_a_in:follow",
+      "progressFromKeyId": "fp_veridian_diamond_a_in:from",
+      "progressToKeyId": "fp_veridian_diamond_a_in:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_veridian_diamond_a_in",
+    "primitiveId": "fp_veridian_diamond_a_in:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_veridian_diamond_a_in:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.28,
+      "y1": 0.48,
+      "x2": 0.38,
+      "y2": 0.9
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_veridian_diamond_a_in_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_veridian_diamond_a_in_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.2,
+                  "scaleY": 1.2
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_diamond_a_in_k1",
+                "frame": 13,
+                "value": {
+                  "scaleX": 1.05,
+                  "scaleY": 1.05
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_diamond_a_in_k2",
+                "frame": 29,
+                "value": {
+                  "scaleX": 0.9,
+                  "scaleY": 0.9
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_veridian_diamond_a_in",
+        "name": "Veridian North Wing (Inside Host) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_diamond_a_in"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 217,
+          "durationFrames": 30
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_veridian_diamond_a_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_veridian_diamond_a_in_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_diamond_a_in_k1",
+                "frame": 12,
+                "value": 69,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_diamond_a_in_k2",
+                "frame": 29,
+                "value": 125
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_veridian_diamond_a_in",
+        "name": "Veridian North Wing (Inside Host) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_diamond_a_in"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 217,
+          "durationFrames": 30
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "mask_host_for_veridian_pent_b",
+    "guidePathObjectId": "guide_veridian_hex_host",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 207,
+      "durationFrames": 40
+    },
+    "ids": {
+      "motionBlockId": "fp_mask_host_for_veridian_pent_b",
+      "primitiveId": "fp_mask_host_for_veridian_pent_b:follow",
+      "progressFromKeyId": "fp_mask_host_for_veridian_pent_b:from",
+      "progressToKeyId": "fp_mask_host_for_veridian_pent_b:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_mask_host_for_veridian_pent_b",
+    "primitiveId": "fp_mask_host_for_veridian_pent_b:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_mask_host_for_veridian_pent_b:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.82,
+      "x2": 0.44,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_mask_host_for_veridian_pent_b_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_mask_host_for_veridian_pent_b_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.18,
+                  "scaleY": 1.18
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_host_for_veridian_pent_b_k1",
+                "frame": 18,
+                "value": {
+                  "scaleX": 1.02,
+                  "scaleY": 1.02
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_host_for_veridian_pent_b_k2",
+                "frame": 39,
+                "value": {
+                  "scaleX": 0.82,
+                  "scaleY": 0.82
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_mask_host_for_veridian_pent_b",
+        "name": "Mask Veridian Hexagon Core scale",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_host_for_veridian_pent_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 207,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_mask_host_for_veridian_pent_b_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_mask_host_for_veridian_pent_b_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_mask_host_for_veridian_pent_b_k1",
+                "frame": 16,
+                "value": 17,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_mask_host_for_veridian_pent_b_k2",
+                "frame": 39,
+                "value": 30
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_mask_host_for_veridian_pent_b",
+        "name": "Mask Veridian Hexagon Core spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_host_for_veridian_pent_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 207,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "veridian_pent_b_in",
+    "guidePathObjectId": "guide_veridian_pent_b",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 223,
+      "durationFrames": 24
+    },
+    "ids": {
+      "motionBlockId": "fp_veridian_pent_b_in",
+      "primitiveId": "fp_veridian_pent_b_in:follow",
+      "progressFromKeyId": "fp_veridian_pent_b_in:from",
+      "progressToKeyId": "fp_veridian_pent_b_in:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_veridian_pent_b_in",
+    "primitiveId": "fp_veridian_pent_b_in:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_veridian_pent_b_in:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.18,
+      "y1": 0.44,
+      "x2": 0.52,
+      "y2": 0.94
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_veridian_pent_b_in_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_veridian_pent_b_in_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_pent_b_in_k1",
+                "frame": 10,
+                "value": {
+                  "scaleX": 1.08,
+                  "scaleY": 1.08
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_veridian_pent_b_in_k2",
+                "frame": 23,
+                "value": {
+                  "scaleX": 0.94,
+                  "scaleY": 0.94
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_veridian_pent_b_in",
+        "name": "Veridian South Prism (Inside Host) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_pent_b_in"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 223,
+          "durationFrames": 24
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_veridian_pent_b_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_veridian_pent_b_in_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_pent_b_in_k1",
+                "frame": 10,
+                "value": -52,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_veridian_pent_b_in_k2",
+                "frame": 23,
+                "value": -95
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_veridian_pent_b_in",
+        "name": "Veridian South Prism (Inside Host) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "veridian_pent_b_in"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 223,
+          "durationFrames": 24
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "mask_veridian_lens_src",
+    "guidePathObjectId": "guide_veridian_diamond_a",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 217,
+      "durationFrames": 30
+    },
+    "ids": {
+      "motionBlockId": "fp_mask_veridian_lens_src",
+      "primitiveId": "fp_mask_veridian_lens_src:follow",
+      "progressFromKeyId": "fp_mask_veridian_lens_src:from",
+      "progressToKeyId": "fp_mask_veridian_lens_src:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_mask_veridian_lens_src",
+    "primitiveId": "fp_mask_veridian_lens_src:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_mask_veridian_lens_src:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.28,
+      "y1": 0.48,
+      "x2": 0.38,
+      "y2": 0.9
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_mask_veridian_lens_src_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_mask_veridian_lens_src_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.2,
+                  "scaleY": 1.2
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_veridian_lens_src_k1",
+                "frame": 13,
+                "value": {
+                  "scaleX": 1.05,
+                  "scaleY": 1.05
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_veridian_lens_src_k2",
+                "frame": 29,
+                "value": {
+                  "scaleX": 0.9,
+                  "scaleY": 0.9
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_mask_veridian_lens_src",
+        "name": "Mask Veridian North Wing scale",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_veridian_lens_src"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 217,
+          "durationFrames": 30
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_mask_veridian_lens_src_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_mask_veridian_lens_src_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_mask_veridian_lens_src_k1",
+                "frame": 12,
+                "value": 69,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_mask_veridian_lens_src_k2",
+                "frame": 29,
+                "value": 125
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_mask_veridian_lens_src",
+        "name": "Mask Veridian North Wing spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_veridian_lens_src"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 217,
+          "durationFrames": 30
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "followerObjectId": "overlap_veridian_lens_dst",
+    "guidePathObjectId": "guide_veridian_pent_b",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 223,
+      "durationFrames": 24
+    },
+    "ids": {
+      "motionBlockId": "fp_overlap_veridian_lens_dst",
+      "primitiveId": "fp_overlap_veridian_lens_dst:follow",
+      "progressFromKeyId": "fp_overlap_veridian_lens_dst:from",
+      "progressToKeyId": "fp_overlap_veridian_lens_dst:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "motionBlockId": "fp_overlap_veridian_lens_dst",
+    "primitiveId": "fp_overlap_veridian_lens_dst:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_overlap_veridian_lens_dst:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.18,
+      "y1": 0.44,
+      "x2": 0.52,
+      "y2": 0.94
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_overlap_veridian_lens_dst_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_overlap_veridian_lens_dst_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_overlap_veridian_lens_dst_k1",
+                "frame": 10,
+                "value": {
+                  "scaleX": 1.08,
+                  "scaleY": 1.08
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_overlap_veridian_lens_dst_k2",
+                "frame": 23,
+                "value": {
+                  "scaleX": 0.94,
+                  "scaleY": 0.94
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_overlap_veridian_lens_dst",
+        "name": "Veridian Core Intersection Lens scale",
+        "target": {
+          "kind": "object",
+          "objectId": "overlap_veridian_lens_dst"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 223,
+          "durationFrames": 24
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_overlap_veridian_lens_dst_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_overlap_veridian_lens_dst_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_overlap_veridian_lens_dst_k1",
+                "frame": 10,
+                "value": -52,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_overlap_veridian_lens_dst_k2",
+                "frame": 23,
+                "value": -95
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_overlap_veridian_lens_dst",
+        "name": "Veridian Core Intersection Lens spin",
+        "target": {
+          "kind": "object",
+          "objectId": "overlap_veridian_lens_dst"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 223,
+          "durationFrames": 24
+        }
+      }
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "binding": {
+      "id": "mb_in_veridian_diamond_a",
+      "name": "Clip Veridian North Wing to Veridian Hexagon Core",
+      "sourceObjectId": "mask_host_for_veridian_diamond_a",
+      "targetObjectId": "veridian_diamond_a_in",
+      "mode": "vector",
+      "inverted": false
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "binding": {
+      "id": "mb_in_veridian_pent_b",
+      "name": "Clip Veridian South Prism to Veridian Hexagon Core",
+      "sourceObjectId": "mask_host_for_veridian_pent_b",
+      "targetObjectId": "veridian_pent_b_in",
+      "mode": "vector",
+      "inverted": false
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "veridian_rebrand_60fps__scene-1",
+    "binding": {
+      "id": "mb_veridian_lens",
+      "name": "Veridian Core Intersection Lens",
+      "sourceObjectId": "mask_veridian_lens_src",
+      "targetObjectId": "overlap_veridian_lens_dst",
+      "mode": "vector",
+      "inverted": false
+    }
+  }
+]

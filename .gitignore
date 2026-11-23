@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# Local probe scratch & third-party reference video slices (kept locally on disk)
+examples/seismotion-atoms/probe/
+examples/seismotion-atoms/clips/*.mp4

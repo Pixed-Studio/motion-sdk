@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+<style>
+  :root {
+    --background: #0b0d12;
+    --foreground: #f3f4f6;
+    --muted-foreground: #9ca3af;
+    --card: #151923;
+    --card-border: #262c3a;
+    --border: #32394a;
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+  }
+  body { background: var(--background) !important; padding: 16px !important; max-width: 980px; margin: 0 auto !important; }
+</style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased p-0 m-0 select-none">
+  <div class="py-2 space-y-2.5">
+    <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-[var(--card-border)] text-xs">
+      <div class="flex flex-wrap items-center gap-1.5" id="presetBar">
+        <button data-preset="0" class="px-2 py-1 rounded border border-[var(--border)] font-medium">3行 · 原版 Glean</button>
+        <button data-preset="1" class="px-2 py-1 rounded border border-[var(--border)]">2行 · 自适应</button>
+        <button data-preset="2" class="px-2 py-1 rounded border border-[var(--border)]">4行 · 自动扩轨</button>
+        <button data-preset="3" class="px-2 py-1 rounded border border-[var(--border)]">换牌 · 六边形徽标 60fps</button>
+      </div>
+      <div id="auditBadge" class="font-mono text-[11px] px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--card-border)] text-[var(--muted-foreground)]"></div>
+    </div>
+
+    <div class="flex items-center gap-2 text-xs">
+      <span class="text-[var(--muted-foreground)] shrink-0">文案槽位 (用 | 分行):</span>
+      <input id="linesInput" type="text" value="Work | differently | with AI" class="flex-1 px-2 py-1 rounded bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] font-mono text-xs focus:outline-none" />
+    </div>
+
+    <div class="relative w-full aspect-video max-h-[268px] mx-auto rounded overflow-hidden border border-[var(--card-border)]" id="stageWrap">
+      <canvas id="stageCanvas" width="960" height="540" class="w-full h-full block"></canvas>
+    </div>
+
+    <div class="flex items-center gap-3 pt-1 text-xs">
+      <button id="playBtn" class="px-2.5 py-1 rounded bg-[var(--primary)] text-[var(--primary-foreground)] font-medium shrink-0">Pause</button>
+      <input id="scrubber" type="range" min="0" max="89" value="0" class="flex-1 accent-[var(--primary)]" />
+      <span id="frameReadout" class="font-mono tabular-nums text-[var(--muted-foreground)] w-28 text-right shrink-0">f000 / 090 (30fps)</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const THEMES = {
+        glean: {
+          surface: "#F7F2EB", ink: "#000000", primary: "#333CEE", fresh: "#DCFC5E",
+          orb: ["#435CFF", "#1C24CC"], warm: ["#B7D3EB", "#FFA488"], tri: ["#DBFD49", "#B3E8CF"],
+          inSq: ["#DDF05B", "#B3E853"], inTri: ["#BBE954", "#62D34D"], xor: "#333CEE", hexEmblem: false
+        },
+        veridian: {
+          surface: "#0E131F", ink: "#F6F8FC", primary: "#00D4B2", fresh: "#3BF5C8",
+          orb: ["#3DF5D4", "#007A6E"], warm: ["#FFD166", "#FF5E7E"], tri: ["#80FFDB", "#6930C3"],
+          inSq: ["#FFFDF7", "#5CE6CC"], inTri: ["#FFE66D", "#3BF5C8"], xor: "#0E131F", hexEmblem: true
+        }
+      };
+
+      const PRESETS = [
+        { lines: "Work | differently | with AI", theme: "glean", dur: 3.0, fps: 30, explicitBeats: [0, 0.6, 1.2] },
+        { lines: "Think | beyond limits", theme: "glean", dur: 3.0, fps: 30 },
+        { lines: "Orchestrate | autonomous | enterprise | workflows", theme: "glean", dur: 3.0, fps: 30 },
+        { lines: "Ship fearless | agentic systems | at planetary scale", theme: "veridian", dur: 4.5, fps: 60 }
+      ];
+
+      let activePreset = 0;
+      let state = null;
+      let playing = true;
+      let currentFrame = 0;
+      let lastTick = performance.now();
+
+      const canvas = document.getElementById("stageCanvas");
+      const ctx = canvas.getContext("2d");
+      const scrubber = document.getElementById("scrubber");
+      const playBtn = document.getElementById("playBtn");
+      const readout = document.getElementById("frameReadout");
+      const linesInput = document.getElementById("linesInput");
+      const auditBadge = document.getElementById("auditBadge");
+      const presetBtns = document.querySelectorAll("[data-preset]");
+
+      const clamp01 = (t) => Math.max(0, Math.min(1, t));
+      const easeOutQuart = (t) => 1 - Math.pow(1 - clamp01(t), 4);
+      const easeOutCubic = (t) => 1 - Math.pow(1 - clamp01(t), 3);
+      const easeInQuad = (t) => { const u = clamp01(t); return u * u; };
+
+      function solveShot(linesRaw, themeKey, durSec, fps, explicitBeats) {
+        const lines = linesRaw.split("|").map((s) => s.trim()).filter(Boolean);
+        if (!lines.length) lines.push("Motion SDK");
+        const W = 960, H = 540;
+        const theme = THEMES[themeKey];
+        const totalFrames = Math.round(durSec * fps);
+        const convergeSec = Math.abs(durSec - 3.0) < 0.01 ? 2.333 : durSec - 0.85;
+        const convergeF = Math.round(convergeSec * fps);
+        const focusStartF = convergeF - Math.round(0.23 * fps);
+        const introEndF = Math.min(totalFrames, convergeF + Math.round(0.33 * fps));
+        const settleF = Math.min(totalFrames - 1, convergeF + Math.round(0.67 * fps) - 1);
+
+        const count = lines.length;
+        const baseScale = count <= 2 ? 0.138 : count === 3 ? 0.129 : count === 4 ? 0.106 : 0.086;
+        let fontSize = Math.round(H * baseScale);
+        ctx.font = "500 " + fontSize + "px system-ui, -apple-system, sans-serif";
+        for (let g = 0; g < 12; g++) {
+          ctx.font = "500 " + fontSize + "px system-ui, -apple-system, sans-serif";
+          const maxW = Math.max(...lines.map((l) => ctx.measureText(l).width));
+          const totH = (count - 1) * fontSize * 1.03 + fontSize * 1.25;
+          if (maxW <= W * 0.56 && totH <= H * 0.66) break;
+          fontSize = Math.max(22, Math.floor(fontSize * 0.92));
+        }
+        const maxLineW = Math.max(...lines.map((l) => ctx.measureText(l).width));
+        const pitch = Math.round(fontSize * 1.03);
+        const stackH = (count - 1) * pitch + fontSize;
+        const startY = (H - stackH) / 2 + fontSize * 0.82;
+        const safeOrbitR = Math.max(H * 0.25, Math.min(W * 0.35, Math.max(maxLineW * 0.5, stackH * 0.5) + 22));
+        const halfGap = Math.round(Math.max(H * 0.12, Math.min(H * 0.21, stackH * 0.36)));
+
+        let beatFrames = [];
+        if (explicitBeats && explicitBeats.length === count) {
+          beatFrames = explicitBeats.map((s) => Math.round(s * fps));
+        } else {
+          const span = Math.max(0, convergeF - Math.round(0.95 * fps));
+          beatFrames = count === 1 ? [0] : Array.from({ length: count }, (_, i) => Math.round((i * span) / (count - 1)));
+        }
+
+        return { W, H, fps, durSec, totalFrames, theme, lines, fontSize, pitch, startY, maxLineW, stackH, safeOrbitR, halfGap, beatFrames, focusStartF, convergeF, introEndF, settleF };
+      }
+
+      function drawRoundedPoly(ctx, cx, cy, r, sides, rotRad, cornerR) {
+        const pts = [];
+        for (let i = 0; i < sides; i++) {
+          const a = rotRad - Math.PI / 2 + (i * Math.PI * 2) / sides;
+          pts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r });
+        }
+        ctx.beginPath();
+        for (let i = 0; i < sides; i++) {
+          const p0 = pts[(i - 1 + sides) % sides], p1 = pts[i], p2 = pts[(i + 1) % sides];
+          if (i === 0) ctx.moveTo((p0.x + p1.x) / 2, (p0.y + p1.y) / 2);
+          ctx.arcTo(p1.x, p1.y, (p1.x + p2.x) / 2, (p1.y + p2.y) / 2, cornerR);
+        }
+        ctx.closePath();
+      }
+
+      function drawRibbon(s, spinDeg) {
+        const cx = s.W / 2, cy = s.H / 2;
+        const S = s.W * 0.125, R = S * 0.7071;
+        const th = spinDeg * 0.017453;
+        const verts = [0.785, 2.356, 3.927, 5.498].map((a) => ({ x: R * Math.sin(th + a), y: R * Math.cos(th + a) }));
+        const xMin = Math.min(...verts.map((v) => v.x)), xMax = Math.max(...verts.map((v) => v.x));
+        const hex = s.theme.fresh.replace("#", "");
+        const cr = parseInt(hex.slice(0, 2), 16), cg = parseInt(hex.slice(2, 4), 16), cb = parseInt(hex.slice(4, 6), 16);
+        const fadeH = s.H * 0.38;
+        for (let px = Math.floor(cx + xMin); px <= Math.ceil(cx + xMax); px += 2) {
+          const x = px - cx;
+          let zMax = -1e6;
+          for (let e = 0; e < 4; e++) {
+            const v0 = verts[e], v1 = verts[(e + 1) % 4];
+            const lo = Math.min(v0.x, v1.x), hi = Math.max(v0.x, v1.x);
+            if (hi - lo > 0.01 && x >= lo && x <= hi) {
+              const t = clamp01((x - v0.x) / (v1.x - v0.x));
+              zMax = Math.max(zMax, v0.y + (v1.y - v0.y) * t);
+            }
+          }
+          const inner = Math.max(4, s.halfGap - 0.68 * zMax);
+          const gT = ctx.createLinearGradient(0, cy - inner, 0, cy - inner - fadeH);
+          gT.addColorStop(0, "rgba(" + cr + "," + cg + "," + cb + ",0.95)");
+          gT.addColorStop(1, "rgba(" + cr + "," + cg + "," + cb + ",0)");
+          ctx.fillStyle = gT;
+          ctx.fillRect(px, cy - inner - fadeH, 2, fadeH);
+          const gB = ctx.createLinearGradient(0, cy + inner, 0, cy + inner + fadeH);
+          gB.addColorStop(0, "rgba(" + cr + "," + cg + "," + cb + ",0.95)");
+          gB.addColorStop(1, "rgba(" + cr + "," + cg + "," + cb + ",0)");
+          ctx.fillStyle = gB;
+          ctx.fillRect(px, cy + inner, 2, fadeH);
+        }
+      }
+
+      function renderFrame(f) {
+        const s = state;
+        ctx.save();
+        ctx.fillStyle = s.theme.surface;
+        ctx.fillRect(0, 0, s.W, s.H);
+
+        // Act 1: Intro World
+        if (f < s.introEndF) {
+          const fadeOut = f >= s.introEndF - Math.round(0.2 * s.fps)
+            ? 1 - easeInQuad((f - (s.introEndF - Math.round(0.2 * s.fps))) / Math.max(1, Math.round(0.2 * s.fps)))
+            : 1;
+          const blurPx = f >= s.focusStartF ? easeInQuad((f - s.focusStartF) / Math.max(1, s.introEndF - s.focusStartF)) * 26 : 0;
+          ctx.save();
+          ctx.globalAlpha = clamp01(fadeOut);
+          if (blurPx > 0.4) ctx.filter = "blur(" + blurPx.toFixed(1) + "px)";
+
+          const prog = f / Math.max(1, s.introEndF);
+          drawRibbon(s, -20 - prog * 216);
+
+          // Orbit ring items clearing focalBounds
+          const ringSpin = prog * Math.PI * 2.05;
+          const breath = Math.sin(prog * Math.PI) * (s.H * 0.11);
+          const orbitSpecs = [
+            { a: 0.3, rOff: 8, sz: 52, kind: "orb", enter: 0 },
+            { a: -1.1, rOff: 18, sz: 68, kind: "tri", enter: 0 },
+            { a: 1.7, rOff: -4, sz: 32, kind: "tri", enter: 0 },
+            { a: 2.8, rOff: 12, sz: 22, kind: "sq", enter: 1 },
+            { a: -2.1, rOff: 38, sz: 46, kind: "sq", enter: Math.min(2, s.beatFrames.length - 1) },
+            { a: 0.95, rOff: 32, sz: 28, kind: "orb", enter: Math.min(2, s.beatFrames.length - 1) }
+          ];
+          for (const it of orbitSpecs) {
+            const bf = s.beatFrames[it.enter] || 0;
+            if (f < bf) continue;
+            const ang = it.a + ringSpin;
+            const rad = s.safeOrbitR + it.rOff + breath * 0.65;
+            const ox = s.W / 2 + Math.cos(ang) * rad;
+            const oy = s.H / 2 + Math.sin(ang) * rad;
+            const g = ctx.createLinearGradient(ox - it.sz, oy - it.sz, ox + it.sz, oy + it.sz);
+            const pal = it.kind === "orb" ? s.theme.orb : it.kind === "tri" ? s.theme.tri : s.theme.warm;
+            g.addColorStop(0, pal[0]); g.addColorStop(1, pal[1]);
+            ctx.fillStyle = g;
+            if (it.kind === "orb") {
+              ctx.beginPath(); ctx.arc(ox, oy, it.sz * 0.5, 0, Math.PI * 2); ctx.fill();
+            } else {
+              drawRoundedPoly(ctx, ox, oy, it.sz * 0.55, it.kind === "tri" ? 3 : 4, ang * 0.6, it.sz * 0.14);
+              ctx.fill();
+            }
+          }
+
+          // Kinetic Stack Lines
+          ctx.font = "500 " + s.fontSize + "px system-ui, -apple-system, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillStyle = s.theme.ink;
+          const slideFrames = Math.round(0.85 * s.fps);
+          s.lines.forEach((line, idx) => {
+            const bf = s.beatFrames[idx] || 0;
+            if (f < bf) return;
+            const u = easeOutQuart((f - bf) / Math.max(1, slideFrames));
+            const dx = (1 - u) * (s.fontSize * 0.52);
+            ctx.save();
+            ctx.globalAlpha *= clamp01((f - bf + 1) / 3);
+            ctx.fillText(line, s.W / 2 + dx, s.startY + idx * s.pitch);
+            ctx.restore();
+          });
+          ctx.restore();
+        }
+
+        // Act 2: Spiral Converge + Dynamic Boolean Color-Shift Masks
+        if (f >= s.convergeF) {
+          const span = Math.max(1, s.settleF - s.convergeF);
+          const uHost = easeOutCubic((f - s.convergeF) / span);
+          const uSq = easeOutQuart((f - (s.convergeF + Math.round(0.16 * s.fps))) / Math.max(1, span * 0.76));
+          const uTri = easeOutQuart((f - (s.convergeF + Math.round(0.25 * s.fps))) / Math.max(1, span * 0.65));
+
+          const spiralA = (1 - uHost) * Math.PI * 1.45;
+          const spiralR = (1 - uHost) * 340;
+          const hx = s.W / 2 + Math.cos(spiralA - 1.2) * spiralR;
+          const hy = s.H / 2 + Math.sin(spiralA - 1.2) * spiralR * 0.72;
+          const hRad = (220 * (1.16 - 0.32 * uHost));
+
+          const sqX = s.W / 2 - 18 + (1 - uSq) * -220;
+          const sqY = s.H / 2 - 78 + (1 - uSq) * 310;
+          const sqR = 112 * (1.22 - 0.3 * uSq);
+          const sqRot = -0.35 + uSq * 1.15;
+
+          const trX = s.W / 2 + 54 + (1 - uTri) * 190;
+          const trY = s.H / 2 + 52 + (1 - uTri) * -320;
+          const trR = 128 * (1.2 - 0.22 * uTri);
+          const trRot = 0.4 + uTri * 0.85;
+
+          const hostPath = () => {
+            if (s.theme.hexEmblem) drawRoundedPoly(ctx, hx, hy, hRad, 6, -0.52 + uHost * 0.52, 28);
+            else { ctx.beginPath(); ctx.arc(hx, hy, hRad, 0, Math.PI * 2); }
+          };
+          const partAPath = () => drawRoundedPoly(ctx, sqX, sqY, sqR, 4, sqRot, 22);
+          const partBPath = () => drawRoundedPoly(ctx, trX, trY, trR, s.theme.hexEmblem ? 5 : 3, trRot, 24);
+
+          const makeGrad = (cx, cy, r, pair) => {
+            const g = ctx.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
+            g.addColorStop(0, pair[0]); g.addColorStop(1, pair[1]);
+            return g;
+          };
+
+          // 1. Outside parts
+          if (f >= s.convergeF + Math.round(0.16 * s.fps)) {
+            partAPath(); ctx.fillStyle = makeGrad(sqX, sqY, sqR, s.theme.warm); ctx.fill();
+          }
+          if (f >= s.convergeF + Math.round(0.25 * s.fps)) {
+            partBPath(); ctx.fillStyle = makeGrad(trX, trY, trR, s.theme.tri); ctx.fill();
+          }
+          // 2. Host container
+          hostPath(); ctx.fillStyle = s.theme.primary; ctx.fill();
+
+          // 3. Clipped inside-host color shifts
+          ctx.save();
+          hostPath(); ctx.clip();
+          if (f >= s.convergeF + Math.round(0.16 * s.fps)) {
+            partAPath(); ctx.fillStyle = makeGrad(sqX, sqY, sqR, s.theme.inSq); ctx.fill();
+          }
+          if (f >= s.convergeF + Math.round(0.25 * s.fps)) {
+            partBPath(); ctx.fillStyle = makeGrad(trX, trY, trR, s.theme.inTri); ctx.fill();
+          }
+          // 4. Pairwise XOR intersection lens
+          if (f >= s.convergeF + Math.round(0.25 * s.fps)) {
+            ctx.save();
+            partAPath(); ctx.clip();
+            partBPath(); ctx.fillStyle = s.theme.xor; ctx.fill();
+            ctx.restore();
+          }
+          ctx.restore();
+        }
+
+        ctx.restore();
+        readout.textContent =
+          "f" + String(Math.floor(f)).padStart(3, "0") + " / " + String(s.totalFrames).padStart(3, "0") + " (" + s.fps + "fps)";
+      }
+
+      function rebuild(presetIdx, customLines) {
+        const p = PRESETS[presetIdx];
+        const text = customLines !== undefined ? customLines : p.lines;
+        if (customLines === undefined) linesInput.value = p.lines;
+        state = solveShot(text, p.theme, p.dur, p.fps, customLines === undefined ? p.explicitBeats : undefined);
+        scrubber.max = String(state.totalFrames - 1);
+        currentFrame = currentFrame % state.totalFrames;
+        auditBadge.textContent =
+          "AUDIT PASS · " + state.lines.length + "L font=" + state.fontSize + "px · R_safe=" + Math.round(state.safeOrbitR) + "px";
+        presetBtns.forEach((btn, i) => {
+          btn.style.background = i === presetIdx ? "var(--primary)" : "var(--card)";
+          btn.style.color = i === presetIdx ? "var(--primary-foreground)" : "var(--foreground)";
+        });
+        renderFrame(currentFrame);
+      }
+
+      presetBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          activePreset = Number(btn.dataset.preset);
+          currentFrame = 0;
+          rebuild(activePreset);
+        });
+      });
+
+      linesInput.addEventListener("input", () => {
+        rebuild(activePreset, linesInput.value);
+      });
+
+      scrubber.addEventListener("input", () => {
+        playing = false;
+        playBtn.textContent = "Play";
+        currentFrame = Number(scrubber.value);
+        renderFrame(currentFrame);
+      });
+
+      playBtn.addEventListener("click", () => {
+        playing = !playing;
+        playBtn.textContent = playing ? "Pause" : "Play";
+        lastTick = performance.now();
+      });
+
+      function loop(now) {
+        if (playing && state) {
+          const dt = (now - lastTick) / 1000;
+          lastTick = now;
+          currentFrame = (currentFrame + dt * state.fps) % state.totalFrames;
+          scrubber.value = String(Math.floor(currentFrame));
+          renderFrame(currentFrame);
+        } else {
+          lastTick = now;
+        }
+        requestAnimationFrame(loop);
+      }
+
+      rebuild(0);
+      requestAnimationFrame(loop);
+    })();
+  </script>
+</body>
+</html>

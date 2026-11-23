@@ -1,0 +1,84 @@
+{
+  "source": "/Volumes/SamSung 990 2TB/Motionimo/Seismotion Manifiesto [seismotion-manifiesto].mp4",
+  "fps": 25,
+  "totalFrames": 1044,
+  "atoms": [
+    {
+      "id": "01",
+      "slug": "atom-01-stroke-wordmark",
+      "startF": 0,
+      "endF": 84,
+      "title": "Stroke-Split Wordmark Reveal (seis.)"
+    },
+    {
+      "id": "02",
+      "slug": "atom-02-editorial-mask-window",
+      "startF": 84,
+      "endF": 168,
+      "title": "Rule-Guided Kinetic Phrase -> Masked Media Window"
+    },
+    {
+      "id": "03",
+      "slug": "atom-03-portal-gyro-rings",
+      "startF": 168,
+      "endF": 262,
+      "title": "Iris Portal Zoom -> Gyroscopic Ring Array"
+    },
+    {
+      "id": "04",
+      "slug": "atom-04-trail-orb-gates",
+      "startF": 262,
+      "endF": 380,
+      "title": "Comet Trail Follow -> Gate Rings -> Wireframe Lock"
+    },
+    {
+      "id": "05",
+      "slug": "atom-05-blueprint-hud-morph",
+      "startF": 380,
+      "endF": 472,
+      "title": "CAD Blueprint Construct & Word Swap (story -> into)"
+    },
+    {
+      "id": "06",
+      "slug": "atom-06-echo-cascade-settle",
+      "startF": 472,
+      "endF": 512,
+      "title": "Apex Pendulum & Typography Echo Cascade (design)"
+    },
+    {
+      "id": "07",
+      "slug": "atom-07-polygon-radial-tunnel",
+      "startF": 512,
+      "endF": 600,
+      "title": "Vertex Polygon Frame + Radial Shard Warp Tunnel"
+    },
+    {
+      "id": "08",
+      "slug": "atom-08-zstack-card-carousel",
+      "startF": 600,
+      "endF": 740,
+      "title": "Beat-Driven Z-Stack Style-Frame Carousel"
+    },
+    {
+      "id": "09",
+      "slug": "atom-09-isometric-step-spiral",
+      "startF": 740,
+      "endF": 845,
+      "title": "Stepped Path Ball Bounce -> 3D Spiral Twist"
+    },
+    {
+      "id": "10",
+      "slug": "atom-10-beacon-arc-ascend",
+      "startF": 845,
+      "endF": 925,
+      "title": "Ziggurat Beacon Ascension & Arc Tracking (motion)"
+    },
+    {
+      "id": "11",
+      "slug": "atom-11-minimal-loop-resolve",
+      "startF": 925,
+      "endF": 1044,
+      "title": "Luminance Flash -> Brand Wordmark Loop Closure"
+    }
+  ]
+}

@@ -1,0 +1,7788 @@
+[
+  {
+    "kind": "updateSceneName",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "name": "Work Differently With AI -> Glean Mark"
+  },
+  {
+    "kind": "updateSceneDuration",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "durationFrames": 90
+  },
+  {
+    "kind": "setSceneBackgroundFill",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "background": {
+      "kind": "solid",
+      "color": "#F7F2EB"
+    }
+  },
+  {
+    "kind": "addAsset",
+    "asset": {
+      "id": "asset_fb0d59bc-5d7c-4578-99d9-5645a8cbeb6d",
+      "name": "Enterprise Agent Workflows Audio (0-3s)",
+      "kind": "audio",
+      "src": "/api/media/asset_fb0d59bc-5d7c-4578-99d9-5645a8cbeb6d/content",
+      "libraryRef": {
+        "id": "asset_fb0d59bc-5d7c-4578-99d9-5645a8cbeb6d",
+        "version": 1
+      },
+      "mediaMetadata": {
+        "channels": 2,
+        "durationMs": 3000,
+        "sampleRate": 44100
+      }
+    }
+  },
+  {
+    "kind": "addAudioClip",
+    "clip": {
+      "id": "clip_soundtrack_3s",
+      "assetId": "asset_fb0d59bc-5d7c-4578-99d9-5645a8cbeb6d",
+      "role": "music",
+      "startFrame": 0,
+      "durationFrames": 90,
+      "gain": 1,
+      "anchor": {
+        "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+        "offsetFrames": 0
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "intro_world",
+      "kind": "frame",
+      "name": "Intro World",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "intro_blur_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "intro_blur_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "intro_blur_k1",
+                "frame": 63,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_blur_k2",
+                "frame": 73,
+                "value": 14,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_blur_k3",
+                "frame": 78,
+                "value": 42
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_intro_blur",
+        "name": "Focus pull blur out",
+        "target": {
+          "kind": "object",
+          "objectId": "intro_world"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 79
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "intro_out_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "intro_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_out_k1",
+                "frame": 5,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_intro_fade_out",
+        "name": "Fade out intro world",
+        "target": {
+          "kind": "object",
+          "objectId": "intro_world"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 74,
+          "durationFrames": 6
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "central_lime_ribbon",
+      "kind": "shape",
+      "name": "Central Lime Ribbon",
+      "parentId": "intro_world",
+      "layer": 1,
+      "base": {
+        "x": 460,
+        "y": 20,
+        "width": 360,
+        "height": 680
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#DCFC5E00"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addShader",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "shader": {
+      "kind": "custom",
+      "definitionId": "glean_chevron_ribbon_v3",
+      "version": 1,
+      "name": "Spinning Chevron Ribbon",
+      "description": "3D-projected rotating square-pillar chevron hourglass ribbon with rich lime vertical fade",
+      "cost": "light",
+      "sksl": "uniform float4 ms_contentRect;\nuniform float ms_dpr;\nuniform float p_spinAngle;\nuniform float p_pillarSize;\nuniform float p_baseHalfGap;\nuniform float p_chevronSlope;\nuniform float p_fadeHeight;\nuniform float4 p_limeColor;\n\nfloat2 frontProfile(float x, float S, float theta) {\n  float R = S * 0.70710678;\n  float a0 = theta + 0.78539816;\n  float a1 = theta + 2.35619449;\n  float a2 = theta + 3.92699082;\n  float a3 = theta + 5.49778714;\n  float2 v0 = float2(R * sin(a0), R * cos(a0));\n  float2 v1 = float2(R * sin(a1), R * cos(a1));\n  float2 v2 = float2(R * sin(a2), R * cos(a2));\n  float2 v3 = float2(R * sin(a3), R * cos(a3));\n\n  float xMin = min(min(v0.x, v1.x), min(v2.x, v3.x));\n  float xMax = max(max(v0.x, v1.x), max(v2.x, v3.x));\n  float insideX = min(x - xMin, xMax - x);\n\n  float zMax = -1e6;\n  float xc = clamp(x, xMin, xMax);\n  float lo0 = min(v0.x, v1.x); float hi0 = max(v0.x, v1.x);\n  if (hi0 - lo0 > 0.001 && xc >= lo0 - 0.001 && xc <= hi0 + 0.001) {\n    float t = clamp((xc - v0.x) / (v1.x - v0.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v0.y, v1.y, t));\n  }\n  float lo1 = min(v1.x, v2.x); float hi1 = max(v1.x, v2.x);\n  if (hi1 - lo1 > 0.001 && xc >= lo1 - 0.001 && xc <= hi1 + 0.001) {\n    float t = clamp((xc - v1.x) / (v2.x - v1.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v1.y, v2.y, t));\n  }\n  float lo2 = min(v2.x, v3.x); float hi2 = max(v2.x, v3.x);\n  if (hi2 - lo2 > 0.001 && xc >= lo2 - 0.001 && xc <= hi2 + 0.001) {\n    float t = clamp((xc - v2.x) / (v3.x - v2.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v2.y, v3.y, t));\n  }\n  float lo3 = min(v3.x, v0.x); float hi3 = max(v3.x, v0.x);\n  if (hi3 - lo3 > 0.001 && xc >= lo3 - 0.001 && xc <= hi3 + 0.001) {\n    float t = clamp((xc - v3.x) / (v0.x - v3.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v3.y, v0.y, t));\n  }\n  return float2(zMax, insideX);\n}\n\nhalf4 main(float2 fragCoord) {\n  float dpr = max(ms_dpr, 0.001);\n  float2 center = ms_contentRect.xy + 0.5 * ms_contentRect.zw;\n  float2 p = (fragCoord - center) / dpr;\n\n  float theta = p_spinAngle * 0.0174532925;\n  float2 prof = frontProfile(p.x, p_pillarSize, theta);\n  float zFront = prof.x;\n  float insideX = prof.y;\n\n  float aaX = smoothstep(-0.75, 0.75, insideX);\n  if (aaX <= 0.0001) return half4(0.0);\n\n  float innerHalf = max(3.0, p_baseHalfGap - p_chevronSlope * zFront);\n  float ay = abs(p.y);\n  float d = ay - innerHalf;\n\n  float aaInner = smoothstep(-0.75, 0.75, d);\n  float u = clamp(max(d, 0.0) / max(p_fadeHeight, 1.0), 0.0, 1.0);\n  float fadeAlpha = 1.0 - smoothstep(0.0, 1.0, pow(u, 1.2));\n\n  float a = aaX * aaInner * fadeAlpha * p_limeColor.a;\n  float3 rgb = p_limeColor.a > 0.001 ? (p_limeColor.rgb / p_limeColor.a) : float3(0.0);\n  return half4(half3(rgb * a), half(a));\n}",
+      "properties": [
+        {
+          "id": "spinAngle",
+          "name": "Spin Angle",
+          "label": "Spin Angle",
+          "type": "number",
+          "uniformName": "p_spinAngle",
+          "defaultValue": {
+            "kind": "number",
+            "value": -222
+          },
+          "control": {
+            "kind": "slider",
+            "min": -720,
+            "max": 360,
+            "step": 1,
+            "unit": "deg"
+          },
+          "animation": "continuous",
+          "order": 0
+        },
+        {
+          "id": "pillarSize",
+          "name": "Pillar Width",
+          "label": "Pillar Width",
+          "type": "number",
+          "uniformName": "p_pillarSize",
+          "defaultValue": {
+            "kind": "number",
+            "value": 161
+          },
+          "control": {
+            "kind": "slider",
+            "min": 40,
+            "max": 260,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 1
+        },
+        {
+          "id": "baseHalfGap",
+          "name": "Outer Half Gap",
+          "label": "Outer Half Gap",
+          "type": "number",
+          "uniformName": "p_baseHalfGap",
+          "defaultValue": {
+            "kind": "number",
+            "value": 104
+          },
+          "control": {
+            "kind": "slider",
+            "min": 10,
+            "max": 180,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 2
+        },
+        {
+          "id": "chevronSlope",
+          "name": "Chevron Slope",
+          "label": "Chevron Slope",
+          "type": "number",
+          "uniformName": "p_chevronSlope",
+          "defaultValue": {
+            "kind": "number",
+            "value": 0.86
+          },
+          "control": {
+            "kind": "slider",
+            "min": 0,
+            "max": 2,
+            "step": 0.01
+          },
+          "animation": "continuous",
+          "order": 3
+        },
+        {
+          "id": "fadeHeight",
+          "name": "Fade Height",
+          "label": "Fade Height",
+          "type": "number",
+          "uniformName": "p_fadeHeight",
+          "defaultValue": {
+            "kind": "number",
+            "value": 290
+          },
+          "control": {
+            "kind": "slider",
+            "min": 40,
+            "max": 420,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 4
+        },
+        {
+          "id": "limeColor",
+          "name": "Ribbon Color",
+          "label": "Ribbon Color",
+          "type": "color",
+          "uniformName": "p_limeColor",
+          "defaultValue": {
+            "kind": "color",
+            "value": "#DCFC5E"
+          },
+          "control": {
+            "kind": "color"
+          },
+          "animation": "continuous",
+          "order": 5
+        }
+      ]
+    }
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "spinAngle",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": -20
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 10,
+        "value": {
+          "kind": "number",
+          "value": -38
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeInQuad"
+        }
+      },
+      {
+        "frame": 17,
+        "value": {
+          "kind": "number",
+          "value": -64
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 18,
+        "value": {
+          "kind": "number",
+          "value": -90
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuart"
+        }
+      },
+      {
+        "frame": 25,
+        "value": {
+          "kind": "number",
+          "value": -140
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeInQuad"
+        }
+      },
+      {
+        "frame": 35,
+        "value": {
+          "kind": "number",
+          "value": -162
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 36,
+        "value": {
+          "kind": "number",
+          "value": -180
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuart"
+        }
+      },
+      {
+        "frame": 45,
+        "value": {
+          "kind": "number",
+          "value": -222
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutSine"
+        }
+      },
+      {
+        "frame": 60,
+        "value": {
+          "kind": "number",
+          "value": -229
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 78,
+        "value": {
+          "kind": "number",
+          "value": -236
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "pillarSize",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 125
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 15,
+        "value": {
+          "kind": "number",
+          "value": 118
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeInQuad"
+        }
+      },
+      {
+        "frame": 18,
+        "value": {
+          "kind": "number",
+          "value": 88
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutCubic"
+        }
+      },
+      {
+        "frame": 24,
+        "value": {
+          "kind": "number",
+          "value": 152
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 35,
+        "value": {
+          "kind": "number",
+          "value": 154
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 36,
+        "value": {
+          "kind": "number",
+          "value": 162
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 78,
+        "value": {
+          "kind": "number",
+          "value": 162
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "baseHalfGap",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 112
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 17,
+        "value": {
+          "kind": "number",
+          "value": 108
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 18,
+        "value": {
+          "kind": "number",
+          "value": 100
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 25,
+        "value": {
+          "kind": "number",
+          "value": 106
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 36,
+        "value": {
+          "kind": "number",
+          "value": 104
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 78,
+        "value": {
+          "kind": "number",
+          "value": 104
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "fadeHeight",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 155
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 17,
+        "value": {
+          "kind": "number",
+          "value": 215
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 25,
+        "value": {
+          "kind": "number",
+          "value": 265
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 45,
+        "value": {
+          "kind": "number",
+          "value": 305
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 78,
+        "value": {
+          "kind": "number",
+          "value": 305
+        }
+      }
+    ]
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "headline_group",
+      "kind": "frame",
+      "name": "Headline Typography",
+      "parentId": "intro_world",
+      "layer": 3,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "txt_work",
+      "kind": "text",
+      "name": "Work",
+      "parentId": "headline_group",
+      "layer": 1,
+      "base": {
+        "x": 640,
+        "y": 211
+      },
+      "content": {
+        "design": {
+          "text": "Work"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 93,
+        "fontWeight": 420,
+        "letterSpacing": -2,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "work_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "work_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 44,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "work_move_k1",
+                "frame": 26,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_work_slide",
+        "name": "Work slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_work"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 27
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "work_track_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "work_track_k0",
+                "frame": 0,
+                "value": 3,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "work_track_k1",
+                "frame": 22,
+                "value": -2
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_work_track",
+        "name": "Work tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_work"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 23
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "txt_differently",
+      "kind": "text",
+      "name": "differently",
+      "parentId": "headline_group",
+      "layer": 2,
+      "base": {
+        "x": 640,
+        "y": 306
+      },
+      "content": {
+        "design": {
+          "text": "differently"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 93,
+        "fontWeight": 420,
+        "letterSpacing": -2,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "diff_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "diff_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 59,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "diff_move_k1",
+                "frame": 27,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_diff_slide",
+        "name": "differently slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_differently"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 18,
+          "durationFrames": 28
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "diff_track_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "diff_track_k0",
+                "frame": 0,
+                "value": 3.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "diff_track_k1",
+                "frame": 25,
+                "value": -2
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_diff_track",
+        "name": "differently tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_differently"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 18,
+          "durationFrames": 26
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "txt_with_ai",
+      "kind": "text",
+      "name": "with AI",
+      "parentId": "headline_group",
+      "layer": 3,
+      "base": {
+        "x": 640,
+        "y": 402
+      },
+      "content": {
+        "design": {
+          "text": "with AI"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 93,
+        "fontWeight": 420,
+        "letterSpacing": -2,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "ai_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "ai_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 48,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "ai_move_k1",
+                "frame": 24,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_ai_slide",
+        "name": "with AI slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_with_ai"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 25
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "ai_track_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "ai_track_k0",
+                "frame": 0,
+                "value": 1.8,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "ai_track_k1",
+                "frame": 24,
+                "value": -2
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_ai_track",
+        "name": "with AI tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_with_ai"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 25
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "midground_orbit_ring",
+      "kind": "frame",
+      "name": "Midground Orbit Ring",
+      "parentId": "intro_world",
+      "layer": 2,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_orbit_ring_spin_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_orbit_ring_spin_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k1",
+                "frame": 6,
+                "value": 34,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k2",
+                "frame": 13,
+                "value": 51,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k3",
+                "frame": 18,
+                "value": 88,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k4",
+                "frame": 24,
+                "value": 142,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k5",
+                "frame": 33,
+                "value": 163,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k6",
+                "frame": 36,
+                "value": 189,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k7",
+                "frame": 42,
+                "value": 241,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k8",
+                "frame": 51,
+                "value": 274,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k9",
+                "frame": 60,
+                "value": 292,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k10",
+                "frame": 68,
+                "value": 310,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k11",
+                "frame": 74,
+                "value": 340,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_orbit_ring_spin_k12",
+                "frame": 79,
+                "value": 372
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_orbit_ring_spin",
+        "name": "Orbit ring pulsed clockwise spin",
+        "target": {
+          "kind": "object",
+          "objectId": "midground_orbit_ring"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 80
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "mid_blue_big",
+      "kind": "shape",
+      "name": "Blue Orb Large",
+      "parentId": "midground_orbit_ring",
+      "layer": 7,
+      "base": {
+        "x": 751.6,
+        "y": 344.1,
+        "width": 144,
+        "height": 144
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_big_rad_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_blue_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_rad_k1",
+                "frame": 6,
+                "value": {
+                  "x": 16.26,
+                  "y": 4.97
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_rad_k2",
+                "frame": 17,
+                "value": {
+                  "x": 11.48,
+                  "y": 3.51
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_rad_k3",
+                "frame": 24,
+                "value": {
+                  "x": 78.42,
+                  "y": 23.97
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_rad_k4",
+                "frame": 35,
+                "value": {
+                  "x": 77.46,
+                  "y": 23.68
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_rad_k5",
+                "frame": 44,
+                "value": {
+                  "x": 119.54,
+                  "y": 36.55
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInOutSine"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_rad_k6",
+                "frame": 55,
+                "value": {
+                  "x": 133.88,
+                  "y": 40.93
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_rad_k7",
+                "frame": 68,
+                "value": {
+                  "x": 89.89,
+                  "y": 27.48
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_rad_k8",
+                "frame": 75,
+                "value": {
+                  "x": 22,
+                  "y": 6.72
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_big_rad",
+        "name": "mid_blue_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 76
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_big_crot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_blue_big_crot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_blue_big_crot_k1",
+                "frame": 79,
+                "value": -360
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_big_crot",
+        "name": "Keep sphere lighting upright",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 80
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "mid_tri_big",
+    "name": "Green Triangle Large",
+    "parentId": "midground_orbit_ring",
+    "x": 631.6,
+    "y": 83,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.45,
+            "color": "#C6F384"
+          },
+          {
+            "offset": 1,
+            "color": "#B3E8CF"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 98,
+          "y": 0,
+          "cornerRadius": 34
+        },
+        {
+          "id": "v1",
+          "x": 196,
+          "y": 169.74,
+          "cornerRadius": 34
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 169.74,
+          "cornerRadius": 34
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_big_rad_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_tri_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": -1.69,
+                  "y": 3.63
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rad_k1",
+                "frame": 17,
+                "value": {
+                  "x": -6.76,
+                  "y": 14.5
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rad_k2",
+                "frame": 25,
+                "value": {
+                  "x": 13.95,
+                  "y": -29.91
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rad_k3",
+                "frame": 35,
+                "value": {
+                  "x": 16.9,
+                  "y": -36.25
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rad_k4",
+                "frame": 45,
+                "value": {
+                  "x": 41.42,
+                  "y": -88.82
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rad_k5",
+                "frame": 60,
+                "value": {
+                  "x": 43.53,
+                  "y": -93.35
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rad_k6",
+                "frame": 68,
+                "value": {
+                  "x": 30.85,
+                  "y": -66.16
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rad_k7",
+                "frame": 75,
+                "value": {
+                  "x": 5.49,
+                  "y": -11.78
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_big_rad",
+        "name": "mid_tri_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 76
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_big_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_tri_big_rot_k0",
+                "frame": 0,
+                "value": 52,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rot_k1",
+                "frame": 45,
+                "value": 98,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_big_rot_k2",
+                "frame": 79,
+                "value": 130
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_big_rot",
+        "name": "Green tri large gentle spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 80
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "mid_tri_small",
+    "name": "Green Triangle Small",
+    "parentId": "midground_orbit_ring",
+    "x": 578.7,
+    "y": 496.8,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.45,
+            "color": "#C6F384"
+          },
+          {
+            "offset": 1,
+            "color": "#B3E8CF"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 43,
+          "y": 0,
+          "cornerRadius": 15
+        },
+        {
+          "id": "v1",
+          "x": 86,
+          "y": 74.48,
+          "cornerRadius": 15
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 74.48,
+          "cornerRadius": 15
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_small_rad_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_tri_small_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rad_k1",
+                "frame": 10,
+                "value": {
+                  "x": -3.14,
+                  "y": 29.84
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rad_k2",
+                "frame": 17,
+                "value": {
+                  "x": -3.03,
+                  "y": 28.84
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rad_k3",
+                "frame": 25,
+                "value": {
+                  "x": -10.35,
+                  "y": 98.46
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rad_k4",
+                "frame": 35,
+                "value": {
+                  "x": -11.39,
+                  "y": 108.4
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rad_k5",
+                "frame": 45,
+                "value": {
+                  "x": -18.29,
+                  "y": 174.04
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rad_k6",
+                "frame": 60,
+                "value": {
+                  "x": -17.98,
+                  "y": 171.06
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rad_k7",
+                "frame": 68,
+                "value": {
+                  "x": -14.74,
+                  "y": 140.23
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rad_k8",
+                "frame": 75,
+                "value": {
+                  "x": -8.36,
+                  "y": 79.56
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_small_rad",
+        "name": "mid_tri_small radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 76
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_small_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_tri_small_rot_k0",
+                "frame": 0,
+                "value": -35,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_tri_small_rot_k1",
+                "frame": 79,
+                "value": 45
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_small_rot",
+        "name": "Green tri small spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 80
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "mid_blue_small",
+      "kind": "shape",
+      "name": "Blue Orb Small",
+      "parentId": "midground_orbit_ring",
+      "layer": 5,
+      "range": {
+        "startFrame": 18,
+        "durationFrames": 62
+      },
+      "base": {
+        "x": 406.2,
+        "y": 247.5,
+        "width": 46,
+        "height": 46
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_small_rad_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_blue_small_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_blue_small_rad_k1",
+                "frame": 7,
+                "value": {
+                  "x": -63.51,
+                  "y": -26.96
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_blue_small_rad_k2",
+                "frame": 17,
+                "value": {
+                  "x": -57.99,
+                  "y": -24.62
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_blue_small_rad_k3",
+                "frame": 27,
+                "value": {
+                  "x": -113.22,
+                  "y": -48.06
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_blue_small_rad_k4",
+                "frame": 42,
+                "value": {
+                  "x": -112.3,
+                  "y": -47.67
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_blue_small_rad_k5",
+                "frame": 50,
+                "value": {
+                  "x": -80.08,
+                  "y": -33.99
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_blue_small_rad_k6",
+                "frame": 57,
+                "value": {
+                  "x": -23.93,
+                  "y": -10.16
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_small_rad",
+        "name": "mid_blue_small radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 18,
+          "durationFrames": 58
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "mid_peach_tiny",
+      "kind": "shape",
+      "name": "Peach Square Tiny",
+      "parentId": "midground_orbit_ring",
+      "layer": 4,
+      "range": {
+        "startFrame": 18,
+        "durationFrames": 62
+      },
+      "base": {
+        "x": 455.5,
+        "y": 398,
+        "width": 38,
+        "height": 38,
+        "rotation": 18
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "borderRadius": 9
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_peach_tiny_rad_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_peach_tiny_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_peach_tiny_rad_k1",
+                "frame": 7,
+                "value": {
+                  "x": -52,
+                  "y": 17.91
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_peach_tiny_rad_k2",
+                "frame": 17,
+                "value": {
+                  "x": -46.33,
+                  "y": 15.95
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_peach_tiny_rad_k3",
+                "frame": 27,
+                "value": {
+                  "x": -100.22,
+                  "y": 34.51
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_peach_tiny_rad_k4",
+                "frame": 42,
+                "value": {
+                  "x": -95.5,
+                  "y": 32.88
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_peach_tiny_rad_k5",
+                "frame": 50,
+                "value": {
+                  "x": -69.97,
+                  "y": 24.09
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_peach_tiny_rad_k6",
+                "frame": 57,
+                "value": {
+                  "x": -23.64,
+                  "y": 8.14
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_peach_tiny_rad",
+        "name": "mid_peach_tiny radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_peach_tiny"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 18,
+          "durationFrames": 58
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "mid_peach_big",
+      "kind": "shape",
+      "name": "Peach Square Large",
+      "parentId": "midground_orbit_ring",
+      "layer": 6,
+      "range": {
+        "startFrame": 36,
+        "durationFrames": 44
+      },
+      "base": {
+        "x": 429.6,
+        "y": 30.4,
+        "width": 124,
+        "height": 124,
+        "rotation": 24
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "borderRadius": 26
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_peach_big_rad_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_peach_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_peach_big_rad_k1",
+                "frame": 9,
+                "value": {
+                  "x": -35.39,
+                  "y": -63.85
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_peach_big_rad_k2",
+                "frame": 24,
+                "value": {
+                  "x": -34.91,
+                  "y": -62.97
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_peach_big_rad_k3",
+                "frame": 32,
+                "value": {
+                  "x": -19.88,
+                  "y": -35.86
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_peach_big_rad_k4",
+                "frame": 39,
+                "value": {
+                  "x": 10.18,
+                  "y": 18.37
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_peach_big_rad",
+        "name": "mid_peach_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_peach_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_peach_big_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_peach_big_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_peach_big_rot_k1",
+                "frame": 43,
+                "value": -35
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_peach_big_rot",
+        "name": "Large peach square tumble",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_peach_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 44
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "mid_peach_med",
+      "kind": "shape",
+      "name": "Peach Square Medium",
+      "parentId": "midground_orbit_ring",
+      "layer": 5,
+      "range": {
+        "startFrame": 36,
+        "durationFrames": 44
+      },
+      "base": {
+        "x": 778.4,
+        "y": 573,
+        "width": 72,
+        "height": 72,
+        "rotation": 36
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "borderRadius": 15
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_peach_med_rad_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_mid_peach_med_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_mid_peach_med_rad_k1",
+                "frame": 9,
+                "value": {
+                  "x": 35.56,
+                  "y": 50.79
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_mid_peach_med_rad_k2",
+                "frame": 24,
+                "value": {
+                  "x": 34.41,
+                  "y": 49.15
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_peach_med_rad_k3",
+                "frame": 32,
+                "value": {
+                  "x": 15.49,
+                  "y": 22.12
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_mid_peach_med_rad_k4",
+                "frame": 39,
+                "value": {
+                  "x": -19.5,
+                  "y": -27.85
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_peach_med_rad",
+        "name": "mid_peach_med radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_peach_med"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "foreground_bokeh_group",
+      "kind": "frame",
+      "name": "Foreground Bokeh Depth",
+      "parentId": "intro_world",
+      "layer": 4,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "bokeh_b2_blue",
+      "kind": "shape",
+      "name": "Bokeh Blue Beat 2",
+      "parentId": "foreground_bokeh_group",
+      "base": {
+        "x": 1030,
+        "y": 284,
+        "width": 244,
+        "height": 244,
+        "rotation": 0
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        },
+        "blur": 40
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_blue_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b2_blue_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_blue_move_k1",
+                "frame": 3,
+                "value": {
+                  "x": -37,
+                  "y": 204
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_blue_move_k2",
+                "frame": 6,
+                "value": {
+                  "x": -96,
+                  "y": 259
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_blue_move_k3",
+                "frame": 10,
+                "value": {
+                  "x": -187,
+                  "y": 349
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_blue_move",
+        "name": "Bokeh Blue Beat 2 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_blue"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 18,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_blue_out_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b2_blue_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_blue_out_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_blue_out",
+        "name": "Bokeh Blue Beat 2 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_blue"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 27,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "bokeh_b2_peach",
+      "kind": "shape",
+      "name": "Bokeh Peach Beat 2",
+      "parentId": "foreground_bokeh_group",
+      "base": {
+        "x": 77,
+        "y": 122,
+        "width": 256,
+        "height": 256,
+        "rotation": 44
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "blur": 42,
+        "borderRadius": 56
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_peach_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b2_peach_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_peach_move_k1",
+                "frame": 2,
+                "value": {
+                  "x": 30,
+                  "y": -115
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_peach_move_k2",
+                "frame": 7,
+                "value": {
+                  "x": 161,
+                  "y": -222
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_peach_move_k3",
+                "frame": 10,
+                "value": {
+                  "x": 255,
+                  "y": -360
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_peach_move",
+        "name": "Bokeh Peach Beat 2 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_peach"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 18,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_peach_out_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b2_peach_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_peach_out_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_peach_out",
+        "name": "Bokeh Peach Beat 2 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_peach"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 27,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_peach_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b2_peach_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b2_peach_rot_k1",
+                "frame": 10,
+                "value": 34
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_peach_rot",
+        "name": "Bokeh Peach Beat 2 rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_peach"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 18,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "bokeh_b3_blue_big",
+      "kind": "shape",
+      "name": "Bokeh Blue Large Beat 3",
+      "parentId": "foreground_bokeh_group",
+      "base": {
+        "x": 63,
+        "y": 623,
+        "width": 244,
+        "height": 244,
+        "rotation": 0
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        },
+        "blur": 40
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_blue_big_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_blue_big_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_big_move_k1",
+                "frame": 4,
+                "value": {
+                  "x": -94,
+                  "y": -116
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_big_move_k2",
+                "frame": 7,
+                "value": {
+                  "x": -128,
+                  "y": -213
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_big_move_k3",
+                "frame": 16,
+                "value": {
+                  "x": -144,
+                  "y": -391
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_big_move_k4",
+                "frame": 22,
+                "value": {
+                  "x": -133,
+                  "y": -489
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_big_move_k5",
+                "frame": 30,
+                "value": {
+                  "x": -75,
+                  "y": -605
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_big_move_k6",
+                "frame": 36,
+                "value": {
+                  "x": 134,
+                  "y": -663
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_big_move_k7",
+                "frame": 38,
+                "value": {
+                  "x": 291,
+                  "y": -648
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_big_move_k8",
+                "frame": 40,
+                "value": {
+                  "x": 400,
+                  "y": -590
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_blue_big_move",
+        "name": "Bokeh Blue Large Beat 3 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_blue_big"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 38,
+          "durationFrames": 41
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "bokeh_b3_peach_right",
+      "kind": "shape",
+      "name": "Bokeh Peach Right Beat 3",
+      "parentId": "foreground_bokeh_group",
+      "base": {
+        "x": 1141,
+        "y": 101,
+        "width": 268,
+        "height": 268,
+        "rotation": 166
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "blur": 44,
+        "borderRadius": 58
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_right_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_right_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_right_move_k1",
+                "frame": 3,
+                "value": {
+                  "x": -92,
+                  "y": 122
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_right_move_k2",
+                "frame": 18,
+                "value": {
+                  "x": -96,
+                  "y": 348
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_right_move_k3",
+                "frame": 26,
+                "value": {
+                  "x": -193,
+                  "y": 406
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_right_move_k4",
+                "frame": 32,
+                "value": {
+                  "x": -395,
+                  "y": 480
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_right_move_k5",
+                "frame": 36,
+                "value": {
+                  "x": -595,
+                  "y": 525
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_right_move",
+        "name": "Bokeh Peach Right Beat 3 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_right"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 42,
+          "durationFrames": 37
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_right_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_right_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_right_rot_k1",
+                "frame": 36,
+                "value": 52
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_right_rot",
+        "name": "Bokeh Peach Right Beat 3 rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_right"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 42,
+          "durationFrames": 37
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "bokeh_b3_blue_small",
+      "kind": "shape",
+      "name": "Bokeh Blue Small Beat 3",
+      "parentId": "foreground_bokeh_group",
+      "base": {
+        "x": 1075,
+        "y": -95,
+        "width": 100,
+        "height": 100,
+        "rotation": 0
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        },
+        "blur": 28
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_blue_small_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_blue_small_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_small_move_k1",
+                "frame": 3,
+                "value": {
+                  "x": 48,
+                  "y": 79
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_small_move_k2",
+                "frame": 12,
+                "value": {
+                  "x": 124,
+                  "y": 230
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_small_move_k3",
+                "frame": 18,
+                "value": {
+                  "x": 123,
+                  "y": 328
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_small_move_k4",
+                "frame": 26,
+                "value": {
+                  "x": 74,
+                  "y": 464
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_small_move_k5",
+                "frame": 31,
+                "value": {
+                  "x": -48,
+                  "y": 568
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_blue_small_move_k6",
+                "frame": 35,
+                "value": {
+                  "x": -175,
+                  "y": 685
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_blue_small_move",
+        "name": "Bokeh Blue Small Beat 3 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_blue_small"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 42,
+          "durationFrames": 36
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "bokeh_b3_peach_bl",
+      "kind": "shape",
+      "name": "Bokeh Peach Bottom-Left Beat 3",
+      "parentId": "foreground_bokeh_group",
+      "base": {
+        "x": -44,
+        "y": 543,
+        "width": 220,
+        "height": 220,
+        "rotation": 45
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "blur": 40,
+        "borderRadius": 48
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_bl_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_bl_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_bl_move_k1",
+                "frame": 6,
+                "value": {
+                  "x": -186,
+                  "y": -133
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_bl_move",
+        "name": "Bokeh Peach Bottom-Left Beat 3 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_bl"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 7
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_bl_out_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_bl_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_bl_out_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_bl_out",
+        "name": "Bokeh Peach Bottom-Left Beat 3 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_bl"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 41,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_bl_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_bl_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_bl_rot_k1",
+                "frame": 6,
+                "value": 30
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_bl_rot",
+        "name": "Bokeh Peach Bottom-Left Beat 3 rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_bl"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 7
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "bokeh_b3_tri_br",
+    "name": "Bokeh Green Tri Bottom-Right Beat 3",
+    "parentId": "foreground_bokeh_group",
+    "x": 1029,
+    "y": 507.1,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.45,
+            "color": "#C6F384"
+          },
+          {
+            "offset": 1,
+            "color": "#B3E8CF"
+          }
+        ]
+      },
+      "blur": 42
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 135,
+          "y": 0,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v1",
+          "x": 270,
+          "y": 233.83,
+          "cornerRadius": 48
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 233.83,
+          "cornerRadius": 48
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_tri_br_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_tri_br_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_tri_br_move_k1",
+                "frame": 7,
+                "value": {
+                  "x": 156,
+                  "y": 136
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_tri_br_move",
+        "name": "Bokeh Green Tri Bottom-Right Beat 3 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_tri_br"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 8
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_tri_br_out_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_tri_br_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_tri_br_out_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_tri_br_out",
+        "name": "Bokeh Green Tri Bottom-Right Beat 3 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_tri_br"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 42,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_tri_br_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_tri_br_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_tri_br_rot_k1",
+                "frame": 7,
+                "value": 30
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_tri_br_rot",
+        "name": "Bokeh Green Tri Bottom-Right Beat 3 rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_tri_br"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 8
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "bokeh_b3_peach_tl",
+      "kind": "shape",
+      "name": "Bokeh Peach Top-Left Beat 3",
+      "parentId": "foreground_bokeh_group",
+      "base": {
+        "x": 167.5,
+        "y": -20.5,
+        "width": 105,
+        "height": 105,
+        "rotation": 28
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "blur": 28,
+        "borderRadius": 24
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_tl_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_tl_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_tl_move_k1",
+                "frame": 9,
+                "value": {
+                  "x": -132,
+                  "y": -2
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_tl_move_k2",
+                "frame": 15,
+                "value": {
+                  "x": -280,
+                  "y": -17
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_tl_move",
+        "name": "Bokeh Peach Top-Left Beat 3 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_tl"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 16
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_tl_out_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_tl_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_tl_out_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_tl_out",
+        "name": "Bokeh Peach Top-Left Beat 3 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_tl"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 50,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_tl_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_tl_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_tl_rot_k1",
+                "frame": 15,
+                "value": 32
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_tl_rot",
+        "name": "Bokeh Peach Top-Left Beat 3 rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_tl"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 16
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "bokeh_b3_peach_tr",
+      "kind": "shape",
+      "name": "Bokeh Peach Top-Right Finale",
+      "parentId": "foreground_bokeh_group",
+      "base": {
+        "x": 1007.5,
+        "y": -67.5,
+        "width": 105,
+        "height": 105,
+        "rotation": 20
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "blur": 26,
+        "borderRadius": 24
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_tr_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_tr_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_tr_move_k1",
+                "frame": 3,
+                "value": {
+                  "x": -67,
+                  "y": 40
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_tr_move_k2",
+                "frame": 8,
+                "value": {
+                  "x": -240,
+                  "y": 50
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_tr_move_k3",
+                "frame": 12,
+                "value": {
+                  "x": -314,
+                  "y": 107
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_tr_move",
+        "name": "Bokeh Peach Top-Right Finale sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_tr"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 66,
+          "durationFrames": 13
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_peach_tr_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_peach_tr_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_peach_tr_rot_k1",
+                "frame": 12,
+                "value": 25
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_peach_tr_rot",
+        "name": "Bokeh Peach Top-Right Finale rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_peach_tr"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 66,
+          "durationFrames": 13
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "bokeh_b3_tri_bl",
+    "name": "Bokeh Green Tri Bottom-Left Finale",
+    "parentId": "foreground_bokeh_group",
+    "x": 50,
+    "y": 621.4,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.45,
+            "color": "#C6F384"
+          },
+          {
+            "offset": 1,
+            "color": "#B3E8CF"
+          }
+        ]
+      },
+      "blur": 36
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 160,
+          "y": 0,
+          "cornerRadius": 56
+        },
+        {
+          "id": "v1",
+          "x": 320,
+          "y": 277.13,
+          "cornerRadius": 56
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 277.13,
+          "cornerRadius": 56
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_tri_bl_move_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_tri_bl_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_tri_bl_move_k1",
+                "frame": 3,
+                "value": {
+                  "x": 45,
+                  "y": -115
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_tri_bl_move_k2",
+                "frame": 5,
+                "value": {
+                  "x": 75,
+                  "y": -205
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_tri_bl_move_k3",
+                "frame": 6,
+                "value": {
+                  "x": 111,
+                  "y": -277
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_tri_bl_move_k4",
+                "frame": 8,
+                "value": {
+                  "x": 183,
+                  "y": -445
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_tri_bl_move",
+        "name": "Bokeh Green Tri Bottom-Left Finale sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_tri_bl"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 70,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_tri_bl_rot_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "act_bokeh_b3_tri_bl_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_bokeh_b3_tri_bl_rot_k1",
+                "frame": 8,
+                "value": -25
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_tri_bl_rot",
+        "name": "Bokeh Green Tri Bottom-Left Finale rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_tri_bl"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 70,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "glean_logo_assembly",
+      "kind": "frame",
+      "name": "Glean Logo Assembly",
+      "layer": 10,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "guide_hero_circle",
+    "name": "Guide: Hero Circle Spiral",
+    "parentId": "glean_logo_assembly",
+    "x": -90,
+    "y": -229.78,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 0,
+          "y": 524.78
+        },
+        {
+          "id": "v1",
+          "x": 450,
+          "y": 19.78
+        },
+        {
+          "id": "v2",
+          "x": 930,
+          "y": 109.78
+        },
+        {
+          "id": "v3",
+          "x": 1147,
+          "y": 368.78
+        },
+        {
+          "id": "v4",
+          "x": 1129,
+          "y": 620.78
+        },
+        {
+          "id": "v5",
+          "x": 1009,
+          "y": 766.78
+        },
+        {
+          "id": "v6",
+          "x": 875,
+          "y": 814.78
+        },
+        {
+          "id": "v7",
+          "x": 767,
+          "y": 796.78
+        },
+        {
+          "id": "v8",
+          "x": 664,
+          "y": 691.78
+        },
+        {
+          "id": "v9",
+          "x": 665,
+          "y": 603.78
+        },
+        {
+          "id": "v10",
+          "x": 698,
+          "y": 566.78
+        },
+        {
+          "id": "v11",
+          "x": 724,
+          "y": 564.78
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": 67.5,
+            "y": -75.75
+          },
+          "tangentEnd": {
+            "x": -139.5,
+            "y": 62.25
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": 139.5,
+            "y": -62.25
+          },
+          "tangentEnd": {
+            "x": -104.55,
+            "y": -52.35
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": 104.55,
+            "y": 52.35
+          },
+          "tangentEnd": {
+            "x": -29.85,
+            "y": -76.65
+          }
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4",
+          "tangentStart": {
+            "x": 29.85,
+            "y": 76.65
+          },
+          "tangentEnd": {
+            "x": 20.7,
+            "y": -59.7
+          }
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5",
+          "tangentStart": {
+            "x": -20.7,
+            "y": 59.7
+          },
+          "tangentEnd": {
+            "x": 38.1,
+            "y": -29.1
+          }
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v6",
+          "tangentStart": {
+            "x": -38.1,
+            "y": 29.1
+          },
+          "tangentEnd": {
+            "x": 36.3,
+            "y": -4.5
+          }
+        },
+        {
+          "id": "s6",
+          "startVertexId": "v6",
+          "endVertexId": "v7",
+          "tangentStart": {
+            "x": -36.3,
+            "y": 4.5
+          },
+          "tangentEnd": {
+            "x": 31.65,
+            "y": 18.45
+          }
+        },
+        {
+          "id": "s7",
+          "startVertexId": "v7",
+          "endVertexId": "v8",
+          "tangentStart": {
+            "x": -31.65,
+            "y": -18.45
+          },
+          "tangentEnd": {
+            "x": 15.3,
+            "y": 28.95
+          }
+        },
+        {
+          "id": "s8",
+          "startVertexId": "v8",
+          "endVertexId": "v9",
+          "tangentStart": {
+            "x": -15.3,
+            "y": -28.95
+          },
+          "tangentEnd": {
+            "x": -5.1,
+            "y": 18.75
+          }
+        },
+        {
+          "id": "s9",
+          "startVertexId": "v9",
+          "endVertexId": "v10",
+          "tangentStart": {
+            "x": 5.1,
+            "y": -18.75
+          },
+          "tangentEnd": {
+            "x": -8.85,
+            "y": 5.85
+          }
+        },
+        {
+          "id": "s10",
+          "startVertexId": "v10",
+          "endVertexId": "v11",
+          "tangentStart": {
+            "x": 8.85,
+            "y": -5.85
+          },
+          "tangentEnd": {
+            "x": -3.9,
+            "y": 0.3
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s6",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s7",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s8",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s9",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s10",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s6",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s7",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s8",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s9",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s10",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "guide_hero_circle",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "guide_hero_square",
+    "name": "Guide: Hero Square Arc",
+    "parentId": "glean_logo_assembly",
+    "x": 251.88,
+    "y": 176.73,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 13.12,
+          "y": 568.27
+        },
+        {
+          "id": "v1",
+          "x": 0.12,
+          "y": 393.27
+        },
+        {
+          "id": "v2",
+          "x": 23.12,
+          "y": 260.27
+        },
+        {
+          "id": "v3",
+          "x": 123.12,
+          "y": 63.27
+        },
+        {
+          "id": "v4",
+          "x": 247.12,
+          "y": 3.27
+        },
+        {
+          "id": "v5",
+          "x": 329.12,
+          "y": 10.27
+        },
+        {
+          "id": "v6",
+          "x": 385.12,
+          "y": 48.27
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": -1.95,
+            "y": -26.25
+          },
+          "tangentEnd": {
+            "x": -1.5,
+            "y": 46.2
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": 1.5,
+            "y": -46.2
+          },
+          "tangentEnd": {
+            "x": -18.45,
+            "y": 49.5
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": 18.45,
+            "y": -49.5
+          },
+          "tangentEnd": {
+            "x": -33.6,
+            "y": 38.55
+          }
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4",
+          "tangentStart": {
+            "x": 33.6,
+            "y": -38.55
+          },
+          "tangentEnd": {
+            "x": -30.9,
+            "y": 7.95
+          }
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5",
+          "tangentStart": {
+            "x": 30.9,
+            "y": -7.95
+          },
+          "tangentEnd": {
+            "x": -20.7,
+            "y": -6.75
+          }
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v6",
+          "tangentStart": {
+            "x": 20.7,
+            "y": 6.75
+          },
+          "tangentEnd": {
+            "x": -8.4,
+            "y": -5.7
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "guide_hero_square",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "guide_hero_triangle",
+    "name": "Guide: Hero Triangle Arc",
+    "parentId": "glean_logo_assembly",
+    "x": 732,
+    "y": -135,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 23,
+          "y": 0
+        },
+        {
+          "id": "v1",
+          "x": 160,
+          "y": 165
+        },
+        {
+          "id": "v2",
+          "x": 202,
+          "y": 273
+        },
+        {
+          "id": "v3",
+          "x": 196,
+          "y": 380
+        },
+        {
+          "id": "v4",
+          "x": 120,
+          "y": 503
+        },
+        {
+          "id": "v5",
+          "x": 30,
+          "y": 557
+        },
+        {
+          "id": "v6",
+          "x": 0,
+          "y": 565
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": 20.55,
+            "y": 24.75
+          },
+          "tangentEnd": {
+            "x": -26.85,
+            "y": -40.95
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": 26.85,
+            "y": 40.95
+          },
+          "tangentEnd": {
+            "x": -5.4,
+            "y": -32.25
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": 5.4,
+            "y": 32.25
+          },
+          "tangentEnd": {
+            "x": 12.3,
+            "y": -34.5
+          }
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4",
+          "tangentStart": {
+            "x": -12.3,
+            "y": 34.5
+          },
+          "tangentEnd": {
+            "x": 24.9,
+            "y": -26.55
+          }
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5",
+          "tangentStart": {
+            "x": -24.9,
+            "y": 26.55
+          },
+          "tangentEnd": {
+            "x": 18,
+            "y": -9.3
+          }
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v6",
+          "tangentStart": {
+            "x": -18,
+            "y": 9.3
+          },
+          "tangentEnd": {
+            "x": 4.5,
+            "y": -1.2
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "guide_hero_triangle",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "hero_out_sq",
+      "kind": "shape",
+      "name": "Hero Square (Outside)",
+      "parentId": "glean_logo_assembly",
+      "layer": 1,
+      "range": {
+        "startFrame": 76,
+        "durationFrames": 14
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 300,
+        "rotation": -106
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 115,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#FFA385"
+            },
+            {
+              "offset": 0.55,
+              "color": "#D6C9CF"
+            },
+            {
+              "offset": 1,
+              "color": "#B8CCE5"
+            }
+          ]
+        },
+        "borderRadius": 56
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_out_sq",
+    "guidePathObjectId": "guide_hero_square",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 76,
+      "durationFrames": 14
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_out_sq",
+      "primitiveId": "fp_hero_out_sq:follow",
+      "progressFromKeyId": "fp_hero_out_sq:from",
+      "progressToKeyId": "fp_hero_out_sq:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_out_sq",
+    "primitiveId": "fp_hero_out_sq:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_out_sq:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.3,
+      "y1": 0.45,
+      "x2": 0.4,
+      "y2": 0.85
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_out_sq_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_out_sq_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.24,
+                  "scaleY": 1.24
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "sc_hero_out_sq_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.113,
+                  "scaleY": 1.113
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_out_sq_k2",
+                "frame": 13,
+                "value": {
+                  "scaleX": 0.913,
+                  "scaleY": 0.913
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_out_sq",
+        "name": "Hero Square (Outside) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_out_sq"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_out_sq_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_out_sq_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_out_sq_k1",
+                "frame": 5,
+                "value": 122,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_out_sq_k2",
+                "frame": 8,
+                "value": 171,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_out_sq_k3",
+                "frame": 13,
+                "value": 237
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_out_sq",
+        "name": "Hero Square (Outside) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_out_sq"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_out_tri",
+    "name": "Hero Triangle (Outside)",
+    "parentId": "glean_logo_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.48,
+            "color": "#C4F28B"
+          },
+          {
+            "offset": 1,
+            "color": "#B1E7D2"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 180,
+          "y": 0,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v1",
+          "x": 360,
+          "y": 311.77,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 311.77,
+          "cornerRadius": 66
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_out_tri",
+    "layer": 2
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_out_tri",
+    "range": {
+      "startFrame": 79,
+      "durationFrames": 11
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_out_tri",
+    "base": {
+      "originX": 0.5,
+      "originY": 0.62,
+      "rotation": -10
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_out_tri",
+    "guidePathObjectId": "guide_hero_triangle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 79,
+      "durationFrames": 11
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_out_tri",
+      "primitiveId": "fp_hero_out_tri:follow",
+      "progressFromKeyId": "fp_hero_out_tri:from",
+      "progressToKeyId": "fp_hero_out_tri:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_out_tri",
+    "primitiveId": "fp_hero_out_tri:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_out_tri:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.42,
+      "x2": 0.56,
+      "y2": 0.92
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_out_tri_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_out_tri_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_out_tri_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.11,
+                  "scaleY": 1.11
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_out_tri_k2",
+                "frame": 10,
+                "value": {
+                  "scaleX": 0.98,
+                  "scaleY": 0.98
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_out_tri",
+        "name": "Hero Triangle (Outside) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_out_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_out_tri_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_out_tri_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_out_tri_k1",
+                "frame": 5,
+                "value": 72,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_out_tri_k2",
+                "frame": 10,
+                "value": 105
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_out_tri",
+        "name": "Hero Triangle (Outside) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_out_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "hero_blue_circle",
+      "kind": "shape",
+      "name": "Hero Blue Circle",
+      "parentId": "glean_logo_assembly",
+      "layer": 3,
+      "range": {
+        "startFrame": 70,
+        "durationFrames": 20
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 700,
+        "height": 700
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#333CEE"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_blue_circle",
+    "guidePathObjectId": "guide_hero_circle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 70,
+      "durationFrames": 20
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_blue_circle",
+      "primitiveId": "fp_hero_blue_circle:follow",
+      "progressFromKeyId": "fp_hero_blue_circle:from",
+      "progressToKeyId": "fp_hero_blue_circle:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_blue_circle",
+    "primitiveId": "fp_hero_blue_circle:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_blue_circle:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.15,
+      "y1": 0.8,
+      "x2": 0.5,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_blue_circle_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_blue_circle_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.157,
+                  "scaleY": 1.157
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_blue_circle_k1",
+                "frame": 9,
+                "value": {
+                  "scaleX": 1.045,
+                  "scaleY": 1.045
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_blue_circle_k2",
+                "frame": 19,
+                "value": {
+                  "scaleX": 0.838,
+                  "scaleY": 0.838
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_blue_circle",
+        "name": "Hero Blue Circle zoom out",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_blue_circle"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 70,
+          "durationFrames": 20
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "hero_blue_mask_sq",
+      "kind": "shape",
+      "name": "Mask: Blue Circle -> Square",
+      "parentId": "glean_logo_assembly",
+      "layer": 4,
+      "range": {
+        "startFrame": 70,
+        "durationFrames": 20
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 700,
+        "height": 700
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#FFFFFF"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_blue_mask_sq",
+    "guidePathObjectId": "guide_hero_circle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 70,
+      "durationFrames": 20
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_blue_mask_sq",
+      "primitiveId": "fp_hero_blue_mask_sq:follow",
+      "progressFromKeyId": "fp_hero_blue_mask_sq:from",
+      "progressToKeyId": "fp_hero_blue_mask_sq:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_blue_mask_sq",
+    "primitiveId": "fp_hero_blue_mask_sq:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_blue_mask_sq:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.15,
+      "y1": 0.8,
+      "x2": 0.5,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_blue_mask_sq_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_blue_mask_sq_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.157,
+                  "scaleY": 1.157
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_blue_mask_sq_k1",
+                "frame": 9,
+                "value": {
+                  "scaleX": 1.045,
+                  "scaleY": 1.045
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_blue_mask_sq_k2",
+                "frame": 19,
+                "value": {
+                  "scaleX": 0.838,
+                  "scaleY": 0.838
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_blue_mask_sq",
+        "name": "Mask: Blue Circle -> Square zoom out",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_blue_mask_sq"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 70,
+          "durationFrames": 20
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "hero_in_sq",
+      "kind": "shape",
+      "name": "Hero Square (Inside Lime)",
+      "parentId": "glean_logo_assembly",
+      "layer": 5,
+      "range": {
+        "startFrame": 76,
+        "durationFrames": 14
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 300,
+        "rotation": -106
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 235,
+          "domain": {
+            "space": "ownerBounds",
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 1
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#DDF05B"
+            },
+            {
+              "offset": 0.65,
+              "color": "#CCEE57"
+            },
+            {
+              "offset": 1,
+              "color": "#B3E853"
+            }
+          ]
+        },
+        "borderRadius": 56
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_in_sq",
+    "guidePathObjectId": "guide_hero_square",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 76,
+      "durationFrames": 14
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_in_sq",
+      "primitiveId": "fp_hero_in_sq:follow",
+      "progressFromKeyId": "fp_hero_in_sq:from",
+      "progressToKeyId": "fp_hero_in_sq:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_in_sq",
+    "primitiveId": "fp_hero_in_sq:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_in_sq:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.3,
+      "y1": 0.45,
+      "x2": 0.4,
+      "y2": 0.85
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_in_sq_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_in_sq_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.24,
+                  "scaleY": 1.24
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "sc_hero_in_sq_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.113,
+                  "scaleY": 1.113
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_in_sq_k2",
+                "frame": 13,
+                "value": {
+                  "scaleX": 0.913,
+                  "scaleY": 0.913
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_in_sq",
+        "name": "Hero Square (Inside Lime) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_in_sq"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_in_sq_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_in_sq_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_in_sq_k1",
+                "frame": 5,
+                "value": 122,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_in_sq_k2",
+                "frame": 8,
+                "value": 171,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_in_sq_k3",
+                "frame": 13,
+                "value": 237
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_in_sq",
+        "name": "Hero Square (Inside Lime) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_in_sq"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "binding": {
+      "id": "mb_hero_in_sq",
+      "name": "Clip Lime Square to Blue Circle",
+      "sourceObjectId": "hero_blue_mask_sq",
+      "targetObjectId": "hero_in_sq",
+      "mode": "vector",
+      "inverted": false
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "hero_blue_mask_tri",
+      "kind": "shape",
+      "name": "Mask: Blue Circle -> Triangle",
+      "parentId": "glean_logo_assembly",
+      "layer": 6,
+      "range": {
+        "startFrame": 70,
+        "durationFrames": 20
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 700,
+        "height": 700
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#FFFFFF"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_blue_mask_tri",
+    "guidePathObjectId": "guide_hero_circle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 70,
+      "durationFrames": 20
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_blue_mask_tri",
+      "primitiveId": "fp_hero_blue_mask_tri:follow",
+      "progressFromKeyId": "fp_hero_blue_mask_tri:from",
+      "progressToKeyId": "fp_hero_blue_mask_tri:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_blue_mask_tri",
+    "primitiveId": "fp_hero_blue_mask_tri:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_blue_mask_tri:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.15,
+      "y1": 0.8,
+      "x2": 0.5,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_blue_mask_tri_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_blue_mask_tri_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.157,
+                  "scaleY": 1.157
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_blue_mask_tri_k1",
+                "frame": 9,
+                "value": {
+                  "scaleX": 1.045,
+                  "scaleY": 1.045
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_blue_mask_tri_k2",
+                "frame": 19,
+                "value": {
+                  "scaleX": 0.838,
+                  "scaleY": 0.838
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_blue_mask_tri",
+        "name": "Mask: Blue Circle -> Triangle zoom out",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_blue_mask_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 70,
+          "durationFrames": 20
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_in_tri",
+    "name": "Hero Triangle (Inside Green)",
+    "parentId": "glean_logo_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "linear",
+        "angle": 265,
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0,
+          "y": 0,
+          "width": 1,
+          "height": 1
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#BBE954"
+          },
+          {
+            "offset": 0.5,
+            "color": "#8EE151"
+          },
+          {
+            "offset": 1,
+            "color": "#62D34D"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 180,
+          "y": 0,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v1",
+          "x": 360,
+          "y": 311.77,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 311.77,
+          "cornerRadius": 66
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_in_tri",
+    "layer": 7
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_in_tri",
+    "range": {
+      "startFrame": 79,
+      "durationFrames": 11
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_in_tri",
+    "base": {
+      "originX": 0.5,
+      "originY": 0.62,
+      "rotation": -10
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_in_tri",
+    "guidePathObjectId": "guide_hero_triangle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 79,
+      "durationFrames": 11
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_in_tri",
+      "primitiveId": "fp_hero_in_tri:follow",
+      "progressFromKeyId": "fp_hero_in_tri:from",
+      "progressToKeyId": "fp_hero_in_tri:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_in_tri",
+    "primitiveId": "fp_hero_in_tri:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_in_tri:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.42,
+      "x2": 0.56,
+      "y2": 0.92
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_in_tri_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_in_tri_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_in_tri_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.11,
+                  "scaleY": 1.11
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_in_tri_k2",
+                "frame": 10,
+                "value": {
+                  "scaleX": 0.98,
+                  "scaleY": 0.98
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_in_tri",
+        "name": "Hero Triangle (Inside Green) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_in_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_in_tri_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_in_tri_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_in_tri_k1",
+                "frame": 5,
+                "value": 72,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_in_tri_k2",
+                "frame": 10,
+                "value": 105
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_in_tri",
+        "name": "Hero Triangle (Inside Green) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_in_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "binding": {
+      "id": "mb_hero_in_tri",
+      "name": "Clip Green Triangle to Blue Circle",
+      "sourceObjectId": "hero_blue_mask_tri",
+      "targetObjectId": "hero_in_tri",
+      "mode": "vector",
+      "inverted": false
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "object": {
+      "id": "hero_mask_sq_xor",
+      "kind": "shape",
+      "name": "Mask: Square -> XOR Overlap",
+      "parentId": "glean_logo_assembly",
+      "layer": 8,
+      "range": {
+        "startFrame": 76,
+        "durationFrames": 14
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 300,
+        "rotation": -106
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#FFFFFF"
+        },
+        "borderRadius": 56
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_mask_sq_xor",
+    "guidePathObjectId": "guide_hero_square",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 76,
+      "durationFrames": 14
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_mask_sq_xor",
+      "primitiveId": "fp_hero_mask_sq_xor:follow",
+      "progressFromKeyId": "fp_hero_mask_sq_xor:from",
+      "progressToKeyId": "fp_hero_mask_sq_xor:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_mask_sq_xor",
+    "primitiveId": "fp_hero_mask_sq_xor:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_mask_sq_xor:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.3,
+      "y1": 0.45,
+      "x2": 0.4,
+      "y2": 0.85
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_mask_sq_xor_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_mask_sq_xor_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.24,
+                  "scaleY": 1.24
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "sc_hero_mask_sq_xor_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.113,
+                  "scaleY": 1.113
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_mask_sq_xor_k2",
+                "frame": 13,
+                "value": {
+                  "scaleX": 0.913,
+                  "scaleY": 0.913
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_mask_sq_xor",
+        "name": "Mask: Square -> XOR Overlap scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_mask_sq_xor"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_mask_sq_xor_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_mask_sq_xor_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_mask_sq_xor_k1",
+                "frame": 5,
+                "value": 122,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_mask_sq_xor_k2",
+                "frame": 8,
+                "value": 171,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_mask_sq_xor_k3",
+                "frame": 13,
+                "value": 237
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_mask_sq_xor",
+        "name": "Mask: Square -> XOR Overlap spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_mask_sq_xor"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_xor_tri",
+    "name": "Hero XOR Blue Overlap",
+    "parentId": "glean_logo_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "solid",
+        "color": "#333CEE"
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 180,
+          "y": 0,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v1",
+          "x": 360,
+          "y": 311.77,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 311.77,
+          "cornerRadius": 66
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_xor_tri",
+    "layer": 9
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_xor_tri",
+    "range": {
+      "startFrame": 79,
+      "durationFrames": 11
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "objectId": "hero_xor_tri",
+    "base": {
+      "originX": 0.5,
+      "originY": 0.62,
+      "rotation": -10
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "followerObjectId": "hero_xor_tri",
+    "guidePathObjectId": "guide_hero_triangle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 79,
+      "durationFrames": 11
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_xor_tri",
+      "primitiveId": "fp_hero_xor_tri:follow",
+      "progressFromKeyId": "fp_hero_xor_tri:from",
+      "progressToKeyId": "fp_hero_xor_tri:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "motionBlockId": "fp_hero_xor_tri",
+    "primitiveId": "fp_hero_xor_tri:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_xor_tri:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.42,
+      "x2": 0.56,
+      "y2": 0.92
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_xor_tri_p",
+          "kind": "property.writeGroup",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_xor_tri_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_xor_tri_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.11,
+                  "scaleY": 1.11
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_xor_tri_k2",
+                "frame": 10,
+                "value": {
+                  "scaleX": 0.98,
+                  "scaleY": 0.98
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_xor_tri",
+        "name": "Hero XOR Blue Overlap scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_xor_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_xor_tri_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_xor_tri_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_xor_tri_k1",
+                "frame": 5,
+                "value": 72,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_xor_tri_k2",
+                "frame": 10,
+                "value": 105
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_xor_tri",
+        "name": "Hero XOR Blue Overlap spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_xor_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "proj_b311c192-f801-4d32-af87-1b029d6e8aa1__scene-1",
+    "binding": {
+      "id": "mb_hero_xor",
+      "name": "XOR Cutout (Square intersect Triangle)",
+      "sourceObjectId": "hero_mask_sq_xor",
+      "targetObjectId": "hero_xor_tri",
+      "mode": "vector",
+      "inverted": false
+    }
+  }
+]

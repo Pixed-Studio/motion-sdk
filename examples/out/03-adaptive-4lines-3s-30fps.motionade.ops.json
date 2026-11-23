@@ -1,0 +1,6197 @@
+[
+  {
+    "kind": "updateSceneName",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "name": "Orchestrate autonomous enterprise workflows -> Emblem"
+  },
+  {
+    "kind": "updateSceneDuration",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "durationFrames": 90
+  },
+  {
+    "kind": "setSceneBackgroundFill",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "background": {
+      "kind": "solid",
+      "color": "#F7F2EB"
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "intro_world",
+      "kind": "frame",
+      "name": "Intro World",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "central_lime_ribbon",
+      "kind": "shape",
+      "name": "Central Chevron Ribbon",
+      "parentId": "intro_world",
+      "layer": 1,
+      "base": {
+        "x": 460,
+        "y": 20,
+        "width": 360,
+        "height": 680
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#00000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addShader",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "shader": {
+      "kind": "custom",
+      "definitionId": "glean_chevron_ribbon_v3",
+      "version": 1,
+      "name": "Spinning Chevron Ribbon",
+      "description": "3D-projected rotating square-pillar chevron hourglass ribbon with vertical fade",
+      "cost": "light",
+      "sksl": "uniform float4 ms_contentRect;\nuniform float ms_dpr;\nuniform float p_spinAngle;\nuniform float p_pillarSize;\nuniform float p_baseHalfGap;\nuniform float p_chevronSlope;\nuniform float p_fadeHeight;\nuniform float4 p_limeColor;\n\nfloat2 frontProfile(float x, float S, float theta) {\n  float R = S * 0.70710678;\n  float a0 = theta + 0.78539816;\n  float a1 = theta + 2.35619449;\n  float a2 = theta + 3.92699082;\n  float a3 = theta + 5.49778714;\n  float2 v0 = float2(R * sin(a0), R * cos(a0));\n  float2 v1 = float2(R * sin(a1), R * cos(a1));\n  float2 v2 = float2(R * sin(a2), R * cos(a2));\n  float2 v3 = float2(R * sin(a3), R * cos(a3));\n\n  float xMin = min(min(v0.x, v1.x), min(v2.x, v3.x));\n  float xMax = max(max(v0.x, v1.x), max(v2.x, v3.x));\n  float insideX = min(x - xMin, xMax - x);\n\n  float zMax = -1e6;\n  float xc = clamp(x, xMin, xMax);\n  float lo0 = min(v0.x, v1.x); float hi0 = max(v0.x, v1.x);\n  if (hi0 - lo0 > 0.001 && xc >= lo0 - 0.001 && xc <= hi0 + 0.001) {\n    float t = clamp((xc - v0.x) / (v1.x - v0.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v0.y, v1.y, t));\n  }\n  float lo1 = min(v1.x, v2.x); float hi1 = max(v1.x, v2.x);\n  if (hi1 - lo1 > 0.001 && xc >= lo1 - 0.001 && xc <= hi1 + 0.001) {\n    float t = clamp((xc - v1.x) / (v2.x - v1.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v1.y, v2.y, t));\n  }\n  float lo2 = min(v2.x, v3.x); float hi2 = max(v2.x, v3.x);\n  if (hi2 - lo2 > 0.001 && xc >= lo2 - 0.001 && xc <= hi2 + 0.001) {\n    float t = clamp((xc - v2.x) / (v3.x - v2.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v2.y, v3.y, t));\n  }\n  float lo3 = min(v3.x, v0.x); float hi3 = max(v3.x, v0.x);\n  if (hi3 - lo3 > 0.001 && xc >= lo3 - 0.001 && xc <= hi3 + 0.001) {\n    float t = clamp((xc - v3.x) / (v0.x - v3.x), 0.0, 1.0);\n    zMax = max(zMax, mix(v3.y, v0.y, t));\n  }\n  return float2(zMax, insideX);\n}\n\nhalf4 main(float2 fragCoord) {\n  float dpr = max(ms_dpr, 0.001);\n  float2 center = ms_contentRect.xy + 0.5 * ms_contentRect.zw;\n  float2 p = (fragCoord - center) / dpr;\n\n  float theta = p_spinAngle * 0.0174532925;\n  float2 prof = frontProfile(p.x, p_pillarSize, theta);\n  float zFront = prof.x;\n  float insideX = prof.y;\n\n  float aaX = smoothstep(-0.75, 0.75, insideX);\n  if (aaX <= 0.0001) return half4(0.0);\n\n  float innerHalf = max(3.0, p_baseHalfGap - p_chevronSlope * zFront);\n  float ay = abs(p.y);\n  float d = ay - innerHalf;\n\n  float aaInner = smoothstep(-0.75, 0.75, d);\n  float u = clamp(max(d, 0.0) / max(p_fadeHeight, 1.0), 0.0, 1.0);\n  float fadeAlpha = 1.0 - smoothstep(0.0, 1.0, pow(u, 1.2));\n\n  float a = aaX * aaInner * fadeAlpha * p_limeColor.a;\n  float3 rgb = p_limeColor.a > 0.001 ? (p_limeColor.rgb / p_limeColor.a) : float3(0.0);\n  return half4(half3(rgb * a), half(a));\n}",
+      "properties": [
+        {
+          "id": "spinAngle",
+          "name": "Spin Angle",
+          "label": "Spin Angle",
+          "type": "number",
+          "uniformName": "p_spinAngle",
+          "defaultValue": {
+            "kind": "number",
+            "value": -222
+          },
+          "control": {
+            "kind": "slider",
+            "min": -720,
+            "max": 360,
+            "step": 1,
+            "unit": "deg"
+          },
+          "animation": "continuous",
+          "order": 0
+        },
+        {
+          "id": "pillarSize",
+          "name": "Pillar Width",
+          "label": "Pillar Width",
+          "type": "number",
+          "uniformName": "p_pillarSize",
+          "defaultValue": {
+            "kind": "number",
+            "value": 161
+          },
+          "control": {
+            "kind": "slider",
+            "min": 40,
+            "max": 320,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 1
+        },
+        {
+          "id": "baseHalfGap",
+          "name": "Outer Half Gap",
+          "label": "Outer Half Gap",
+          "type": "number",
+          "uniformName": "p_baseHalfGap",
+          "defaultValue": {
+            "kind": "number",
+            "value": 112
+          },
+          "control": {
+            "kind": "slider",
+            "min": 10,
+            "max": 240,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 2
+        },
+        {
+          "id": "chevronSlope",
+          "name": "Chevron Slope",
+          "label": "Chevron Slope",
+          "type": "number",
+          "uniformName": "p_chevronSlope",
+          "defaultValue": {
+            "kind": "number",
+            "value": 0.86
+          },
+          "control": {
+            "kind": "slider",
+            "min": 0,
+            "max": 2,
+            "step": 0.01
+          },
+          "animation": "continuous",
+          "order": 3
+        },
+        {
+          "id": "fadeHeight",
+          "name": "Fade Height",
+          "label": "Fade Height",
+          "type": "number",
+          "uniformName": "p_fadeHeight",
+          "defaultValue": {
+            "kind": "number",
+            "value": 290
+          },
+          "control": {
+            "kind": "slider",
+            "min": 40,
+            "max": 520,
+            "step": 1,
+            "unit": "px"
+          },
+          "animation": "continuous",
+          "order": 4
+        },
+        {
+          "id": "limeColor",
+          "name": "Ribbon Color",
+          "label": "Ribbon Color",
+          "type": "color",
+          "uniformName": "p_limeColor",
+          "defaultValue": {
+            "kind": "color",
+            "value": "#DCFC5E"
+          },
+          "control": {
+            "kind": "color"
+          },
+          "animation": "continuous",
+          "order": 5
+        }
+      ]
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "headline_group",
+      "kind": "frame",
+      "name": "Headline Typography",
+      "parentId": "intro_world",
+      "layer": 3,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "txt_orchestrate",
+      "kind": "text",
+      "name": "Orchestrate",
+      "parentId": "headline_group",
+      "layer": 1,
+      "base": {
+        "x": 640,
+        "y": 192
+      },
+      "content": {
+        "design": {
+          "text": "Orchestrate"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 76,
+        "fontWeight": 420,
+        "letterSpacing": -1.6,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "txt_autonomous",
+      "kind": "text",
+      "name": "autonomous",
+      "parentId": "headline_group",
+      "layer": 2,
+      "base": {
+        "x": 640,
+        "y": 270
+      },
+      "content": {
+        "design": {
+          "text": "autonomous"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 76,
+        "fontWeight": 420,
+        "letterSpacing": -1.6,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "txt_enterprise",
+      "kind": "text",
+      "name": "enterprise",
+      "parentId": "headline_group",
+      "layer": 3,
+      "base": {
+        "x": 640,
+        "y": 348
+      },
+      "content": {
+        "design": {
+          "text": "enterprise"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 76,
+        "fontWeight": 420,
+        "letterSpacing": -1.6,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "txt_workflows",
+      "kind": "text",
+      "name": "workflows",
+      "parentId": "headline_group",
+      "layer": 4,
+      "base": {
+        "x": 640,
+        "y": 426
+      },
+      "content": {
+        "design": {
+          "text": "workflows"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 76,
+        "fontWeight": 420,
+        "letterSpacing": -1.6,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "midground_orbit_ring",
+      "kind": "frame",
+      "name": "Midground Orbit Ring",
+      "parentId": "intro_world",
+      "layer": 2,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "mid_blue_big",
+      "kind": "shape",
+      "name": "Primary Orb Large",
+      "parentId": "midground_orbit_ring",
+      "layer": 7,
+      "base": {
+        "x": 791.3,
+        "y": 356.3,
+        "width": 144,
+        "height": 144
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "mid_tri_big",
+    "name": "Fresh Triangle Large",
+    "parentId": "midground_orbit_ring",
+    "x": 646.6,
+    "y": 50.8,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.45,
+            "color": "#C6F384"
+          },
+          {
+            "offset": 1,
+            "color": "#B3E8CF"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 98,
+          "y": 0,
+          "cornerRadius": 34
+        },
+        {
+          "id": "v1",
+          "x": 196,
+          "y": 169.74,
+          "cornerRadius": 34
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 169.74,
+          "cornerRadius": 34
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "mid_tri_big",
+    "layer": 8
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "mid_tri_big",
+    "base": {
+      "rotation": 52
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "mid_tri_small",
+    "name": "Fresh Triangle Small",
+    "parentId": "midground_orbit_ring",
+    "x": 574.3,
+    "y": 539.1,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.45,
+            "color": "#C6F384"
+          },
+          {
+            "offset": 1,
+            "color": "#B3E8CF"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 43,
+          "y": 0,
+          "cornerRadius": 15
+        },
+        {
+          "id": "v1",
+          "x": 86,
+          "y": 74.48,
+          "cornerRadius": 15
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 74.48,
+          "cornerRadius": 15
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "mid_tri_small",
+    "layer": 9
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "mid_tri_small",
+    "base": {
+      "rotation": -35
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "mid_blue_small",
+      "kind": "shape",
+      "name": "Primary Orb Small",
+      "parentId": "midground_orbit_ring",
+      "layer": 5,
+      "range": {
+        "startFrame": 14,
+        "durationFrames": 66
+      },
+      "base": {
+        "x": 394.7,
+        "y": 242.6,
+        "width": 46,
+        "height": 46
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "mid_warm_tiny",
+      "kind": "shape",
+      "name": "Warm Square Tiny",
+      "parentId": "midground_orbit_ring",
+      "layer": 4,
+      "range": {
+        "startFrame": 14,
+        "durationFrames": 66
+      },
+      "base": {
+        "x": 417.2,
+        "y": 411.2,
+        "width": 38,
+        "height": 38,
+        "rotation": 18
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "borderRadius": 8
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "mid_warm_big",
+      "kind": "shape",
+      "name": "Warm Square Large",
+      "parentId": "midground_orbit_ring",
+      "layer": 6,
+      "range": {
+        "startFrame": 27,
+        "durationFrames": 53
+      },
+      "base": {
+        "x": 441.5,
+        "y": 51.8,
+        "width": 124,
+        "height": 124,
+        "rotation": 24
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "borderRadius": 27
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "mid_warm_med",
+      "kind": "shape",
+      "name": "Warm Square Medium",
+      "parentId": "midground_orbit_ring",
+      "layer": 5,
+      "range": {
+        "startFrame": 27,
+        "durationFrames": 53
+      },
+      "base": {
+        "x": 759.7,
+        "y": 546.4,
+        "width": 72,
+        "height": 72,
+        "rotation": 36
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "borderRadius": 15
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "foreground_bokeh_group",
+      "kind": "frame",
+      "name": "Foreground Bokeh Depth",
+      "parentId": "intro_world",
+      "layer": 4,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "bokeh_b2_orb",
+      "kind": "shape",
+      "name": "Bokeh Orb Beat 2",
+      "parentId": "foreground_bokeh_group",
+      "layer": 10,
+      "range": {
+        "startFrame": 14,
+        "durationFrames": 11
+      },
+      "base": {
+        "x": 1030,
+        "y": 284,
+        "width": 244,
+        "height": 244
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        },
+        "blur": 40
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "bokeh_b2_warm",
+      "kind": "shape",
+      "name": "Bokeh Warm Beat 2",
+      "parentId": "foreground_bokeh_group",
+      "layer": 11,
+      "range": {
+        "startFrame": 14,
+        "durationFrames": 11
+      },
+      "base": {
+        "x": 77,
+        "y": 122,
+        "width": 256,
+        "height": 256,
+        "rotation": 44
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "borderRadius": 56,
+        "blur": 42
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "bokeh_b3_orb_big",
+      "kind": "shape",
+      "name": "Bokeh Orb Sweep Left",
+      "parentId": "foreground_bokeh_group",
+      "layer": 12,
+      "range": {
+        "startFrame": 29,
+        "durationFrames": 41
+      },
+      "base": {
+        "x": 63,
+        "y": 623,
+        "width": 244,
+        "height": 244
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "radial",
+          "radialShape": "circle",
+          "domain": {
+            "space": "ownerBounds",
+            "x": -0.14,
+            "y": -0.22,
+            "width": 0.92,
+            "height": 0.92
+          },
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#435CFF"
+            },
+            {
+              "offset": 0.55,
+              "color": "#2A37E6"
+            },
+            {
+              "offset": 1,
+              "color": "#1C24CC"
+            }
+          ]
+        },
+        "blur": 40
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "bokeh_b3_warm_right",
+      "kind": "shape",
+      "name": "Bokeh Warm Sweep Right",
+      "parentId": "foreground_bokeh_group",
+      "layer": 13,
+      "range": {
+        "startFrame": 33,
+        "durationFrames": 37
+      },
+      "base": {
+        "x": 1141,
+        "y": 101,
+        "width": 268,
+        "height": 268,
+        "rotation": 166
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 35,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#B7D3EB"
+            },
+            {
+              "offset": 0.48,
+              "color": "#DEC8C4"
+            },
+            {
+              "offset": 1,
+              "color": "#FFA488"
+            }
+          ]
+        },
+        "borderRadius": 59,
+        "blur": 44
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "bokeh_pre_tri",
+    "name": "Bokeh Fresh Finale",
+    "parentId": "foreground_bokeh_group",
+    "x": 50,
+    "y": 621,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.45,
+            "color": "#C6F384"
+          },
+          {
+            "offset": 1,
+            "color": "#B3E8CF"
+          }
+        ]
+      },
+      "blur": 36
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 160,
+          "y": 0,
+          "cornerRadius": 56
+        },
+        {
+          "id": "v1",
+          "x": 320,
+          "y": 277.13,
+          "cornerRadius": 56
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 277.13,
+          "cornerRadius": 56
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "bokeh_pre_tri",
+    "layer": 14
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "bokeh_pre_tri",
+    "range": {
+      "startFrame": 67,
+      "durationFrames": 9
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "emblem_assembly",
+      "kind": "frame",
+      "name": "Emblem Assembly",
+      "layer": 10,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_host_circle",
+    "name": "Guide: Hero Brand Circle",
+    "parentId": "emblem_assembly",
+    "x": -90,
+    "y": -210,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 0,
+          "y": 505
+        },
+        {
+          "id": "v1",
+          "x": 450,
+          "y": 0
+        },
+        {
+          "id": "v2",
+          "x": 930,
+          "y": 90
+        },
+        {
+          "id": "v3",
+          "x": 1147,
+          "y": 349
+        },
+        {
+          "id": "v4",
+          "x": 1129,
+          "y": 601
+        },
+        {
+          "id": "v5",
+          "x": 1009,
+          "y": 747
+        },
+        {
+          "id": "v6",
+          "x": 875,
+          "y": 795
+        },
+        {
+          "id": "v7",
+          "x": 767,
+          "y": 777
+        },
+        {
+          "id": "v8",
+          "x": 664,
+          "y": 672
+        },
+        {
+          "id": "v9",
+          "x": 665,
+          "y": 584
+        },
+        {
+          "id": "v10",
+          "x": 698,
+          "y": 547
+        },
+        {
+          "id": "v11",
+          "x": 724,
+          "y": 545
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": 135,
+            "y": -151.5
+          },
+          "tangentEnd": {
+            "x": -139.5,
+            "y": 62.25
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": 139.5,
+            "y": -62.25
+          },
+          "tangentEnd": {
+            "x": -104.55,
+            "y": -52.35
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": 104.55,
+            "y": 52.35
+          },
+          "tangentEnd": {
+            "x": -29.85,
+            "y": -76.65
+          }
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4",
+          "tangentStart": {
+            "x": 29.85,
+            "y": 76.65
+          },
+          "tangentEnd": {
+            "x": 20.7,
+            "y": -59.7
+          }
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5",
+          "tangentStart": {
+            "x": -20.7,
+            "y": 59.7
+          },
+          "tangentEnd": {
+            "x": 38.1,
+            "y": -29.1
+          }
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v6",
+          "tangentStart": {
+            "x": -38.1,
+            "y": 29.1
+          },
+          "tangentEnd": {
+            "x": 36.3,
+            "y": -4.5
+          }
+        },
+        {
+          "id": "s6",
+          "startVertexId": "v6",
+          "endVertexId": "v7",
+          "tangentStart": {
+            "x": -36.3,
+            "y": 4.5
+          },
+          "tangentEnd": {
+            "x": 31.65,
+            "y": 18.45
+          }
+        },
+        {
+          "id": "s7",
+          "startVertexId": "v7",
+          "endVertexId": "v8",
+          "tangentStart": {
+            "x": -31.65,
+            "y": -18.45
+          },
+          "tangentEnd": {
+            "x": 15.3,
+            "y": 28.95
+          }
+        },
+        {
+          "id": "s8",
+          "startVertexId": "v8",
+          "endVertexId": "v9",
+          "tangentStart": {
+            "x": -15.3,
+            "y": -28.95
+          },
+          "tangentEnd": {
+            "x": -5.1,
+            "y": 18.75
+          }
+        },
+        {
+          "id": "s9",
+          "startVertexId": "v9",
+          "endVertexId": "v10",
+          "tangentStart": {
+            "x": 5.1,
+            "y": -18.75
+          },
+          "tangentEnd": {
+            "x": -8.85,
+            "y": 5.85
+          }
+        },
+        {
+          "id": "s10",
+          "startVertexId": "v10",
+          "endVertexId": "v11",
+          "tangentStart": {
+            "x": 8.85,
+            "y": -5.85
+          },
+          "tangentEnd": {
+            "x": -7.8,
+            "y": 0.6
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s6",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s7",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s8",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s9",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s10",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s6",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s7",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s8",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s9",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s10",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_host_circle",
+    "layer": 30
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_host_circle",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_sq",
+    "name": "Guide: Hero Square",
+    "parentId": "emblem_assembly",
+    "x": 252,
+    "y": 180,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 13,
+          "y": 565
+        },
+        {
+          "id": "v1",
+          "x": 0,
+          "y": 390
+        },
+        {
+          "id": "v2",
+          "x": 23,
+          "y": 257
+        },
+        {
+          "id": "v3",
+          "x": 123,
+          "y": 60
+        },
+        {
+          "id": "v4",
+          "x": 247,
+          "y": 0
+        },
+        {
+          "id": "v5",
+          "x": 329,
+          "y": 7
+        },
+        {
+          "id": "v6",
+          "x": 385,
+          "y": 45
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": -3.9,
+            "y": -52.5
+          },
+          "tangentEnd": {
+            "x": -1.5,
+            "y": 46.2
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": 1.5,
+            "y": -46.2
+          },
+          "tangentEnd": {
+            "x": -18.45,
+            "y": 49.5
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": 18.45,
+            "y": -49.5
+          },
+          "tangentEnd": {
+            "x": -33.6,
+            "y": 38.55
+          }
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4",
+          "tangentStart": {
+            "x": 33.6,
+            "y": -38.55
+          },
+          "tangentEnd": {
+            "x": -30.9,
+            "y": 7.95
+          }
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5",
+          "tangentStart": {
+            "x": 30.9,
+            "y": -7.95
+          },
+          "tangentEnd": {
+            "x": -20.7,
+            "y": -6.75
+          }
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v6",
+          "tangentStart": {
+            "x": 20.7,
+            "y": 6.75
+          },
+          "tangentEnd": {
+            "x": -16.8,
+            "y": -11.4
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_sq",
+    "layer": 31
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_sq",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_tri",
+    "name": "Guide: Hero Triangle",
+    "parentId": "emblem_assembly",
+    "x": 732,
+    "y": -135,
+    "style": {
+      "stroke": "#00000000",
+      "strokeWidth": 0
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 23,
+          "y": 0
+        },
+        {
+          "id": "v1",
+          "x": 160,
+          "y": 165
+        },
+        {
+          "id": "v2",
+          "x": 202,
+          "y": 273
+        },
+        {
+          "id": "v3",
+          "x": 196,
+          "y": 380
+        },
+        {
+          "id": "v4",
+          "x": 120,
+          "y": 503
+        },
+        {
+          "id": "v5",
+          "x": 30,
+          "y": 557
+        },
+        {
+          "id": "v6",
+          "x": 0,
+          "y": 565
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1",
+          "tangentStart": {
+            "x": 41.1,
+            "y": 49.5
+          },
+          "tangentEnd": {
+            "x": -26.85,
+            "y": -40.95
+          }
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2",
+          "tangentStart": {
+            "x": 26.85,
+            "y": 40.95
+          },
+          "tangentEnd": {
+            "x": -5.4,
+            "y": -32.25
+          }
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v3",
+          "tangentStart": {
+            "x": 5.4,
+            "y": 32.25
+          },
+          "tangentEnd": {
+            "x": 12.3,
+            "y": -34.5
+          }
+        },
+        {
+          "id": "s3",
+          "startVertexId": "v3",
+          "endVertexId": "v4",
+          "tangentStart": {
+            "x": -12.3,
+            "y": 34.5
+          },
+          "tangentEnd": {
+            "x": 24.9,
+            "y": -26.55
+          }
+        },
+        {
+          "id": "s4",
+          "startVertexId": "v4",
+          "endVertexId": "v5",
+          "tangentStart": {
+            "x": -24.9,
+            "y": 26.55
+          },
+          "tangentEnd": {
+            "x": 18,
+            "y": -9.3
+          }
+        },
+        {
+          "id": "s5",
+          "startVertexId": "v5",
+          "endVertexId": "v6",
+          "tangentStart": {
+            "x": -18,
+            "y": 9.3
+          },
+          "tangentEnd": {
+            "x": 9,
+            "y": -2.4
+          }
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": false,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Path",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s3",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s4",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s5",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_tri",
+    "layer": 32
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "guide_hero_tri",
+    "base": {
+      "opacity": 0
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "hero_sq_out",
+      "kind": "shape",
+      "name": "Hero Square (Outside)",
+      "parentId": "emblem_assembly",
+      "layer": 1,
+      "range": {
+        "startFrame": 76,
+        "durationFrames": 14
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 300,
+        "rotation": -106
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 115,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#FFA385"
+            },
+            {
+              "offset": 0.55,
+              "color": "#D6C9CF"
+            },
+            {
+              "offset": 1,
+              "color": "#B8CCE5"
+            }
+          ]
+        },
+        "borderRadius": 56
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "hero_tri_out",
+    "name": "Hero Triangle (Outside)",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "radial",
+        "radialShape": "circle",
+        "domain": {
+          "space": "ownerBounds",
+          "x": 0.14,
+          "y": 0.22,
+          "width": 0.72,
+          "height": 0.72
+        },
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#DBFD49"
+          },
+          {
+            "offset": 0.45,
+            "color": "#C6F384"
+          },
+          {
+            "offset": 1,
+            "color": "#B3E8CF"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 180,
+          "y": 0,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v1",
+          "x": 360,
+          "y": 311.77,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 311.77,
+          "cornerRadius": 66
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "hero_tri_out",
+    "layer": 2
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "hero_tri_out",
+    "range": {
+      "startFrame": 79,
+      "durationFrames": 11
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "hero_tri_out",
+    "base": {
+      "rotation": -10,
+      "originX": 0.5,
+      "originY": 0.62
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "hero_host_circle",
+      "kind": "shape",
+      "name": "Hero Brand Circle",
+      "parentId": "emblem_assembly",
+      "layer": 3,
+      "range": {
+        "startFrame": 70,
+        "durationFrames": 20
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 700,
+        "height": 700
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#333CEE"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "mask_host_for_hero_sq",
+      "kind": "shape",
+      "name": "Mask: Hero Brand Circle -> Hero Square",
+      "parentId": "emblem_assembly",
+      "layer": 4,
+      "range": {
+        "startFrame": 70,
+        "durationFrames": 20
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 700,
+        "height": 700
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#FFFFFF"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "hero_sq_in",
+      "kind": "shape",
+      "name": "Hero Square (Inside Host)",
+      "parentId": "emblem_assembly",
+      "layer": 5,
+      "range": {
+        "startFrame": 76,
+        "durationFrames": 14
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 300,
+        "rotation": -106
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "gradient",
+          "type": "linear",
+          "angle": 235,
+          "stops": [
+            {
+              "offset": 0,
+              "color": "#DDF05B"
+            },
+            {
+              "offset": 0.65,
+              "color": "#CCEE57"
+            },
+            {
+              "offset": 1,
+              "color": "#B3E853"
+            }
+          ]
+        },
+        "borderRadius": 56
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "mask_host_for_hero_tri",
+      "kind": "shape",
+      "name": "Mask: Hero Brand Circle -> Hero Triangle",
+      "parentId": "emblem_assembly",
+      "layer": 6,
+      "range": {
+        "startFrame": 70,
+        "durationFrames": 20
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 700,
+        "height": 700
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#FFFFFF"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "hero_tri_in",
+    "name": "Hero Triangle (Inside Host)",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "gradient",
+        "type": "linear",
+        "angle": 265,
+        "stops": [
+          {
+            "offset": 0,
+            "color": "#BBE954"
+          },
+          {
+            "offset": 0.5,
+            "color": "#8EE151"
+          },
+          {
+            "offset": 1,
+            "color": "#62D34D"
+          }
+        ]
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 180,
+          "y": 0,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v1",
+          "x": 360,
+          "y": 311.77,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 311.77,
+          "cornerRadius": 66
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "hero_tri_in",
+    "layer": 7
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "hero_tri_in",
+    "range": {
+      "startFrame": 79,
+      "durationFrames": 11
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "hero_tri_in",
+    "base": {
+      "rotation": -10,
+      "originX": 0.5,
+      "originY": 0.62
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "object": {
+      "id": "mask_hero_xor_src",
+      "kind": "shape",
+      "name": "Mask: Hero Square -> XOR Cutout (Square intersect Triangle)",
+      "parentId": "emblem_assembly",
+      "layer": 8,
+      "range": {
+        "startFrame": 76,
+        "durationFrames": 14
+      },
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 300,
+        "height": 300,
+        "rotation": -106
+      },
+      "content": {
+        "shape": "rectangle"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#FFFFFF"
+        },
+        "borderRadius": 56
+      }
+    }
+  },
+  {
+    "kind": "addVectorNetwork",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "overlap_hero_xor_dst",
+    "name": "XOR Cutout (Square intersect Triangle)",
+    "parentId": "emblem_assembly",
+    "x": 0,
+    "y": 0,
+    "style": {
+      "primaryFill": {
+        "kind": "solid",
+        "color": "#333CEE"
+      }
+    },
+    "network": {
+      "vertices": [
+        {
+          "id": "v0",
+          "x": 180,
+          "y": 0,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v1",
+          "x": 360,
+          "y": 311.77,
+          "cornerRadius": 66
+        },
+        {
+          "id": "v2",
+          "x": 0,
+          "y": 311.77,
+          "cornerRadius": 66
+        }
+      ],
+      "segments": [
+        {
+          "id": "s0",
+          "startVertexId": "v0",
+          "endVertexId": "v1"
+        },
+        {
+          "id": "s1",
+          "startVertexId": "v1",
+          "endVertexId": "v2"
+        },
+        {
+          "id": "s2",
+          "startVertexId": "v2",
+          "endVertexId": "v0"
+        }
+      ],
+      "renderContours": [
+        {
+          "id": "c0",
+          "closed": true,
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "fillLoops": [
+        {
+          "id": "f0",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "strokeTrails": [
+        {
+          "id": "t0",
+          "name": "Edge",
+          "steps": [
+            {
+              "segmentId": "s0",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s1",
+              "direction": "forward"
+            },
+            {
+              "segmentId": "s2",
+              "direction": "forward"
+            }
+          ]
+        }
+      ],
+      "defaultTrailOrder": [
+        "t0"
+      ]
+    }
+  },
+  {
+    "kind": "setObjectLayer",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "overlap_hero_xor_dst",
+    "layer": 9
+  },
+  {
+    "kind": "setObjectRange",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "overlap_hero_xor_dst",
+    "range": {
+      "startFrame": 79,
+      "durationFrames": 11
+    }
+  },
+  {
+    "kind": "updateObjectBase",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "objectId": "overlap_hero_xor_dst",
+    "base": {
+      "rotation": -10,
+      "originX": 0.5,
+      "originY": 0.62
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_intro_blur_p",
+          "kind": "property.write",
+          "persistence": {
+            "post": "hold"
+          },
+          "value": {
+            "keys": [
+              {
+                "id": "intro_blur_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "intro_blur_k1",
+                "frame": 63,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_blur_k2",
+                "frame": 71,
+                "value": 14,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_blur_k3",
+                "frame": 78,
+                "value": 42
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_intro_blur",
+        "name": "Focus pull blur out",
+        "target": {
+          "kind": "object",
+          "objectId": "intro_world"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 79
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_intro_fade_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "intro_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "intro_out_k1",
+                "frame": 5,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_intro_fade_out",
+        "name": "Fade out intro world",
+        "target": {
+          "kind": "object",
+          "objectId": "intro_world"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 74,
+          "durationFrames": 6
+        }
+      }
+    }
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "spinAngle",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": -20
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 8,
+        "value": {
+          "kind": "number",
+          "value": -53
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutSine"
+        }
+      },
+      {
+        "frame": 13,
+        "value": {
+          "kind": "number",
+          "value": -52
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 14,
+        "value": {
+          "kind": "number",
+          "value": -74
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuart"
+        }
+      },
+      {
+        "frame": 22,
+        "value": {
+          "kind": "number",
+          "value": -107
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutSine"
+        }
+      },
+      {
+        "frame": 26,
+        "value": {
+          "kind": "number",
+          "value": -106
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 27,
+        "value": {
+          "kind": "number",
+          "value": -128
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuart"
+        }
+      },
+      {
+        "frame": 35,
+        "value": {
+          "kind": "number",
+          "value": -161
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutSine"
+        }
+      },
+      {
+        "frame": 40,
+        "value": {
+          "kind": "number",
+          "value": -160
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 41,
+        "value": {
+          "kind": "number",
+          "value": -182
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuart"
+        }
+      },
+      {
+        "frame": 49,
+        "value": {
+          "kind": "number",
+          "value": -215
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutSine"
+        }
+      },
+      {
+        "frame": 78,
+        "value": {
+          "kind": "number",
+          "value": -236
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "pillarSize",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 126
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 14,
+        "value": {
+          "kind": "number",
+          "value": 89
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutCubic"
+        }
+      },
+      {
+        "frame": 21,
+        "value": {
+          "kind": "number",
+          "value": 161
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 78,
+        "value": {
+          "kind": "number",
+          "value": 161
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "baseHalfGap",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 120
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 14,
+        "value": {
+          "kind": "number",
+          "value": 108
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 78,
+        "value": {
+          "kind": "number",
+          "value": 112
+        }
+      }
+    ]
+  },
+  {
+    "kind": "keyShaderProperty",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "scope": "objectFill",
+    "objectId": "central_lime_ribbon",
+    "placementId": "fill_chevron_ribbon",
+    "propertyId": "fadeHeight",
+    "keys": [
+      {
+        "frame": 0,
+        "value": {
+          "kind": "number",
+          "value": 154
+        },
+        "outgoingTiming": {
+          "kind": "easing",
+          "preset": "easeOutQuad"
+        }
+      },
+      {
+        "frame": 43,
+        "value": {
+          "kind": "number",
+          "value": 305
+        },
+        "outgoingTiming": {
+          "kind": "linear"
+        }
+      },
+      {
+        "frame": 78,
+        "value": {
+          "kind": "number",
+          "value": 305
+        }
+      }
+    ]
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_orchestrate_slide_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_orchestrate_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 36,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_orchestrate_move_k1",
+                "frame": 25,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_orchestrate_slide",
+        "name": "Orchestrate slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_orchestrate"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 26
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_orchestrate_track_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_orchestrate_track_k0",
+                "frame": 0,
+                "value": 2.6,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_orchestrate_track_k1",
+                "frame": 24,
+                "value": -1.6
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_orchestrate_track",
+        "name": "Orchestrate tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_orchestrate"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 25
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_autonomous_slide_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_autonomous_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 47,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_autonomous_move_k1",
+                "frame": 25,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_autonomous_slide",
+        "name": "autonomous slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_autonomous"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 14,
+          "durationFrames": 26
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_autonomous_track_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_autonomous_track_k0",
+                "frame": 0,
+                "value": 2.6,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_autonomous_track_k1",
+                "frame": 24,
+                "value": -1.6
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_autonomous_track",
+        "name": "autonomous tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_autonomous"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 14,
+          "durationFrames": 25
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_enterprise_slide_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_enterprise_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 36,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_enterprise_move_k1",
+                "frame": 25,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_enterprise_slide",
+        "name": "enterprise slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_enterprise"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 27,
+          "durationFrames": 26
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_enterprise_track_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_enterprise_track_k0",
+                "frame": 0,
+                "value": 2.6,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_enterprise_track_k1",
+                "frame": 24,
+                "value": -1.6
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_enterprise_track",
+        "name": "enterprise tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_enterprise"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 27,
+          "durationFrames": 25
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_workflows_slide_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_workflows_move_k0",
+                "frame": 0,
+                "value": {
+                  "x": 47,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_workflows_move_k1",
+                "frame": 25,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_workflows_slide",
+        "name": "workflows slide in",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_workflows"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 41,
+          "durationFrames": 26
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "letterSpacing",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_txt_workflows_track_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "txt_workflows_track_k0",
+                "frame": 0,
+                "value": 2.6,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "txt_workflows_track_k1",
+                "frame": 24,
+                "value": -1.6
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_txt_workflows_track",
+        "name": "workflows tracking tighten",
+        "target": {
+          "kind": "object",
+          "objectId": "txt_workflows"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 41,
+          "durationFrames": 25
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_orbit_ring_spin_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "orb_spin_0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "orb_spin_post_0",
+                "frame": 7,
+                "value": 45,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "orb_spin_hit_1",
+                "frame": 14,
+                "value": 69,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "orb_spin_post_1",
+                "frame": 21,
+                "value": 113,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "orb_spin_hit_2",
+                "frame": 27,
+                "value": 137,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "orb_spin_post_2",
+                "frame": 34,
+                "value": 182,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "orb_spin_hit_3",
+                "frame": 41,
+                "value": 206,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "orb_spin_post_3",
+                "frame": 48,
+                "value": 250,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "orb_spin_end",
+                "frame": 79,
+                "value": 372
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_orbit_ring_spin",
+        "name": "Orbit ring pulsed clockwise spin",
+        "target": {
+          "kind": "object",
+          "objectId": "midground_orbit_ring"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 80
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_big_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_blue_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_blue_big_rad_k1",
+                "frame": 24,
+                "value": {
+                  "x": 83.01,
+                  "y": 25.38
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_blue_big_rad_k2",
+                "frame": 52,
+                "value": {
+                  "x": 133.88,
+                  "y": 40.93
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_blue_big_rad_k3",
+                "frame": 75,
+                "value": {
+                  "x": 26.78,
+                  "y": 8.19
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_big_rad",
+        "name": "mid_blue_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 76
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_big_crot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_blue_big_crot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_blue_big_crot_k1",
+                "frame": 79,
+                "value": -360
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_big_crot",
+        "name": "Keep sphere lighting upright",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 80
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_big_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_tri_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_tri_big_rad_k1",
+                "frame": 24,
+                "value": {
+                  "x": 26.73,
+                  "y": -57.31
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_tri_big_rad_k2",
+                "frame": 52,
+                "value": {
+                  "x": 43.11,
+                  "y": -92.44
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_tri_big_rad_k3",
+                "frame": 75,
+                "value": {
+                  "x": 8.62,
+                  "y": -18.49
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_big_rad",
+        "name": "mid_tri_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 76
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_big_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_tri_big_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_tri_big_rot_k1",
+                "frame": 79,
+                "value": 78
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_big_rot",
+        "name": "Fresh Triangle Large gentle spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 80
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_small_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_tri_small_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_tri_small_rad_k1",
+                "frame": 24,
+                "value": {
+                  "x": -11.28,
+                  "y": 107.29
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_tri_small_rad_k2",
+                "frame": 52,
+                "value": {
+                  "x": -18.19,
+                  "y": 173.05
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_tri_small_rad_k3",
+                "frame": 75,
+                "value": {
+                  "x": -3.64,
+                  "y": 34.61
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_small_rad",
+        "name": "mid_tri_small radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 76
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_tri_small_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_tri_small_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_tri_small_rot_k1",
+                "frame": 79,
+                "value": 80
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_tri_small_rot",
+        "name": "Fresh Triangle Small gentle spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_tri_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 80
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_small_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_blue_small_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_blue_small_rad_k1",
+                "frame": 20,
+                "value": {
+                  "x": -69.63,
+                  "y": -29.55
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_blue_small_rad_k2",
+                "frame": 42,
+                "value": {
+                  "x": -112.3,
+                  "y": -47.67
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_blue_small_rad_k3",
+                "frame": 61,
+                "value": {
+                  "x": -22.46,
+                  "y": -9.53
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_small_rad",
+        "name": "mid_blue_small radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 14,
+          "durationFrames": 62
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_blue_small_crot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_blue_small_crot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_blue_small_crot_k1",
+                "frame": 65,
+                "value": -360
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_blue_small_crot",
+        "name": "Keep sphere lighting upright",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_blue_small"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 14,
+          "durationFrames": 66
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_warm_tiny_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_warm_tiny_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_tiny_rad_k1",
+                "frame": 20,
+                "value": {
+                  "x": -62.14,
+                  "y": 21.4
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_tiny_rad_k2",
+                "frame": 42,
+                "value": {
+                  "x": -100.22,
+                  "y": 34.51
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_warm_tiny_rad_k3",
+                "frame": 61,
+                "value": {
+                  "x": -20.04,
+                  "y": 6.9
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_warm_tiny_rad",
+        "name": "mid_warm_tiny radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_warm_tiny"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 14,
+          "durationFrames": 62
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_warm_big_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_warm_big_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_big_rad_k1",
+                "frame": 16,
+                "value": {
+                  "x": -22.24,
+                  "y": -40.13
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_big_rad_k2",
+                "frame": 33,
+                "value": {
+                  "x": -35.88,
+                  "y": -64.72
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_warm_big_rad_k3",
+                "frame": 48,
+                "value": {
+                  "x": -7.18,
+                  "y": -12.94
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_warm_big_rad",
+        "name": "mid_warm_big radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_warm_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 27,
+          "durationFrames": 49
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_warm_big_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_warm_big_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "mid_warm_big_rot_k1",
+                "frame": 52,
+                "value": -35
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_warm_big_rot",
+        "name": "Warm Square Large gentle spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_warm_big"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 27,
+          "durationFrames": 53
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_mid_warm_med_rad_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "mid_warm_med_rad_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_med_rad_k1",
+                "frame": 16,
+                "value": {
+                  "x": 22.05,
+                  "y": 31.49
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "mid_warm_med_rad_k2",
+                "frame": 33,
+                "value": {
+                  "x": 35.56,
+                  "y": 50.79
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "mid_warm_med_rad_k3",
+                "frame": 48,
+                "value": {
+                  "x": 7.11,
+                  "y": 10.16
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_mid_warm_med_rad",
+        "name": "mid_warm_med radial breath",
+        "target": {
+          "kind": "object",
+          "objectId": "mid_warm_med"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 27,
+          "durationFrames": 49
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_orb_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_orb_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_b2_orb_mv_k1",
+                "frame": 10,
+                "value": {
+                  "x": -187,
+                  "y": 349
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_orb_move",
+        "name": "Bokeh Orb Beat 2 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_orb"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 14,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_orb_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_orb_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_b2_orb_out_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_orb_out",
+        "name": "Bokeh Orb Beat 2 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_orb"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 22,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_warm_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_warm_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_b2_warm_mv_k1",
+                "frame": 10,
+                "value": {
+                  "x": 255,
+                  "y": -360
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_warm_move",
+        "name": "Bokeh Warm Beat 2 sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_warm"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 14,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_warm_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_warm_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_b2_warm_rot_k1",
+                "frame": 10,
+                "value": 34
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_warm_rot",
+        "name": "Bokeh Warm Beat 2 rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_warm"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 14,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b2_warm_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b2_warm_out_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_b2_warm_out_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b2_warm_out",
+        "name": "Bokeh Warm Beat 2 exit",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b2_warm"
+        },
+        "stage": "out",
+        "timing": {
+          "startFrame": 22,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_orb_big_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b3_orb_big_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_b3_orb_big_mv_k1",
+                "frame": 40,
+                "value": {
+                  "x": 400,
+                  "y": -590
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_orb_big_move",
+        "name": "Bokeh Orb Sweep Left sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_orb_big"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 29,
+          "durationFrames": 41
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_warm_right_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b3_warm_right_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_b3_warm_right_mv_k1",
+                "frame": 36,
+                "value": {
+                  "x": -595,
+                  "y": 525
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_warm_right_move",
+        "name": "Bokeh Warm Sweep Right sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_warm_right"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 33,
+          "durationFrames": 37
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_b3_warm_right_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_b3_warm_right_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_b3_warm_right_rot_k1",
+                "frame": 36,
+                "value": 52
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_b3_warm_right_rot",
+        "name": "Bokeh Warm Sweep Right rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_b3_warm_right"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 33,
+          "durationFrames": 37
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_pre_tri_move_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_pre_tri_mv_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "bokeh_pre_tri_mv_k1",
+                "frame": 8,
+                "value": {
+                  "x": 183,
+                  "y": -445
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_pre_tri_move",
+        "name": "Bokeh Fresh Finale sweep",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_pre_tri"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 67,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_bokeh_pre_tri_rot_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "bokeh_pre_tri_rot_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "bokeh_pre_tri_rot_k1",
+                "frame": 8,
+                "value": -25
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_bokeh_pre_tri_rot",
+        "name": "Bokeh Fresh Finale rotation",
+        "target": {
+          "kind": "object",
+          "objectId": "bokeh_pre_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 67,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "hero_sq_out",
+    "guidePathObjectId": "guide_hero_sq",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 76,
+      "durationFrames": 14
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_sq_out",
+      "primitiveId": "fp_hero_sq_out:follow",
+      "progressFromKeyId": "fp_hero_sq_out:from",
+      "progressToKeyId": "fp_hero_sq_out:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_hero_sq_out",
+    "primitiveId": "fp_hero_sq_out:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_sq_out:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.3,
+      "y1": 0.45,
+      "x2": 0.4,
+      "y2": 0.85
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_sq_out_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_sq_out_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.24,
+                  "scaleY": 1.24
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_sq_out_k1",
+                "frame": 6,
+                "value": {
+                  "scaleX": 1.113,
+                  "scaleY": 1.113
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_sq_out_k2",
+                "frame": 13,
+                "value": {
+                  "scaleX": 0.913,
+                  "scaleY": 0.913
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_sq_out",
+        "name": "Hero Square (Outside) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_sq_out"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_sq_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_sq_out_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_sq_out_k1",
+                "frame": 5,
+                "value": 130,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_sq_out_k2",
+                "frame": 13,
+                "value": 237
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_sq_out",
+        "name": "Hero Square (Outside) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_sq_out"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "hero_tri_out",
+    "guidePathObjectId": "guide_hero_tri",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 79,
+      "durationFrames": 11
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_tri_out",
+      "primitiveId": "fp_hero_tri_out:follow",
+      "progressFromKeyId": "fp_hero_tri_out:from",
+      "progressToKeyId": "fp_hero_tri_out:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_hero_tri_out",
+    "primitiveId": "fp_hero_tri_out:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_tri_out:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.42,
+      "x2": 0.56,
+      "y2": 0.92
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_tri_out_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_tri_out_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_tri_out_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.11,
+                  "scaleY": 1.11
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_tri_out_k2",
+                "frame": 10,
+                "value": {
+                  "scaleX": 0.98,
+                  "scaleY": 0.98
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_tri_out",
+        "name": "Hero Triangle (Outside) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_tri_out"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_tri_out_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_tri_out_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_tri_out_k1",
+                "frame": 4,
+                "value": 58,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_tri_out_k2",
+                "frame": 10,
+                "value": 105
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_tri_out",
+        "name": "Hero Triangle (Outside) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_tri_out"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "hero_host_circle",
+    "guidePathObjectId": "guide_hero_host_circle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 70,
+      "durationFrames": 20
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_host_circle",
+      "primitiveId": "fp_hero_host_circle:follow",
+      "progressFromKeyId": "fp_hero_host_circle:from",
+      "progressToKeyId": "fp_hero_host_circle:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_hero_host_circle",
+    "primitiveId": "fp_hero_host_circle:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_host_circle:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.15,
+      "y1": 0.8,
+      "x2": 0.5,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_host_circle_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_host_circle_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.157,
+                  "scaleY": 1.157
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_host_circle_k1",
+                "frame": 9,
+                "value": {
+                  "scaleX": 1.045,
+                  "scaleY": 1.045
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_host_circle_k2",
+                "frame": 19,
+                "value": {
+                  "scaleX": 0.838,
+                  "scaleY": 0.838
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_host_circle",
+        "name": "Hero Brand Circle scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_host_circle"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 70,
+          "durationFrames": 20
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "mask_host_for_hero_sq",
+    "guidePathObjectId": "guide_hero_host_circle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 70,
+      "durationFrames": 20
+    },
+    "ids": {
+      "motionBlockId": "fp_mask_host_for_hero_sq",
+      "primitiveId": "fp_mask_host_for_hero_sq:follow",
+      "progressFromKeyId": "fp_mask_host_for_hero_sq:from",
+      "progressToKeyId": "fp_mask_host_for_hero_sq:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_mask_host_for_hero_sq",
+    "primitiveId": "fp_mask_host_for_hero_sq:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_mask_host_for_hero_sq:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.15,
+      "y1": 0.8,
+      "x2": 0.5,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_mask_host_for_hero_sq_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_mask_host_for_hero_sq_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.157,
+                  "scaleY": 1.157
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_host_for_hero_sq_k1",
+                "frame": 9,
+                "value": {
+                  "scaleX": 1.045,
+                  "scaleY": 1.045
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_host_for_hero_sq_k2",
+                "frame": 19,
+                "value": {
+                  "scaleX": 0.838,
+                  "scaleY": 0.838
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_mask_host_for_hero_sq",
+        "name": "Mask Hero Brand Circle scale",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_host_for_hero_sq"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 70,
+          "durationFrames": 20
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "hero_sq_in",
+    "guidePathObjectId": "guide_hero_sq",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 76,
+      "durationFrames": 14
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_sq_in",
+      "primitiveId": "fp_hero_sq_in:follow",
+      "progressFromKeyId": "fp_hero_sq_in:from",
+      "progressToKeyId": "fp_hero_sq_in:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_hero_sq_in",
+    "primitiveId": "fp_hero_sq_in:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_sq_in:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.3,
+      "y1": 0.45,
+      "x2": 0.4,
+      "y2": 0.85
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_sq_in_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_sq_in_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.24,
+                  "scaleY": 1.24
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_sq_in_k1",
+                "frame": 6,
+                "value": {
+                  "scaleX": 1.113,
+                  "scaleY": 1.113
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_sq_in_k2",
+                "frame": 13,
+                "value": {
+                  "scaleX": 0.913,
+                  "scaleY": 0.913
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_sq_in",
+        "name": "Hero Square (Inside Host) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_sq_in"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_sq_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_sq_in_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_sq_in_k1",
+                "frame": 5,
+                "value": 130,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_sq_in_k2",
+                "frame": 13,
+                "value": 237
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_sq_in",
+        "name": "Hero Square (Inside Host) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_sq_in"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "mask_host_for_hero_tri",
+    "guidePathObjectId": "guide_hero_host_circle",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 70,
+      "durationFrames": 20
+    },
+    "ids": {
+      "motionBlockId": "fp_mask_host_for_hero_tri",
+      "primitiveId": "fp_mask_host_for_hero_tri:follow",
+      "progressFromKeyId": "fp_mask_host_for_hero_tri:from",
+      "progressToKeyId": "fp_mask_host_for_hero_tri:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_mask_host_for_hero_tri",
+    "primitiveId": "fp_mask_host_for_hero_tri:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_mask_host_for_hero_tri:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.15,
+      "y1": 0.8,
+      "x2": 0.5,
+      "y2": 1
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_mask_host_for_hero_tri_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_mask_host_for_hero_tri_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.157,
+                  "scaleY": 1.157
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_host_for_hero_tri_k1",
+                "frame": 9,
+                "value": {
+                  "scaleX": 1.045,
+                  "scaleY": 1.045
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_host_for_hero_tri_k2",
+                "frame": 19,
+                "value": {
+                  "scaleX": 0.838,
+                  "scaleY": 0.838
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_mask_host_for_hero_tri",
+        "name": "Mask Hero Brand Circle scale",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_host_for_hero_tri"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 70,
+          "durationFrames": 20
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "hero_tri_in",
+    "guidePathObjectId": "guide_hero_tri",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 79,
+      "durationFrames": 11
+    },
+    "ids": {
+      "motionBlockId": "fp_hero_tri_in",
+      "primitiveId": "fp_hero_tri_in:follow",
+      "progressFromKeyId": "fp_hero_tri_in:from",
+      "progressToKeyId": "fp_hero_tri_in:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_hero_tri_in",
+    "primitiveId": "fp_hero_tri_in:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_hero_tri_in:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.42,
+      "x2": 0.56,
+      "y2": 0.92
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_hero_tri_in_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_hero_tri_in_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_tri_in_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.11,
+                  "scaleY": 1.11
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_hero_tri_in_k2",
+                "frame": 10,
+                "value": {
+                  "scaleX": 0.98,
+                  "scaleY": 0.98
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_hero_tri_in",
+        "name": "Hero Triangle (Inside Host) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_tri_in"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_hero_tri_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_hero_tri_in_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_tri_in_k1",
+                "frame": 4,
+                "value": 58,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_hero_tri_in_k2",
+                "frame": 10,
+                "value": 105
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_hero_tri_in",
+        "name": "Hero Triangle (Inside Host) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "hero_tri_in"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "mask_hero_xor_src",
+    "guidePathObjectId": "guide_hero_sq",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 76,
+      "durationFrames": 14
+    },
+    "ids": {
+      "motionBlockId": "fp_mask_hero_xor_src",
+      "primitiveId": "fp_mask_hero_xor_src:follow",
+      "progressFromKeyId": "fp_mask_hero_xor_src:from",
+      "progressToKeyId": "fp_mask_hero_xor_src:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_mask_hero_xor_src",
+    "primitiveId": "fp_mask_hero_xor_src:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_mask_hero_xor_src:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.3,
+      "y1": 0.45,
+      "x2": 0.4,
+      "y2": 0.85
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_mask_hero_xor_src_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_mask_hero_xor_src_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.24,
+                  "scaleY": 1.24
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_hero_xor_src_k1",
+                "frame": 6,
+                "value": {
+                  "scaleX": 1.113,
+                  "scaleY": 1.113
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_mask_hero_xor_src_k2",
+                "frame": 13,
+                "value": {
+                  "scaleX": 0.913,
+                  "scaleY": 0.913
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_mask_hero_xor_src",
+        "name": "Mask Hero Square scale",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_hero_xor_src"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_mask_hero_xor_src_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_mask_hero_xor_src_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_mask_hero_xor_src_k1",
+                "frame": 5,
+                "value": 130,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_mask_hero_xor_src_k2",
+                "frame": 13,
+                "value": 237
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_mask_hero_xor_src",
+        "name": "Mask Hero Square spin",
+        "target": {
+          "kind": "object",
+          "objectId": "mask_hero_xor_src"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 76,
+          "durationFrames": 14
+        }
+      }
+    }
+  },
+  {
+    "kind": "addFollowPath",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "followerObjectId": "overlap_hero_xor_dst",
+    "guidePathObjectId": "guide_hero_tri",
+    "direction": "forward",
+    "orientToPath": false,
+    "progress": {
+      "from": 0,
+      "to": 1
+    },
+    "timing": {
+      "startFrame": 79,
+      "durationFrames": 11
+    },
+    "ids": {
+      "motionBlockId": "fp_overlap_hero_xor_dst",
+      "primitiveId": "fp_overlap_hero_xor_dst:follow",
+      "progressFromKeyId": "fp_overlap_hero_xor_dst:from",
+      "progressToKeyId": "fp_overlap_hero_xor_dst:to"
+    }
+  },
+  {
+    "kind": "updateMotionSegmentTiming",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "motionBlockId": "fp_overlap_hero_xor_dst",
+    "primitiveId": "fp_overlap_hero_xor_dst:follow",
+    "valueTrack": {
+      "primitiveKind": "path.follow",
+      "track": "progress"
+    },
+    "keyId": "fp_overlap_hero_xor_dst:from",
+    "timing": {
+      "kind": "cubicBezier",
+      "x1": 0.16,
+      "y1": 0.42,
+      "x2": 0.56,
+      "y2": 0.92
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "sc_overlap_hero_xor_dst_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "sc_overlap_hero_xor_dst_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.22,
+                  "scaleY": 1.22
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_overlap_hero_xor_dst_k1",
+                "frame": 5,
+                "value": {
+                  "scaleX": 1.11,
+                  "scaleY": 1.11
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInSine"
+                }
+              },
+              {
+                "id": "sc_overlap_hero_xor_dst_k2",
+                "frame": 10,
+                "value": {
+                  "scaleX": 0.98,
+                  "scaleY": 0.98
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "sc_overlap_hero_xor_dst",
+        "name": "XOR Cutout (Square intersect Triangle) scale",
+        "target": {
+          "kind": "object",
+          "objectId": "overlap_hero_xor_dst"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "catalogId": "rotation",
+    "facets": [
+      {
+        "primitive": {
+          "id": "rot_overlap_hero_xor_dst_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "rot_overlap_hero_xor_dst_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_overlap_hero_xor_dst_k1",
+                "frame": 4,
+                "value": 58,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "rot_overlap_hero_xor_dst_k2",
+                "frame": 10,
+                "value": 105
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "rot_overlap_hero_xor_dst",
+        "name": "XOR Cutout (Square intersect Triangle) spin",
+        "target": {
+          "kind": "object",
+          "objectId": "overlap_hero_xor_dst"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 79,
+          "durationFrames": 11
+        }
+      }
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "binding": {
+      "id": "mb_in_hero_sq",
+      "name": "Clip Hero Square to Hero Brand Circle",
+      "sourceObjectId": "mask_host_for_hero_sq",
+      "targetObjectId": "hero_sq_in",
+      "mode": "vector",
+      "inverted": false
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "binding": {
+      "id": "mb_in_hero_tri",
+      "name": "Clip Hero Triangle to Hero Brand Circle",
+      "sourceObjectId": "mask_host_for_hero_tri",
+      "targetObjectId": "hero_tri_in",
+      "mode": "vector",
+      "inverted": false
+    }
+  },
+  {
+    "kind": "addMaskBinding",
+    "sceneId": "adaptive_4lines_3s__scene-1",
+    "binding": {
+      "id": "mb_hero_xor",
+      "name": "XOR Cutout (Square intersect Triangle)",
+      "sourceObjectId": "mask_hero_xor_src",
+      "targetObjectId": "overlap_hero_xor_dst",
+      "mode": "vector",
+      "inverted": false
+    }
+  }
+]
