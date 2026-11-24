@@ -1,12 +1,12 @@
-import { vectorNetworkToSvgPath } from "../kernel/geometry.ts";
-import type {
-  FillSpec,
-  MotionDocument,
-  ScalarKey,
-  SceneNodeIR,
-  Vec2Key,
-} from "../kernel/ir.ts";
-import type { EasingSpec } from "../kernel/tokens.ts";
+import {
+  vectorNetworkToSvgPath,
+  type EasingSpec,
+  type FillSpec,
+  type MotionDocument,
+  type ScalarKey,
+  type SceneNodeIR,
+  type Vec2Key,
+} from "@motion-sdk/core";
 
 export interface MotionadeCompileOutput {
   sceneId: string;

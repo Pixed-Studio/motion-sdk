@@ -1,5 +1,9 @@
-import { vectorNetworkToSvgPath } from "../kernel/geometry.ts";
-import type { FillSpec, MotionDocument, SceneNodeIR } from "../kernel/ir.ts";
+import {
+  vectorNetworkToSvgPath,
+  type FillSpec,
+  type MotionDocument,
+  type SceneNodeIR,
+} from "@motion-sdk/core";
 
 /**
  * Target Adapter B: Compiles Canonical Motion IR into a standalone, deterministic,

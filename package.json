@@ -1,21 +1,18 @@
 {
-  "name": "@motion-sdk/core",
-  "version": "0.1.0",
-  "description": "Behavior-first, multi-target Motion SDK for AI agents — inspired by UI SDK (@ui-sdk/core)",
+  "name": "motion-sdk-monorepo",
+  "private": true,
   "type": "module",
-  "exports": {
-    ".": "./src/index.ts",
-    "./kernel": "./src/kernel/index.ts",
-    "./behaviors": "./src/behaviors/index.ts",
-    "./primitives/statement-converge": "./src/primitives/statement-converge.ts",
-    "./adapters/motionade": "./src/adapters/motionade.ts",
-    "./adapters/hyperframes": "./src/adapters/hyperframes.ts",
-    "./adapters/remotion": "./src/adapters/remotion.ts"
-  },
+  "packageManager": "pnpm@9.15.0",
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.ts",
+    "typecheck": "pnpm -r run typecheck && tsc --noEmit -p tsconfig.json",
+    "check:boundaries": "node scripts/check-boundaries.ts",
+    "test": "pnpm run check:boundaries && node --test tests/*.test.ts",
     "build:examples": "node examples/build-variants.ts"
+  },
+  "dependencies": {
+    "@motion-sdk/core": "workspace:*",
+    "@motion-sdk/remotion": "workspace:*",
+    "motion-sdk": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

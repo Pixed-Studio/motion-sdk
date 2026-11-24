@@ -1,5 +1,4 @@
-import { vectorNetworkToSvgPath } from "../kernel/geometry.ts";
-import type { MotionDocument } from "../kernel/ir.ts";
+import { vectorNetworkToSvgPath, type MotionDocument } from "@motion-sdk/core";
 
 /**
  * Target Adapter C: Compiles Canonical Motion IR into a self-contained, pure-function

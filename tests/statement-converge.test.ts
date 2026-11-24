@@ -13,7 +13,7 @@ import {
   defineShotPrimitive,
   slot,
   statementConverge,
-} from "../src/index.ts";
+} from "motion-sdk";
 
 test("Baseline 3-line Glean shot matches 3.0s@30fps beat landmarks and passes semantic audit", () => {
   const shot = statementConverge({

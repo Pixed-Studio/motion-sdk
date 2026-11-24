@@ -1,0 +1,15 @@
+{
+  "name": "@motion-sdk/core",
+  "version": "0.1.0",
+  "description": "Zero-dependency spacetime kernel, L1 motion behaviors, and slot primitives for Motion SDK",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./kernel": "./src/kernel/index.ts",
+    "./behaviors": "./src/behaviors/index.ts",
+    "./primitives/statement-converge": "./src/primitives/statement-converge.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}

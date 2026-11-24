@@ -8,7 +8,7 @@ import {
   compileToMotionade,
   compileToRemotion,
   statementConverge,
-} from "../src/index.ts";
+} from "motion-sdk";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.join(__dirname, "out");
