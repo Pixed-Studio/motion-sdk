@@ -1,0 +1,193 @@
+project "Vertical Veridian" 1080x1920 60fps timingStyles=[] brushes=[] authoringDefaults={emptyShapeFill: "none"}
+shader #chevron_ribbon "Spinning chevron ribbon" version=1 description="A turning square pillar seen edge-on, open in the middle, fading up and down" allowedScopes=["objectFill", "sceneBackground"] cost=light
+```sksl
+uniform float4 ms_contentRect;
+uniform float ms_dpr;
+uniform float p_spinAngle;
+uniform float p_pillarSize;
+uniform float p_baseHalfGap;
+uniform float p_chevronSlope;
+uniform float p_fadeHeight;
+uniform float4 p_limeColor;
+
+float2 frontProfile(float x, float S, float theta) {
+  float R = S * 0.70710678;
+  float a0 = theta + 0.78539816;
+  float a1 = theta + 2.35619449;
+  float a2 = theta + 3.92699082;
+  float a3 = theta + 5.49778714;
+  float2 v0 = float2(R * sin(a0), R * cos(a0));
+  float2 v1 = float2(R * sin(a1), R * cos(a1));
+  float2 v2 = float2(R * sin(a2), R * cos(a2));
+  float2 v3 = float2(R * sin(a3), R * cos(a3));
+
+  float xMin = min(min(v0.x, v1.x), min(v2.x, v3.x));
+  float xMax = max(max(v0.x, v1.x), max(v2.x, v3.x));
+  float insideX = min(x - xMin, xMax - x);
+
+  float zMax = -1e6;
+  float xc = clamp(x, xMin, xMax);
+  float lo0 = min(v0.x, v1.x); float hi0 = max(v0.x, v1.x);
+  if (hi0 - lo0 > 0.001 && xc >= lo0 - 0.001 && xc <= hi0 + 0.001) {
+    float t = clamp((xc - v0.x) / (v1.x - v0.x), 0.0, 1.0);
+    zMax = max(zMax, mix(v0.y, v1.y, t));
+  }
+  float lo1 = min(v1.x, v2.x); float hi1 = max(v1.x, v2.x);
+  if (hi1 - lo1 > 0.001 && xc >= lo1 - 0.001 && xc <= hi1 + 0.001) {
+    float t = clamp((xc - v1.x) / (v2.x - v1.x), 0.0, 1.0);
+    zMax = max(zMax, mix(v1.y, v2.y, t));
+  }
+  float lo2 = min(v2.x, v3.x); float hi2 = max(v2.x, v3.x);
+  if (hi2 - lo2 > 0.001 && xc >= lo2 - 0.001 && xc <= hi2 + 0.001) {
+    float t = clamp((xc - v2.x) / (v3.x - v2.x), 0.0, 1.0);
+    zMax = max(zMax, mix(v2.y, v3.y, t));
+  }
+  float lo3 = min(v3.x, v0.x); float hi3 = max(v3.x, v0.x);
+  if (hi3 - lo3 > 0.001 && xc >= lo3 - 0.001 && xc <= hi3 + 0.001) {
+    float t = clamp((xc - v3.x) / (v0.x - v3.x), 0.0, 1.0);
+    zMax = max(zMax, mix(v3.y, v0.y, t));
+  }
+  return float2(zMax, insideX);
+}
+
+half4 main(float2 fragCoord) {
+  float dpr = max(ms_dpr, 0.001);
+  float2 center = ms_contentRect.xy + 0.5 * ms_contentRect.zw;
+  float2 p = (fragCoord - center) / dpr;
+
+  float theta = p_spinAngle * 0.0174532925;
+  float2 prof = frontProfile(p.x, p_pillarSize, theta);
+  float zFront = prof.x;
+  float insideX = prof.y;
+
+  float aaX = smoothstep(-0.75, 0.75, insideX);
+  if (aaX <= 0.0001) return half4(0.0);
+
+  float innerHalf = max(3.0, p_baseHalfGap - p_chevronSlope * zFront);
+  float ay = abs(p.y);
+  float d = ay - innerHalf;
+
+  float aaInner = smoothstep(-0.75, 0.75, d);
+  float u = clamp(max(d, 0.0) / max(p_fadeHeight, 1.0), 0.0, 1.0);
+  float fadeAlpha = 1.0 - smoothstep(0.0, 1.0, pow(u, 1.2));
+
+  float a = aaX * aaInner * fadeAlpha * p_limeColor.a;
+  float3 rgb = p_limeColor.a > 0.001 ? (p_limeColor.rgb / p_limeColor.a) : float3(0.0);
+  return half4(half3(rgb * a), half(a));
+}
+```
+
+scene #vertical_veridian__scene-1 "Ship fearless agents at scale -> mark" dur=270 bg=#0E131F motionBlockGroups=[]
+frame #statement_world "Statement world" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5 z=1
+  frame #statement "Statement" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5 z=3
+    text #txt_ship "Ship" text="Ship" x=370.49 y=608 width=339.03 height=220 fill=#F6F8FC fontFamily=Geist fontSize=169 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-3.6 z=1
+    text #txt_fearless "fearless" text="fearless" x=250.94 y=781 width=578.13 height=220 fill=#F6F8FC fontFamily=Geist fontSize=169 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-3.6 z=2
+    text #txt_agents "agents" text="agents" x=288.74 y=954 width=502.52 height=220 fill=#F6F8FC fontFamily=Geist fontSize=169 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-3.6 z=3
+    text #txt_at_scale "at scale" text="at scale" x=256.01 y=1127 width=567.99 height=220 fill=#F6F8FC fontFamily=Geist fontSize=169 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-3.6 z=4
+  shape #backdrop_ribbon "Backdrop ribbon" rectangle x=388 y=54 width=304 height=1813 fill=shader(chevron_ribbon@1#fill_chevron_ribbon, spinAngle=-20, pillarSize=136, baseHalfGap=248, chevronSlope=0.86, fadeHeight=774, color=#0B5E57) z=1
+  frame #world_ring "World ring" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5 z=2
+    shape #mid_blue_big "Large orb" ellipse x=634.2 y=946.6 width=121.5 height=121.5 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#3DF5D4"}, {offset: 0.55, color: "#00B89C"}, {offset: 1, color: "#007A6E"}], domain: {space: "ownerBounds", x: -0.14, y: -0.22, width: 0.92, height: 0.92}} z=7
+    path #mid_tri_big "Large triangle" d="M 57.84 43.03 C 71.56 19.28, 93.82 19.28, 107.54 43.03 L 140.53 100.18 C 154.25 123.94, 143.12 143.22, 115.69 143.22 L 49.69 143.22 C 22.26 143.22, 11.13 123.94, 24.85 100.18 Z" trailName="Edge" x=532.9 y=726.3 width=165.38 height=143.22 rotation=52 originX=0.5 originY=0.5 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#80FFDB"}, {offset: 0.5, color: "#5390D9"}, {offset: 1, color: "#6930C3"}], domain: {space: "ownerBounds", x: 0.14, y: 0.22, width: 0.72, height: 0.72}} z=8
+    path #mid_tri_small "Small triangle" d="M 25.32 18.99 C 31.37 8.51, 41.19 8.51, 47.24 18.99 L 61.6 43.85 C 67.65 54.33, 62.74 62.84, 50.63 62.84 L 21.93 62.84 C 9.82 62.84, 4.91 54.33, 10.96 43.85 Z" trailName="Edge" x=488.3 y=1075.4 width=72.56 height=62.84 rotation=-35 originX=0.5 originY=0.5 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#80FFDB"}, {offset: 0.5, color: "#5390D9"}, {offset: 1, color: "#6930C3"}], domain: {space: "ownerBounds", x: 0.14, y: 0.22, width: 0.72, height: 0.72}} z=9
+    shape #mid_blue_small "Small orb" ellipse x=342.7 y=865.1 width=38.81 height=38.81 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#3DF5D4"}, {offset: 0.55, color: "#00B89C"}, {offset: 1, color: "#007A6E"}], domain: {space: "ownerBounds", x: -0.14, y: -0.22, width: 0.92, height: 0.92}} z=5 life=68..220
+    shape #mid_warm_tiny "Tiny square" rectangle x=384.4 y=992 width=32.06 height=32.06 rotation=18 fill=linear-gradient(35deg, #FFD166 0, #FF926B 0.5, #FF5E7E 1) borderRadius=6.75 z=4 life=68..220
+    shape #mid_warm_big "Large square" rectangle x=362.5 y=681.9 width=104.63 height=104.63 rotation=24 fill=linear-gradient(35deg, #FFD166 0, #FF926B 0.5, #FF5E7E 1) borderRadius=21.94 z=6 life=101..220
+    shape #mid_warm_med "Medium square" rectangle x=656.7 y=1139.7 width=60.75 height=60.75 rotation=36 fill=linear-gradient(35deg, #FFD166 0, #FF926B 0.5, #FF5E7E 1) borderRadius=12.66 z=5 life=101..220
+  frame #foreground "Foreground" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5 z=4
+    shape #pass_lead_orb "Lead-in orb" ellipse x=869.1 y=979.7 width=205.88 height=205.88 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#3DF5D4"}, {offset: 0.55, color: "#00B89C"}, {offset: 1, color: "#007A6E"}], domain: {space: "ownerBounds", x: -0.14, y: -0.22, width: 0.92, height: 0.92}} blur=34 z=10
+    shape #pass_lead_square "Lead-in square" rectangle x=65 y=558.7 width=216 height=216 rotation=44 fill=linear-gradient(35deg, #FFD166 0, #FF926B 0.5, #FF5E7E 1) borderRadius=45.56 blur=35 z=11
+    shape #pass_hold_orb "Slow orb" ellipse x=53.2 y=1883.7 width=205.88 height=205.88 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#3DF5D4"}, {offset: 0.55, color: "#00B89C"}, {offset: 1, color: "#007A6E"}], domain: {space: "ownerBounds", x: -0.14, y: -0.22, width: 0.92, height: 0.92}} blur=34 z=12
+    shape #pass_hold_square "Slow square" rectangle x=962.7 y=513.6 width=226.13 height=226.13 rotation=166 fill=linear-gradient(35deg, #FFD166 0, #FF926B 0.5, #FF5E7E 1) borderRadius=47.25 blur=37 z=13
+    shape #pass_hold_small "Slow small orb" ellipse x=907 y=-162.2 width=84.38 height=84.38 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#3DF5D4"}, {offset: 0.55, color: "#00B89C"}, {offset: 1, color: "#007A6E"}], domain: {space: "ownerBounds", x: -0.14, y: -0.22, width: 0.92, height: 0.92}} blur=22 z=14
+    shape #pass_burst_square "Burst square" rectangle x=-37.1 y=1648.5 width=185.63 height=185.63 rotation=45 fill=linear-gradient(35deg, #FFD166 0, #FF926B 0.5, #FF5E7E 1) borderRadius=38.81 blur=34 z=15
+    path #pass_burst_triangle "Burst triangle" d="M 79.56 59.49 C 98.52 26.65, 129.3 26.65, 148.26 59.49 L 193.47 137.8 C 212.42 170.64, 197.04 197.29, 159.12 197.29 L 68.69 197.29 C 30.78 197.29, 15.39 170.64, 34.35 137.8 Z" trailName="Edge" x=868.2 y=1565.4 width=227.81 height=197.29 originX=0.5 originY=0.5 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#80FFDB"}, {offset: 0.5, color: "#5390D9"}, {offset: 1, color: "#6930C3"}], domain: {space: "ownerBounds", x: 0.14, y: 0.22, width: 0.72, height: 0.72}} blur=32 z=16
+    shape #pass_burst_small "Burst small square" rectangle x=141.3 y=41 width=88.59 height=88.59 rotation=28 fill=linear-gradient(35deg, #FFD166 0, #FF926B 0.5, #FF5E7E 1) borderRadius=18.56 blur=24 z=17
+    shape #pass_exit_square "Exit square" rectangle x=850.1 y=-84.3 width=88.59 height=88.59 rotation=20 fill=linear-gradient(35deg, #FFD166 0, #FF926B 0.5, #FF5E7E 1) borderRadius=18.56 blur=22 z=18
+    path #pass_exit_triangle "Exit triangle" d="M 94.08 70.88 C 116.67 31.75, 153.33 31.75, 175.92 70.88 L 229.08 162.96 C 251.67 202.08, 233.34 233.83, 188.16 233.83 L 81.84 233.83 C 36.66 233.83, 18.33 202.08, 40.92 162.96 Z" trailName="Edge" x=42.2 y=1909.8 width=270 height=233.83 originX=0.5 originY=0.5 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#80FFDB"}, {offset: 0.5, color: "#5390D9"}, {offset: 1, color: "#6930C3"}], domain: {space: "ownerBounds", x: 0.14, y: 0.22, width: 0.72, height: 0.72}} blur=30 z=19
+frame #mark "Mark" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5 z=10
+  path #guide_mark_square "Guide: Mark square" d="M 10.97 476.72 C 9.32 454.57, -1.27 368.04, 0 329.06 C 1.27 290.08, 3.84 258.6, 19.41 216.84 C 34.98 175.08, 75.43 83.16, 103.78 50.63 C 132.13 18.1, 182.34 6.71, 208.41 0 C 234.48 -6.71, 260.13 0.21, 277.59 5.91 C 295.05 11.61, 317.75 33.16, 324.84 37.97" trailName="Path" x=212.55 y=762.85 width=324.84 height=476.72 opacity=0 stroke=#00000000 strokeWidth=0 z=41
+  shape #mark_square "Mark square" rectangle x=410.8 y=674.3 width=253.13 height=253.13 rotation=-106 fill=linear-gradient(115deg, #FF5E7E 0, #FF926B 0.5, #FFD166 1) borderRadius=47.25 z=1 life=212..270
+  path #guide_mark_triangle "Guide: Mark triangle" d="M 19.41 0 C 36.75 20.88, 112.35 104.67, 135 139.22 C 157.65 173.77, 165.88 203.13, 170.44 230.34 C 175 257.55, 175.76 291.52, 165.38 320.63 C 155 349.74, 122.26 402.01, 101.25 424.41 C 80.24 446.81, 40.5 462.12, 25.31 469.97 C 10.12 477.82, 3.8 475.71, 0 476.72" trailName="Path" x=617.58 y=496.84 width=170.44 height=476.72 opacity=0 stroke=#00000000 strokeWidth=0 z=42
+  path #mark_triangle "Mark triangle" d="M 103.65 83.54 C 130.27 37.42, 173.49 37.42, 200.11 83.54 L 255.52 179.53 C 282.14 225.64, 260.54 263.06, 207.29 263.06 L 96.46 263.06 C 43.21 263.06, 21.61 225.64, 48.23 179.52 Z" trailName="Edge" x=465.7 y=810.5 width=303.75 height=263.06 rotation=-10 originX=0.5 originY=0.62 fill={kind: "gradient", type: "radial", radialShape: "circle", stops: [{offset: 0, color: "#80FFDB"}, {offset: 0.5, color: "#5390D9"}, {offset: 1, color: "#6930C3"}], domain: {space: "ownerBounds", x: 0.14, y: 0.22, width: 0.72, height: 0.72}} z=2 life=218..270
+  path #guide_mark_host "Guide: Mark circle" d="M 0 426.09 C 56.95 362.18, 261.99 52.52, 379.69 0 C 497.39 -52.52, 696.48 31.77, 784.69 75.94 C 872.9 120.11, 942.6 229.8, 967.78 294.47 C 992.96 359.14, 970.06 456.72, 952.59 507.09 C 935.12 557.46, 883.49 605.73, 851.34 630.28 C 819.19 654.83, 768.91 666.98, 738.28 670.78 C 707.65 674.58, 673.86 671.16, 647.16 655.59 C 620.46 640.02, 573.16 591.43, 560.25 567 C 547.34 542.57, 556.79 508.57, 561.09 492.75 C 565.39 476.93, 581.47 466.47, 588.94 461.53 C 596.41 456.59, 607.59 460.09, 610.88 459.84" trailName="Path" x=-75.95 y=433.53 width=967.78 height=670.78 opacity=0 stroke=#00000000 strokeWidth=0 z=43
+  shape #mark_host "Mark circle" ellipse x=239.6 y=598.1 width=590.63 height=590.63 fill=#00D4B2 z=3 life=200..270
+  shape #mask_mark_host_for_mark_square "Mask: Mark circle for Mark square inside the host" ellipse x=239.6 y=598.1 width=590.63 height=590.63 fill=#FFFFFF z=4 life=200..270
+  shape #mark_square_over_mark_host "Mark square inside the host" rectangle x=410.8 y=674.3 width=253.13 height=253.13 rotation=-106 fill=linear-gradient(235deg, #FFFDF7 0, #B8FFF1 0.6, #5CE6CC 1) borderRadius=47.25 z=5 life=212..270
+  shape #mask_mark_host_for_mark_triangle "Mask: Mark circle for Mark triangle inside the host" ellipse x=239.6 y=598.1 width=590.63 height=590.63 fill=#FFFFFF z=6 life=200..270
+  path #mark_triangle_over_mark_host "Mark triangle inside the host" d="M 103.65 83.54 C 130.27 37.42, 173.49 37.42, 200.11 83.54 L 255.52 179.53 C 282.14 225.64, 260.54 263.06, 207.29 263.06 L 96.46 263.06 C 43.21 263.06, 21.61 225.64, 48.23 179.52 Z" trailName="Edge" x=465.7 y=810.5 width=303.75 height=263.06 rotation=-10 originX=0.5 originY=0.62 fill=linear-gradient(265deg, #FFE66D 0, #A8FF78 0.5, #3BF5C8 1) z=7 life=218..270
+  shape #mask_mark_square_for_mark_triangle "Mask: Mark square for Where the square and triangle cross" rectangle x=410.8 y=674.3 width=253.13 height=253.13 rotation=-106 fill=#FFFFFF borderRadius=47.25 z=8 life=212..270
+  path #mark_triangle_over_mark_square "Where the square and triangle cross" d="M 103.65 83.54 C 130.27 37.42, 173.49 37.42, 200.11 83.54 L 255.52 179.53 C 282.14 225.64, 260.54 263.06, 207.29 263.06 L 96.46 263.06 C 43.21 263.06, 21.61 225.64, 48.23 179.52 Z" trailName="Edge" x=465.7 y=810.5 width=303.75 height=263.06 rotation=-10 originX=0.5 originY=0.62 fill=#00D4B2 z=9 life=218..270
+mask #clip_mark_square_over_mark_host "Mark square inside the host" src=#mask_mark_host_for_mark_square dst=#mark_square_over_mark_host vector
+mask #clip_mark_triangle_over_mark_host "Mark triangle inside the host" src=#mask_mark_host_for_mark_triangle dst=#mark_triangle_over_mark_host vector
+mask #clip_mark_triangle_over_mark_square "Where the square and triangle cross" src=#mask_mark_square_for_mark_triangle dst=#mark_triangle_over_mark_square vector
+motion #act_txt_ship_slide "Ship arrives" #txt_ship move in at=0 dur=53 x,y+=[0:74,0 easeOutQuart 52:0,0]
+motion #act_txt_ship_track "Ship closes up" #txt_ship letterSpacing custom at=0 dur=49 letterSpacing=[0:5.5 easeOutQuart 48:-3.6]
+motion #act_txt_fearless_slide "fearless arrives" #txt_fearless move in at=34 dur=53 x,y+=[0:97,0 easeOutQuart 52:0,0]
+motion #act_txt_fearless_track "fearless closes up" #txt_fearless letterSpacing custom at=34 dur=49 letterSpacing=[0:5.5 easeOutQuart 48:-3.6]
+motion #act_txt_agents_slide "agents arrives" #txt_agents move in at=68 dur=53 x,y+=[0:90,0 easeOutQuart 52:0,0]
+motion #act_txt_agents_track "agents closes up" #txt_agents letterSpacing custom at=68 dur=49 letterSpacing=[0:5.5 easeOutQuart 48:-3.6]
+motion #act_txt_at_scale_slide "at scale arrives" #txt_at_scale move in at=101 dur=53 x,y+=[0:96,0 easeOutQuart 52:0,0]
+motion #act_txt_at_scale_track "at scale closes up" #txt_at_scale letterSpacing custom at=101 dur=49 letterSpacing=[0:5.5 easeOutQuart 48:-3.6]
+motion #act_statement_world_defocus "Focus leaves the group" #statement_world layerBlur custom at=186 dur=33 blur=[0:0 easeInQuad 21:12 easeInQuad 32:35]
+motion #act_statement_world_fade "The group fades out" #statement_world opacity out at=208 dur=12 opacity=[0:1 easeInQuad 11:0]
+motion #act_ribbon_spin "Ribbon snaps round on each arrival" #backdrop_ribbon.objectFill(fill_chevron_ribbon) effect:chevron_ribbon at=0 dur=220 spinAngle[0:-20 easeOutQuad 20:-34.36 linear 21:-36.97 easeInQuad 34:-76.14 easeOutQuart 49:-112.04 linear 55:-118.57 easeInQuad 68:-160.81 easeOutQuart 83:-199.53 linear 88:-206.57 easeInQuad 101:-259.56 easeOutQuart 116:-308.14 linear 219:-316.97] after=hold
+motion #act_ribbon_body "Ribbon narrows and opens" #backdrop_ribbon.objectFill(fill_chevron_ribbon) effect:chevron_ribbon at=0 dur=220 pillarSize[0:106 linear 62:99 easeInQuad 68:75 easeOutCubic 80:128 linear 101:136 linear 219:136] baseHalfGap[0:255 linear 67:251 linear 68:245 easeOutQuad 82:250 linear 101:248 linear 219:248] fadeHeight[0:410 easeOutQuad 67:573 linear 82:704 linear 119:813 linear 219:813] after=hold
+motion #act_world_ring_turn "World turns on each arrival" #world_ring rotation custom at=0 dur=220 rotation+==[0:0 easeOutCubic 12:39.67 linear 24:55.53 easeInQuad 34:82.31 easeOutCubic 46:126.93 linear 58:144.78 easeInQuad 68:173.66 easeOutCubic 80:221.78 linear 91:241.03 easeInQuad 101:277.26 easeOutCubic 113:337.63 linear 180:361.78 easeInQuad 200:393.28 linear 218:466.78 linear 219:466.78]
+motion #act_mid_blue_big_makes_room "Large orb makes room" #mid_blue_big move custom at=0 dur=220 x,y+=[0:0,0 easeOutCubic 14:20.53,6.28 linear 34:19.18,5.86 easeOutCubic 48:96.16,29.4 linear 68:91.13,27.86 easeOutCubic 82:176.66,54.01 linear 101:171.06,52.3 easeOutCubic 115:269.42,82.37 linear 176:262.98,80.4 easeInQuad 200:162.39,49.65 linear 212:39.45,12.06 linear 219:39.45,12.06]
+motion #act_mid_blue_big_upright "Large orb stays upright" #mid_blue_big rotation custom at=0 dur=220 rotation+==[0:0 easeOutCubic 12:-39.67 linear 24:-55.53 easeInQuad 34:-82.31 easeOutCubic 46:-126.93 linear 58:-144.78 easeInQuad 68:-173.66 easeOutCubic 80:-221.78 linear 91:-241.03 easeInQuad 101:-277.26 easeOutCubic 113:-337.63 linear 180:-361.78 easeInQuad 200:-393.28 linear 218:-466.78 linear 219:-466.78]
+motion #act_mid_tri_big_makes_room "Large triangle makes room" #mid_tri_big move custom at=0 dur=220 x,y+=[0:0,0 easeOutCubic 14:9.24,-19.81 linear 34:8.63,-18.52 easeOutCubic 48:43.28,-92.81 linear 68:41.01,-87.95 easeOutCubic 82:79.51,-170.5 linear 101:76.99,-165.1 easeOutCubic 115:121.26,-260.04 linear 176:118.36,-253.83 easeInQuad 200:73.09,-156.74 linear 212:17.75,-38.07 linear 219:17.75,-38.07]
+motion #act_mid_tri_big_tumble "Large triangle tumbles" #mid_tri_big rotation custom at=0 dur=220 rotation+==[0:0 linear 219:78]
+motion #act_mid_tri_small_makes_room "Small triangle makes room" #mid_tri_small move custom at=0 dur=220 x,y+=[0:0,0 easeOutCubic 14:-2.16,20.56 linear 34:-2.02,19.21 easeOutCubic 48:-10.12,96.32 linear 68:-9.59,91.28 easeOutCubic 82:-18.6,176.95 linear 101:-18.01,171.35 easeOutCubic 115:-28.36,269.86 linear 176:-27.69,263.42 easeInQuad 200:-17.1,162.66 linear 212:-4.15,39.51 linear 219:-4.15,39.51]
+motion #act_mid_tri_small_tumble "Small triangle tumbles" #mid_tri_small rotation custom at=0 dur=220 rotation+==[0:0 linear 219:80]
+motion #act_mid_blue_small_makes_room "Small orb makes room" #mid_blue_small move custom at=68 dur=152 x,y+=[0:0,0 easeOutCubic 14:-92.74,-39.37 linear 33:-86.67,-36.79 easeOutCubic 47:-193.32,-82.06 linear 108:-186.35,-79.1 easeInQuad 132:-115.06,-48.84 linear 144:-27.96,-11.87 linear 151:-27.96,-11.87]
+motion #act_mid_blue_small_upright "Small orb stays upright" #mid_blue_small rotation custom at=68 dur=152 rotation+==[0:-173.66 easeOutCubic 12:-221.78 linear 23:-241.03 easeInQuad 33:-277.26 easeOutCubic 45:-337.63 linear 112:-361.78 easeInQuad 132:-393.28 linear 150:-466.78 linear 151:-466.78]
+motion #act_mid_warm_tiny_makes_room "Tiny square makes room" #mid_warm_tiny move custom at=68 dur=152 x,y+=[0:0,0 easeOutCubic 14:-115.11,39.63 linear 33:-107.58,37.04 easeOutCubic 47:-239.95,82.62 linear 108:-231.29,79.64 easeInQuad 132:-142.83,49.18 linear 144:-34.69,11.95 linear 151:-34.69,11.95]
+motion #act_mid_warm_big_makes_room "Large square makes room" #mid_warm_big move custom at=101 dur=119 x,y+=[0:0,0 easeOutCubic 14:-88.38,-159.44 linear 75:-82.6,-149.02 easeInQuad 99:-51.01,-92.02 linear 111:-12.39,-22.36 linear 118:-12.39,-22.36]
+motion #act_mid_warm_big_tumble "Large square tumbles" #mid_warm_big rotation custom at=101 dur=119 rotation+==[0:0 linear 118:-35]
+motion #act_mid_warm_med_makes_room "Medium square makes room" #mid_warm_med move custom at=101 dur=119 x,y+=[0:0,0 easeOutCubic 14:92.13,131.58 linear 75:86.11,122.98 easeInQuad 99:53.17,75.94 linear 111:12.92,18.45 linear 118:12.92,18.45]
+motion #act_pass_lead_orb_pass "Lead-in orb passes" #pass_lead_orb move in at=68 dur=22 x,y+=[0:0,0 easeOutQuad 6:-31.2,544 linear 13:-81,690.7 linear 21:-157.8,930.7]
+motion #act_pass_lead_orb_out "Lead-in orb leaves" #pass_lead_orb opacity out at=84 dur=6 opacity=[0:1 linear 5:0]
+motion #act_pass_lead_square_pass "Lead-in square passes" #pass_lead_square move in at=68 dur=22 x,y+=[0:0,0 easeOutQuad 4:25.3,-306.7 linear 15:135.8,-592 linear 21:215.2,-960]
+motion #act_pass_lead_square_turn "Lead-in square turns" #pass_lead_square rotation custom at=68 dur=22 rotation+==[0:0 linear 21:34]
+motion #act_pass_lead_square_out "Lead-in square leaves" #pass_lead_square opacity out at=84 dur=6 opacity=[0:1 linear 5:0]
+motion #act_pass_hold_orb_pass "Slow orb passes" #pass_hold_orb move in at=105 dur=115 x,y+=[0:0,0 easeOutCubic 11:-79.3,-309.3 easeOutQuad 20:-108,-568 linear 46:-121.5,-1042.7 linear 63:-112.2,-1304 easeInSine 86:-63.3,-1613.3 easeInQuad 103:113.1,-1768 linear 108:245.5,-1728 linear 114:337.5,-1573.3]
+motion #act_pass_hold_square_pass "Slow square passes" #pass_hold_square move in at=113 dur=107 x,y+=[0:0,0 easeOutQuad 9:-77.6,325.3 linear 53:-81,928 easeInSine 77:-162.8,1082.7 easeInQuad 94:-333.3,1280 linear 106:-502,1400]
+motion #act_pass_hold_square_turn "Slow square turns" #pass_hold_square rotation custom at=113 dur=107 rotation+==[0:0 linear 106:52]
+motion #act_pass_hold_small_pass "Slow small orb passes" #pass_hold_small move in at=113 dur=107 x,y+=[0:0,0 easeOutQuad 9:40.5,210.7 linear 36:104.6,613.3 linear 55:103.8,874.7 linear 79:62.4,1237.3 easeInQuad 94:-40.5,1514.7 linear 106:-147.7,1826.7]
+motion #act_pass_burst_square_pass "Burst square passes" #pass_burst_square move in at=101 dur=14 x,y+=[0:0,0 linear 13:-156.9,-354.7]
+motion #act_pass_burst_square_turn "Burst square turns" #pass_burst_square rotation custom at=101 dur=14 rotation+==[0:0 linear 13:30]
+motion #act_pass_burst_square_out "Burst square leaves" #pass_burst_square opacity out at=109 dur=6 opacity=[0:1 linear 5:0]
+motion #act_pass_burst_triangle_pass "Burst triangle passes" #pass_burst_triangle move in at=101 dur=16 x,y+=[0:0,0 linear 15:131.6,362.7]
+motion #act_pass_burst_triangle_turn "Burst triangle turns" #pass_burst_triangle rotation custom at=101 dur=16 rotation+==[0:0 linear 15:30]
+motion #act_pass_burst_triangle_out "Burst triangle leaves" #pass_burst_triangle opacity out at=111 dur=6 opacity=[0:1 linear 5:0]
+motion #act_pass_burst_small_pass "Burst small square passes" #pass_burst_small move in at=101 dur=32 x,y+=[0:0,0 easeOutQuad 19:-111.4,-5.3 linear 31:-236.2,-45.3]
+motion #act_pass_burst_small_turn "Burst small square turns" #pass_burst_small rotation custom at=101 dur=32 rotation+==[0:0 linear 31:32]
+motion #act_pass_burst_small_out "Burst small square leaves" #pass_burst_small opacity out at=127 dur=6 opacity=[0:1 linear 5:0]
+motion #act_pass_exit_square_pass "Exit square passes" #pass_exit_square move in at=192 dur=26 x,y+=[0:0,0 linear 6:-56.5,106.7 linear 17:-202.5,133.3 linear 25:-264.9,285.3]
+motion #act_pass_exit_square_turn "Exit square turns" #pass_exit_square rotation custom at=192 dur=26 rotation+==[0:0 linear 25:25]
+motion #act_pass_exit_triangle_pass "Exit triangle passes" #pass_exit_triangle move in at=200 dur=18 x,y+=[0:0,0 linear 6:38,-306.7 linear 11:63.3,-546.7 linear 13:93.7,-738.7 linear 17:154.4,-1186.7]
+motion #act_pass_exit_triangle_turn "Exit triangle turns" #pass_exit_triangle rotation custom at=200 dur=18 rotation+==[0:0 linear 17:-25]
+motion #act_mark_square_travel "Mark square travels in" #mark_square followPath custom at=212 dur=28 follow(path=#guide_mark_square, trail=t0, progress=[0:0 cubic-bezier(0.3,0.45,0.4,0.85) #act_mark_square_travel:from 27:1 #act_mark_square_travel:to])
+motion #act_mark_square_scale "Mark square comes down to size" #mark_square scale custom at=212 dur=28 scaleX,scaleY*=[0:1.24,1.24 easeInSine 12:1.113,1.113 easeInSine 27:0.913,0.913]
+motion #act_mark_square_spin "Mark square turns in" #mark_square rotation custom at=212 dur=28 rotation+==[0:0 easeOutQuad 11:130 easeOutQuad 27:237]
+motion #act_mark_triangle_travel "Mark triangle travels in" #mark_triangle followPath custom at=218 dur=22 follow(path=#guide_mark_triangle, trail=t0, progress=[0:0 cubic-bezier(0.16,0.42,0.56,0.92) #act_mark_triangle_travel:from 21:1 #act_mark_triangle_travel:to])
+motion #act_mark_triangle_scale "Mark triangle comes down to size" #mark_triangle scale custom at=218 dur=22 scaleX,scaleY*=[0:1.22,1.22 easeInSine 9:1.11,1.11 easeInSine 21:0.98,0.98]
+motion #act_mark_triangle_spin "Mark triangle turns in" #mark_triangle rotation custom at=218 dur=22 rotation+==[0:0 easeOutQuad 9:58 easeOutQuad 21:105]
+motion #act_mark_host_travel "Mark circle travels in" #mark_host followPath custom at=200 dur=40 follow(path=#guide_mark_host, trail=t0, progress=[0:0 cubic-bezier(0.15,0.8,0.5,1) #act_mark_host_travel:from 39:1 #act_mark_host_travel:to])
+motion #act_mark_host_scale "Mark circle comes down to size" #mark_host scale custom at=200 dur=40 scaleX,scaleY*=[0:1.157,1.157 easeInSine 18:1.045,1.045 easeInSine 39:0.838,0.838]
+motion #act_mark_host_travel__mask_mark_host_for_mark_square "Mask: Mark circle for Mark square inside the host: Mark circle travels in" #mask_mark_host_for_mark_square followPath custom at=200 dur=40 follow(path=#guide_mark_host, trail=t0, progress=[0:0 cubic-bezier(0.15,0.8,0.5,1) #act_mark_host_travel__mask_mark_host_for_mark_square:from 39:1 #act_mark_host_travel__mask_mark_host_for_mark_square:to])
+motion #act_mark_host_scale__mask_mark_host_for_mark_square "Mask: Mark circle for Mark square inside the host: Mark circle comes down to size" #mask_mark_host_for_mark_square scale custom at=200 dur=40 scaleX,scaleY*=[0:1.157,1.157 easeInSine 18:1.045,1.045 easeInSine 39:0.838,0.838]
+motion #act_mark_square_travel__mark_square_over_mark_host "Mark square inside the host: Mark square travels in" #mark_square_over_mark_host followPath custom at=212 dur=28 follow(path=#guide_mark_square, trail=t0, progress=[0:0 cubic-bezier(0.3,0.45,0.4,0.85) #act_mark_square_travel__mark_square_over_mark_host:from 27:1 #act_mark_square_travel__mark_square_over_mark_host:to])
+motion #act_mark_square_scale__mark_square_over_mark_host "Mark square inside the host: Mark square comes down to size" #mark_square_over_mark_host scale custom at=212 dur=28 scaleX,scaleY*=[0:1.24,1.24 easeInSine 12:1.113,1.113 easeInSine 27:0.913,0.913]
+motion #act_mark_square_spin__mark_square_over_mark_host "Mark square inside the host: Mark square turns in" #mark_square_over_mark_host rotation custom at=212 dur=28 rotation+==[0:0 easeOutQuad 11:130 easeOutQuad 27:237]
+motion #act_mark_host_travel__mask_mark_host_for_mark_triangle "Mask: Mark circle for Mark triangle inside the host: Mark circle travels in" #mask_mark_host_for_mark_triangle followPath custom at=200 dur=40 follow(path=#guide_mark_host, trail=t0, progress=[0:0 cubic-bezier(0.15,0.8,0.5,1) #act_mark_host_travel__mask_mark_host_for_mark_triangle:from 39:1 #act_mark_host_travel__mask_mark_host_for_mark_triangle:to])
+motion #act_mark_host_scale__mask_mark_host_for_mark_triangle "Mask: Mark circle for Mark triangle inside the host: Mark circle comes down to size" #mask_mark_host_for_mark_triangle scale custom at=200 dur=40 scaleX,scaleY*=[0:1.157,1.157 easeInSine 18:1.045,1.045 easeInSine 39:0.838,0.838]
+motion #act_mark_triangle_travel__mark_triangle_over_mark_host "Mark triangle inside the host: Mark triangle travels in" #mark_triangle_over_mark_host followPath custom at=218 dur=22 follow(path=#guide_mark_triangle, trail=t0, progress=[0:0 cubic-bezier(0.16,0.42,0.56,0.92) #act_mark_triangle_travel__mark_triangle_over_mark_host:from 21:1 #act_mark_triangle_travel__mark_triangle_over_mark_host:to])
+motion #act_mark_triangle_scale__mark_triangle_over_mark_host "Mark triangle inside the host: Mark triangle comes down to size" #mark_triangle_over_mark_host scale custom at=218 dur=22 scaleX,scaleY*=[0:1.22,1.22 easeInSine 9:1.11,1.11 easeInSine 21:0.98,0.98]
+motion #act_mark_triangle_spin__mark_triangle_over_mark_host "Mark triangle inside the host: Mark triangle turns in" #mark_triangle_over_mark_host rotation custom at=218 dur=22 rotation+==[0:0 easeOutQuad 9:58 easeOutQuad 21:105]
+motion #act_mark_square_travel__mask_mark_square_for_mark_triangle "Mask: Mark square for Where the square and triangle cross: Mark square travels in" #mask_mark_square_for_mark_triangle followPath custom at=212 dur=28 follow(path=#guide_mark_square, trail=t0, progress=[0:0 cubic-bezier(0.3,0.45,0.4,0.85) #act_mark_square_travel__mask_mark_square_for_mark_triangle:from 27:1 #act_mark_square_travel__mask_mark_square_for_mark_triangle:to])
+motion #act_mark_square_scale__mask_mark_square_for_mark_triangle "Mask: Mark square for Where the square and triangle cross: Mark square comes down to size" #mask_mark_square_for_mark_triangle scale custom at=212 dur=28 scaleX,scaleY*=[0:1.24,1.24 easeInSine 12:1.113,1.113 easeInSine 27:0.913,0.913]
+motion #act_mark_square_spin__mask_mark_square_for_mark_triangle "Mask: Mark square for Where the square and triangle cross: Mark square turns in" #mask_mark_square_for_mark_triangle rotation custom at=212 dur=28 rotation+==[0:0 easeOutQuad 11:130 easeOutQuad 27:237]
+motion #act_mark_triangle_travel__mark_triangle_over_mark_square "Where the square and triangle cross: Mark triangle travels in" #mark_triangle_over_mark_square followPath custom at=218 dur=22 follow(path=#guide_mark_triangle, trail=t0, progress=[0:0 cubic-bezier(0.16,0.42,0.56,0.92) #act_mark_triangle_travel__mark_triangle_over_mark_square:from 21:1 #act_mark_triangle_travel__mark_triangle_over_mark_square:to])
+motion #act_mark_triangle_scale__mark_triangle_over_mark_square "Where the square and triangle cross: Mark triangle comes down to size" #mark_triangle_over_mark_square scale custom at=218 dur=22 scaleX,scaleY*=[0:1.22,1.22 easeInSine 9:1.11,1.11 easeInSine 21:0.98,0.98]
+motion #act_mark_triangle_spin__mark_triangle_over_mark_square "Where the square and triangle cross: Mark triangle turns in" #mark_triangle_over_mark_square rotation custom at=218 dur=22 rotation+==[0:0 easeOutQuad 9:58 easeOutQuad 21:105]

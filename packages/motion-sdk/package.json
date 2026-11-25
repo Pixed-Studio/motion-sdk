@@ -1,20 +1,21 @@
 {
   "name": "motion-sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "One-package entry for AI agents: re-exports @motion-sdk/core and zero-dependency DSL/HTML/TSX compilers",
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./kernel": "../core/src/kernel/index.ts",
-    "./behaviors": "../core/src/behaviors/index.ts",
-    "./primitives/statement-converge": "../core/src/primitives/statement-converge.ts",
+    "./kernel": "./src/kernel.ts",
+    "./behaviors": "./src/behaviors.ts",
     "./compile": "./src/compile/index.ts",
     "./compile/motionade": "./src/compile/motionade.ts",
     "./compile/hyperframes": "./src/compile/hyperframes.ts",
     "./compile/remotion": "./src/compile/remotion.ts",
-    "./adapters/motionade": "./src/compile/motionade.ts",
-    "./adapters/hyperframes": "./src/compile/hyperframes.ts",
-    "./adapters/remotion": "./src/compile/remotion.ts"
+    "./rhythm": "./src/rhythm.ts",
+    "./feel": "./src/feel.ts",
+    "./look": "./src/look.ts",
+    "./stage": "./src/stage.ts",
+    "./atoms/statement-converge": "./src/atoms/statement-converge.ts"
   },
   "files": [
     "src",

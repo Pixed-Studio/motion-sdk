@@ -2,14 +2,14 @@
 
 Behavior-first, multi-target **Motion SDK for AI agents** — inspired by [`@ui-sdk/core`](https://github.com/vercel-labs/ui).
 
-Compose orthogonal **Motion Behaviors** and variable-cardinality **Slots** into a deterministic **Canonical Motion IR**, audit layout & pacing without screenshots, and output to Motionade, HyperFrames, or Remotion.
+Write a shot the way a designer briefs it (who is on stage, which moments matter, what answers them, what must stay true), compose it from orthogonal **Motion Behaviors** and variable-cardinality **Slots** into a deterministic **Canonical Motion IR**, audit it against what it declared without screenshots, and output to Motionade, HyperFrames, or Remotion.
 
 ## Packages (Hybrid Monorepo)
 
 | Package | Role | External Deps |
 | :--- | :--- | :--- |
 | [`motion-sdk`](./packages/motion-sdk) | **1-command Agent entry**: re-exports `@motion-sdk/core` + built-in zero-dep compilers (`motion-sdk/compile/*`) + bundled `SKILL.md` | **0** |
-| [`@motion-sdk/core`](./packages/core) | Pure spacetime kernel, L1 motion behaviors, L2 slot primitives, and `audit()` semantic inspector | **0** |
+| [`@motion-sdk/core`](./packages/core) | Kernel and score, rhythm, feel, look, stage, motion behaviors, the first atom, and the `audit()` that checks a shot against what it declared | **0** |
 | [`@motion-sdk/remotion`](./packages/remotion) | Isolated runtime `<MotionShot />` React component for live Remotion projects | `peerDependencies`: `react`, `remotion` |
 
 ## Quickstart
@@ -18,7 +18,7 @@ Compose orthogonal **Motion Behaviors** and variable-cardinality **Slots** into 
 pnpm install
 pnpm run typecheck
 pnpm test
-pnpm run build:examples
+pnpm run build:examples   # writes examples/out; open examples/out/preview.html to play every variant
 ```
 
 ## Documentation

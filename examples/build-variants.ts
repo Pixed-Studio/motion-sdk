@@ -2,193 +2,184 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  GLEAN_EDITORIAL_THEME,
-  VERIDIAN_NOIR_THEME,
   compileToHyperframes,
   compileToMotionade,
   compileToRemotion,
   statementConverge,
+  veridianNoir,
+  type MotionDocument,
+  type Shot,
 } from "motion-sdk";
+import { referenceDocument } from "./reference.ts";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const outDir = path.join(__dirname, "out");
+const here = path.dirname(fileURLToPath(import.meta.url));
+const outDir = path.join(here, "out");
+fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
 
-const variants = [
+/** One atom, four briefs. Each changes what a designer would change, and nothing else is restated. */
+const variants: { slug: string; component: string; title: string; brief: string; shot: Shot }[] = [
   {
-    slug: "01-glean-3lines-3s-30fps",
-    compName: "GleanBaselineShot",
+    slug: "01-three-lines",
+    component: "ThreeLines",
+    title: "Three lines",
+    brief: "The reference's copy and nothing else. No cue is given; the phrase solver places the lines.",
+    shot: statementConverge({ id: "three_lines", name: "Three lines", slots: { lines: ["Work", "differently", "with AI"] } }),
+  },
+  {
+    slug: "02-five-lines-100bpm",
+    component: "FiveLinesOnTheBeat",
+    title: "Five lines at 100 BPM",
+    brief: "Two more lines and a tempo. The first four become an eighth-note run-up and the last lands on a whole beat.",
     shot: statementConverge({
-      id: "glean_3lines_3s",
-      name: "Glean Editorial (3 Lines · 3.0s @ 30fps)",
-      options: {
-        durationSec: 3.0,
-        fps: 30,
-        theme: GLEAN_EDITORIAL_THEME,
-        cueSeconds: [0, 0.6, 1.2],
-        convergeAtSec: 2.3334,
-      },
-      slots: {
-        headlineLines: ["Work", "differently", "with AI"],
-      },
+      id: "five_lines_100bpm",
+      name: "Five lines at 100 BPM",
+      decisions: { tempo: { bpm: 100 } },
+      slots: { lines: ["Plan", "build", "test", "ship", "with AI"] },
     }),
   },
   {
-    slug: "02-adaptive-2lines-3s-30fps",
-    compName: "AdaptiveTwoLinesShot",
+    slug: "03-two-lines-even",
+    component: "TwoLinesEven",
+    title: "Two lines, no accent, 4 s",
+    brief: "A pair of equals, so no build: accent none. The extra second goes to reading, not to slower motion.",
     shot: statementConverge({
-      id: "adaptive_2lines_3s",
-      name: "Adaptive 2-Line Statement (3.0s @ 30fps)",
-      options: {
-        durationSec: 3.0,
-        fps: 30,
-        theme: GLEAN_EDITORIAL_THEME,
-      },
-      slots: {
-        headlineLines: ["Think", "beyond limits"],
-      },
+      id: "two_lines_even",
+      name: "Two lines, no accent",
+      decisions: { accent: "none", durationSec: 4 },
+      slots: { lines: ["Think", "beyond limits"] },
     }),
   },
   {
-    slug: "03-adaptive-4lines-3s-30fps",
-    compName: "AdaptiveFourLinesShot",
+    slug: "04-vertical-veridian-60fps",
+    component: "VerticalVeridian",
+    title: "Vertical, another look, 60 fps",
+    brief: "1080×1920 at 60 fps in a dark look, four lines, and the finished mark held for half a second.",
     shot: statementConverge({
-      id: "adaptive_4lines_3s",
-      name: "Adaptive 4-Line Statement (3.0s @ 30fps)",
-      options: {
-        durationSec: 3.0,
-        fps: 30,
-        theme: GLEAN_EDITORIAL_THEME,
-      },
-      slots: {
-        headlineLines: ["Orchestrate", "autonomous", "enterprise", "workflows"],
-      },
-    }),
-  },
-  {
-    slug: "04-veridian-rebrand-4.5s-60fps",
-    compName: "VeridianRebrandElasticShot",
-    shot: statementConverge({
-      id: "veridian_rebrand_60fps",
-      name: "Veridian Noir Rebrand + Hex Emblem (4.5s @ 60fps)",
-      options: {
-        durationSec: 4.5,
-        fps: 60,
-        theme: VERIDIAN_NOIR_THEME,
-      },
-      slots: {
-        headlineLines: ["Ship fearless", "agentic systems", "at planetary scale"],
-        emblemHost: {
-          id: "veridian_hex_host",
-          name: "Veridian Hexagon Core",
-          geometry: { kind: "rounded-polygon", sides: 6, diameter: 660, cornerRadius: 68 },
-          outsideFill: { kind: "solid", color: VERIDIAN_NOIR_THEME.brandPrimary },
-          waypoints1280: [
-            { x: -110, y: 360 },
-            { x: 340, y: -160 },
-            { x: 890, y: -60 },
-            { x: 1020, y: 260 },
-            { x: 860, y: 520 },
-            { x: 640, y: 360 },
-          ],
-          enterDelaySec: 0,
-          initialRotation: -30,
-          spinDeltaDeg: 30,
-          scaleFrom: 1.18,
-          scaleMid: 1.02,
-          scaleTo: 0.82,
-          progressEasing: { kind: "cubicBezier", x1: 0.16, y1: 0.82, x2: 0.44, y2: 1.0 },
-        },
-        emblemParts: [
-          {
-            id: "veridian_diamond_a",
-            name: "Veridian North Wing",
-            geometry: { kind: "rounded-polygon", sides: 4, diameter: 330, cornerRadius: 48 },
-            outsideFill: { kind: "linear", angleDeg: 120, stops: VERIDIAN_NOIR_THEME.emblemOutWarmStops },
-            insideHostFill: { kind: "linear", angleDeg: 220, stops: VERIDIAN_NOIR_THEME.emblemInPrimaryStops },
-            waypoints1280: [
-              { x: 210, y: 760 },
-              { x: 300, y: 490 },
-              { x: 450, y: 270 },
-              { x: 590, y: 255 },
-            ],
-            enterDelaySec: 0.16,
-            initialRotation: -80,
-            spinDeltaDeg: 125,
-            scaleFrom: 1.2,
-            scaleTo: 0.9,
-            progressEasing: { kind: "cubicBezier", x1: 0.28, y1: 0.48, x2: 0.38, y2: 0.9 },
-          },
-          {
-            id: "veridian_pent_b",
-            name: "Veridian South Prism",
-            geometry: { kind: "rounded-polygon", sides: 5, diameter: 350, cornerRadius: 46 },
-            outsideFill: {
-              kind: "radial",
-              domain: { x: 0.14, y: 0.22, width: 0.72, height: 0.72 },
-              stops: VERIDIAN_NOIR_THEME.freshRadialStops,
-            },
-            insideHostFill: { kind: "linear", angleDeg: 260, stops: VERIDIAN_NOIR_THEME.emblemInSecondaryStops },
-            waypoints1280: [
-              { x: 960, y: -140 },
-              { x: 940, y: 160 },
-              { x: 820, y: 360 },
-              { x: 705, y: 445 },
-            ],
-            enterDelaySec: 0.26,
-            initialRotation: 25,
-            spinDeltaDeg: -95,
-            scaleFrom: 1.22,
-            scaleTo: 0.94,
-            progressEasing: { kind: "cubicBezier", x1: 0.18, y1: 0.44, x2: 0.52, y2: 0.94 },
-          },
-        ],
-        overlapRules: [
-          {
-            id: "veridian_lens",
-            name: "Veridian Core Intersection Lens",
-            firstPartId: "veridian_diamond_a",
-            secondPartId: "veridian_pent_b",
-            intersectionFill: { kind: "solid", color: VERIDIAN_NOIR_THEME.surface },
-          },
-        ],
-      },
+      id: "vertical_veridian",
+      name: "Vertical Veridian",
+      decisions: { width: 1080, height: 1920, fps: 60, durationSec: 4.5, look: veridianNoir, holdAfterLandSec: 0.5 },
+      slots: { lines: ["Ship", "fearless", "agents", "at scale"] },
     }),
   },
 ];
 
+const write = (name: string, text: string) => fs.writeFileSync(path.join(outDir, name), text);
+
 for (const v of variants) {
   const audit = v.shot.audit();
   const motionade = compileToMotionade(v.shot.ir);
-  const hyperframesHtml = compileToHyperframes(v.shot.ir);
-  const remotionTsx = compileToRemotion(v.shot.ir, v.compName);
-
-  fs.writeFileSync(path.join(outDir, `${v.slug}.motionade.txt`), motionade.textView);
-  fs.writeFileSync(
-    path.join(outDir, `${v.slug}.motionade.ops.json`),
-    JSON.stringify(motionade.operations, null, 2)
-  );
-  fs.writeFileSync(path.join(outDir, `${v.slug}.hyperframes.html`), hyperframesHtml);
-  fs.writeFileSync(path.join(outDir, `${v.slug}.remotion.tsx`), remotionTsx);
-  fs.writeFileSync(
-    path.join(outDir, `${v.slug}.audit.json`),
-    JSON.stringify(
-      {
-        id: v.shot.ir.id,
-        format: v.shot.ir.format,
-        annotations: v.shot.ir.annotations,
-        audit,
-        sampleReadSnapshot: v.shot.snapshot(
-          Math.max(0, v.shot.ir.annotations.convergeStartFrame - 6)
-        ),
-        sampleEndSnapshot: v.shot.snapshot(v.shot.ir.annotations.emblemSettleFrame),
-      },
-      null,
-      2
-    )
-  );
-
-  console.log(
-    `[${v.slug}] audit.ok=${audit.ok} contrast=${audit.contrastRatio}:1 frames=${v.shot.ir.format.durationFrames}@${v.shot.ir.format.fps}fps ops=${motionade.operations.length} textLines=${motionade.textView.trim().split("\n").length} findings=${audit.findings.length}`
-  );
+  write(`${v.slug}.hyperframes.html`, compileToHyperframes(v.shot.ir));
+  write(`${v.slug}.motionade.txt`, motionade.textView);
+  write(`${v.slug}.motionade.ops.json`, JSON.stringify(motionade.operations, null, 2));
+  write(`${v.slug}.remotion.tsx`, compileToRemotion(v.shot.ir, v.component));
+  write(`${v.slug}.audit.json`, JSON.stringify({ format: v.shot.ir.format, score: v.shot.ir.score, audit }, null, 2));
+  const lines = v.shot.ir.score.cues.map((c) => `${c.name}@${c.frame}${c.kind === "accent" ? "*" : ""}`).join(" ");
+  console.log(`[${v.slug}] audit.ok=${audit.ok} findings=${audit.findings.length} ${v.shot.ir.format.durationFrames}f@${v.shot.ir.format.fps} | ${lines}`);
+  for (const f of audit.findings) console.log(`    ${f.severity} ${f.rule}: ${f.message}`);
 }
+
+const reference = referenceDocument();
+write("00-reference.hyperframes.html", compileToHyperframes(reference));
+write("statement-converge.describe.txt", statementConverge.describe() + "\n");
+
+// One page that plays every composition, for looking at them side by side in a browser.
+const body = (html: string) =>
+  html
+    .slice(html.indexOf("<body>") + 6, html.indexOf("</body>"))
+    .replace(/<script src="[^"]*gsap[^"]*"><\/script>/, "");
+const cueMarks = (doc: MotionDocument) =>
+  doc.score.cues.map((c) => ({ name: c.name, frame: c.frame, accent: c.kind === "accent", structure: c.kind === "structure" }));
+const tabs = [
+  ...variants.map((v) => ({ id: v.shot.ir.id, title: v.title, brief: v.brief, doc: v.shot.ir })),
+  { id: reference.id, title: "Reference", brief: "The project /reconstruct built, read from its 138 operations and drawn by the same compiler.", doc: reference },
+];
+
+export const previewPage = `<!doctype html>
+<meta charset="utf-8">
+<title>statement-converge</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=block">
+<style>
+  .ms { font-family: var(--font-sans, system-ui, sans-serif); color: var(--foreground, #111); }
+  .ms-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .ms-tabs button { font: inherit; font-size: 13px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--border, #ccc); background: transparent; color: inherit; cursor: pointer; }
+  .ms-tabs button[aria-pressed="true"] { background: var(--primary, #111); color: var(--primary-foreground, #fff); border-color: transparent; }
+  .ms-stage { position: relative; width: 100%; overflow: hidden; border-radius: var(--radius, 10px); background: var(--muted, #eee); }
+  .ms-comp { position: absolute; left: 0; top: 0; transform-origin: 0 0; display: none; }
+  .ms-comp.on { display: block; }
+  .ms-bar { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 13px; }
+  .ms-bar button { font: inherit; width: 64px; padding: 4px 0; border-radius: 6px; border: 1px solid var(--border, #ccc); background: transparent; color: inherit; cursor: pointer; }
+  .ms-track { position: relative; flex: 1; height: 34px; }
+  .ms-track input { position: absolute; left: 0; right: 0; top: 14px; width: 100%; margin: 0; }
+  .ms-cue { position: absolute; top: 0; font-size: 10px; line-height: 12px; transform: translateX(-50%); white-space: nowrap; opacity: 0.7; }
+  .ms-cue.accent { font-weight: 700; opacity: 1; }
+  .ms-frame { font-variant-numeric: tabular-nums; width: 76px; text-align: right; font-family: var(--font-mono, monospace); }
+  .ms-brief { margin: 10px 0 0; font-size: 13px; opacity: 0.8; min-height: 2.6em; }
+</style>
+<div class="ms">
+  <div class="ms-tabs" id="ms-tabs"></div>
+  <div class="ms-stage" id="ms-stage">
+${tabs.map((t) => `<div class="ms-comp" data-comp="${t.id}">${body(t.id === reference.id ? compileToHyperframes(reference, { fonts: false }) : compileToHyperframes(t.doc, { fonts: false }))}</div>`).join("\n")}
+  </div>
+  <div class="ms-bar">
+    <button id="ms-play" type="button">Pause</button>
+    <div class="ms-track"><div id="ms-cues"></div><input id="ms-scrub" type="range" min="0" value="0" step="1" aria-label="Frame"></div>
+    <div class="ms-frame" id="ms-frame"></div>
+  </div>
+  <p class="ms-brief" id="ms-brief"></p>
+</div>
+<script>
+(function () {
+  var TABS = ${JSON.stringify(tabs.map((t) => ({ id: t.id.replace(/[^a-zA-Z0-9_-]/g, "-"), title: t.title, brief: t.brief, format: t.doc.format, cues: cueMarks(t.doc) })))};
+  var stage = document.getElementById("ms-stage"), scrub = document.getElementById("ms-scrub");
+  var active = 0, playing = true, frame = 0, last = null;
+  function fit() {
+    var t = TABS[active], scale = Math.min(stage.clientWidth / t.format.width, 560 / t.format.height);
+    stage.style.height = Math.round(t.format.height * scale) + "px";
+    var el = stage.querySelector('[data-comp="' + t.id + '"]');
+    el.style.transform = "translateX(" + Math.round((stage.clientWidth - t.format.width * scale) / 2) + "px) scale(" + scale + ")";
+  }
+  function draw() {
+    var t = TABS[active];
+    window.__motionSdk[t.id].pose(Math.min(frame, t.format.durationFrames - 1));
+    scrub.value = String(Math.floor(frame));
+    document.getElementById("ms-frame").textContent = "f" + Math.floor(frame) + " / " + (t.format.durationFrames - 1);
+  }
+  function choose(i) {
+    active = i; frame = 0; last = null;
+    var t = TABS[i];
+    Array.prototype.forEach.call(stage.querySelectorAll(".ms-comp"), function (el) { el.classList.toggle("on", el.dataset.comp === t.id); });
+    Array.prototype.forEach.call(document.querySelectorAll("#ms-tabs button"), function (b, k) { b.setAttribute("aria-pressed", String(k === i)); });
+    scrub.max = String(t.format.durationFrames - 1);
+    document.getElementById("ms-brief").textContent = t.brief;
+    document.getElementById("ms-cues").innerHTML = t.cues.map(function (c) {
+      return '<span class="ms-cue' + (c.accent ? " accent" : "") + '" style="left:' + (100 * c.frame / (t.format.durationFrames - 1)).toFixed(2) + '%">' + (c.structure ? c.name : c.name.replace("line-", "")) + "</span>";
+    }).join("");
+    fit(); draw();
+  }
+  TABS.forEach(function (t, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = t.title; b.onclick = function () { choose(i); };
+    document.getElementById("ms-tabs").appendChild(b);
+  });
+  document.getElementById("ms-play").onclick = function () {
+    playing = !playing; last = null; this.textContent = playing ? "Pause" : "Play";
+  };
+  scrub.oninput = function () { playing = false; document.getElementById("ms-play").textContent = "Play"; frame = +scrub.value; draw(); };
+  addEventListener("resize", fit);
+  function tick(now) {
+    if (playing) {
+      var t = TABS[active], hold = t.format.fps * 0.7;
+      if (last !== null) frame += ((now - last) / 1000) * t.format.fps;
+      if (frame >= t.format.durationFrames + hold) frame = 0;
+      draw();
+    }
+    last = now;
+    requestAnimationFrame(tick);
+  }
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { choose(0); requestAnimationFrame(tick); });
+})();
+</script>
+`;
+write("preview.html", previewPage);
+console.log(`wrote ${fs.readdirSync(outDir).length} files to examples/out (preview.html is ${Math.round(previewPage.length / 1024)} KB)`);

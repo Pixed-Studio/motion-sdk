@@ -1,0 +1,256 @@
+{
+  "format": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationFrames": 120
+  },
+  "score": {
+    "shot": "statement-converge",
+    "cues": [
+      {
+        "name": "line-1",
+        "frame": 0,
+        "kind": "beat",
+        "weight": 1,
+        "why": "An arrival."
+      },
+      {
+        "name": "line-2",
+        "frame": 47,
+        "kind": "beat",
+        "weight": 1,
+        "why": "An arrival."
+      },
+      {
+        "name": "turn",
+        "frame": 100,
+        "kind": "structure",
+        "weight": 1,
+        "why": "Attention passes from the statement to the mark."
+      },
+      {
+        "name": "land",
+        "frame": 119,
+        "kind": "structure",
+        "weight": 1,
+        "why": "The mark is complete and at rest."
+      }
+    ],
+    "subjects": [
+      {
+        "nodeId": "txt_think",
+        "cue": "line-1",
+        "needsSec": 0.52,
+        "untilFrame": 93,
+        "accent": false
+      },
+      {
+        "nodeId": "txt_beyond_limits",
+        "cue": "line-2",
+        "needsSec": 0.89,
+        "untilFrame": 93,
+        "accent": false
+      }
+    ],
+    "claimFrames": 9,
+    "regions": {
+      "statement": {
+        "x": 370,
+        "y": 258,
+        "width": 540,
+        "height": 216
+      }
+    },
+    "safeArea": {
+      "x": 102,
+      "y": 65,
+      "width": 1076,
+      "height": 590
+    },
+    "invariants": [
+      {
+        "kind": "upright",
+        "nodeId": "mid_blue_big",
+        "toleranceDeg": 1,
+        "why": "It is lit from one side, so it must not turn with the group that carries it."
+      },
+      {
+        "kind": "upright",
+        "nodeId": "mid_blue_small",
+        "toleranceDeg": 1,
+        "why": "It is lit from one side, so it must not turn with the group that carries it."
+      },
+      {
+        "kind": "overlap",
+        "a": "mark_square",
+        "b": "mark_host",
+        "frame": 119,
+        "minShare": 0.5,
+        "why": "A part of the mark rests on its host; off it, the mark has come apart."
+      },
+      {
+        "kind": "overlap",
+        "a": "mark_triangle",
+        "b": "mark_host",
+        "frame": 119,
+        "minShare": 0.5,
+        "why": "A part of the mark rests on its host; off it, the mark has come apart."
+      },
+      {
+        "kind": "overlap",
+        "a": "mark_triangle",
+        "b": "mark_square",
+        "frame": 119,
+        "minShare": 0.03,
+        "why": "The overlap has its own fill, so the two parts must cross at rest."
+      }
+    ],
+    "handoff": {
+      "exit": {
+        "frame": 119,
+        "nodeId": "mark_host",
+        "position": {
+          "x": 634,
+          "y": 335
+        },
+        "velocity": {
+          "x": 3,
+          "y": 0
+        },
+        "size": 587,
+        "color": "#333CEE"
+      },
+      "entry": {
+        "frame": 0,
+        "nodeId": "txt_think",
+        "position": {
+          "x": 686,
+          "y": 318.5
+        },
+        "velocity": {
+          "x": -208,
+          "y": 0
+        },
+        "size": 233,
+        "color": "#000000"
+      }
+    },
+    "notes": []
+  },
+  "audit": {
+    "ok": true,
+    "findings": [],
+    "measures": {
+      "reading": [
+        {
+          "nodeId": "txt_think",
+          "label": "Think",
+          "cue": "line-1",
+          "arrivesFrame": 0,
+          "untilFrame": 93,
+          "needsSec": 0.52,
+          "offeredSec": 3.1,
+          "clearSec": 3.1,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "txt_beyond_limits",
+          "label": "beyond limits",
+          "cue": "line-2",
+          "arrivesFrame": 47,
+          "untilFrame": 93,
+          "needsSec": 0.89,
+          "offeredSec": 1.5333333333333334,
+          "clearSec": 1.5333333333333334,
+          "blockedBy": []
+        }
+      ],
+      "answers": [
+        {
+          "motionId": "act_ribbon_spin",
+          "track": "spinAngle",
+          "cue": "line-2",
+          "frame": 47,
+          "speedBefore": 10.799999999999997,
+          "speedAfter": 17.479687499999997,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_world_ring_turn",
+          "cue": "line-2",
+          "frame": 47,
+          "speedBefore": 11.340000000000003,
+          "speedAfter": 22.118055555555543,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_world_ring_turn",
+          "cue": "turn",
+          "frame": 100,
+          "speedBefore": 5.985000000000014,
+          "speedAfter": 8.166666666666657,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_blue_big_makes_room",
+          "cue": "turn",
+          "frame": 100,
+          "speedBefore": 9.653710606655086,
+          "speedAfter": 12.310945558955062,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_tri_big_makes_room",
+          "cue": "turn",
+          "frame": 100,
+          "speedBefore": 10.018929025668035,
+          "speedAfter": 12.777182788079692,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_tri_small_makes_room",
+          "cue": "turn",
+          "frame": 100,
+          "speedBefore": 10.631888576673022,
+          "speedAfter": 13.555894679273502,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_blue_small_makes_room",
+          "cue": "turn",
+          "frame": 100,
+          "speedBefore": 7.514723473944554,
+          "speedAfter": 9.58367506637082,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_warm_tiny_makes_room",
+          "cue": "turn",
+          "frame": 100,
+          "speedBefore": 7.4529040038928684,
+          "speedAfter": 9.506269568611604,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_warm_big_makes_room",
+          "cue": "turn",
+          "frame": 100,
+          "speedBefore": 4.4590751573258505,
+          "speedAfter": 5.688499606906709,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_warm_med_makes_room",
+          "cue": "turn",
+          "frame": 100,
+          "speedBefore": 3.7880942680766148,
+          "speedAfter": 4.830874374502222,
+          "peakOffset": 0
+        }
+      ],
+      "stills": [],
+      "contrast": 18.86
+    }
+  }
+}

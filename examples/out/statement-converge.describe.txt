@@ -1,0 +1,32 @@
+statement-converge
+
+The viewer reads a short statement one line at a time and feels it gather weight, then sees whose statement it is. The type stays calm: each line shows whole on its cue and settles. The energy is in the world around it, which answers every line by turning and moving outward to make room, with more shapes joining as the statement grows. On the turn, focus leaves the statement while the world is still moving, and the mark arrives sharp through it.
+
+Slots
+- lines (1 or more; subject, focal): The statement, one entry per line, one to three words each. Every line is an arrival and gets a cue. Break lines where the sense breaks; a line that needs longer than its length suggests takes { text, needsSec }.
+- world (0 or more; support, midground): Shapes around the statement, behind it. Each is placed by angle and distance from the statement and moves out on every arrival it is there for. Stagger `joins` so the picture gets busier as the statement grows.
+- passes (0 or more; ambient, foreground): Large out-of-focus shapes that cross in front on a cue. They give depth and speed; they must not sit over a line while it is being read.
+- mark (one, optional; carrier, focal): What the statement resolves into: a host and the parts that land on it. The host is what carries attention out of the shot.
+
+Decisions
+- width: Stage width in pixels. Sizes scale by the shorter relative side, so the composition keeps its proportions.
+- height: Stage height in pixels.
+- fps: Frames per second. Transients are in seconds and stay as sharp at 60 as at 30.
+- durationSec: Length of the shot. Arrivals, answers and the mark's travel keep their length; extra time goes to reading the statement.
+- look: Colours, type and materials. Defaults to the Glean look.
+- feel: How sharp arrivals and answers are, and how long one arrival holds the eye. Defaults to snappy editorial.
+- tempo: The music's tempo. With one, the lines land on its grid: the accent on a whole beat, a long run-up on eighths. Leave it out when there is no pulse to cut to, and the lines share the time by weight.
+- accent: Which line carries the weight. Defaults to the last, for a statement that builds to its end. Use "none" for a list of equals.
+- hold: How many run-up steps of time the accent keeps. Defaults to 1.5 for up to three lines and 2.5 above, so a longer statement compresses its run-up and gives the room to the landing.
+- cueSeconds: Exact arrival times, one per line, for cutting to marked audio or matching a reference. They replace the solver; the audit still checks them.
+- turnAtSec: When attention passes to the mark. By default the mark lands on the shot's last frame, so the turn is one carry before the end.
+- holdAfterLandSec: Seconds the finished mark is held. Defaults to 0: the next shot takes over as it lands. Give it a hold when this shot ends the film.
+- backdrop: Whether the turning ribbon stands behind the statement. Defaults to true; turn it off for a bare ground.
+- audio: A soundtrack to place on the shot's clock.
+
+When the content changes
+1. Line count: decide which line is the accent before anything else. More lines do not mean the same arrival repeated; past three, the early lines are a run-up.
+2. Line length: a long line shrinks the type and widens the block, and the world moves further out to clear it. Read the reading times in the audit.
+3. Duration or tempo: check each line's clear reading time, then the gaps between arrivals against the feel's claim.
+4. The mark: seat every part on the host and check they still cross where an overlap is declared.
+5. The world or the passes: after any change, read which object the audit says covers a line, and for how long.

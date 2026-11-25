@@ -1,4 +1,4 @@
-import type { CompiledShotInstance, MotionDocument } from "@motion-sdk/core";
+import type { Shot, MotionDocument } from "@motion-sdk/core";
 import * as React from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import {
@@ -10,13 +10,13 @@ import {
 export { buildRemotionFrameElement, getRemotionCompositionConfig, type RemotionCompositionConfig };
 
 export interface MotionShotProps {
-  shot?: CompiledShotInstance;
+  shot?: Shot;
   doc?: MotionDocument;
   frameOverride?: number;
 }
 
 /**
- * Runtime Remotion component (`@motion-sdk/remotion`): renders any CompiledShotInstance or MotionDocument
+ * Runtime Remotion component (`@motion-sdk/remotion`): renders any Shot or MotionDocument
  * directly via `useCurrentFrame()` with zero intermediate codegen files.
  */
 export const MotionShot: React.FC<MotionShotProps> = ({ shot, doc, frameOverride }) => {
