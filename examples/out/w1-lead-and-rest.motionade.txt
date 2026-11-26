@@ -1,0 +1,21 @@
+project "A lead word, then the rest" 1280x720 30fps timingStyles=[] brushes=[] authoringDefaults={emptyShapeFill: "none"}
+
+scene #lead_and_rest__scene-1 "Word by word" dur=51 bg=#F7F2EB motionBlockGroups=[]
+frame #phrase "Phrase" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5006944444444444 z=10
+  frame #line_1 "Line 1" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=1
+    frame #arrival_1 "Into" x=0 y=0 width=1280 height=720 originX=0.27284375 originY=0.5006944444444444 z=1
+      text #w_into "Into" text="Into" x=296.99 y=321 width=104.5 height=79 fill=#000000 fontFamily=Geist fontSize=61 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.3 z=1
+    frame #arrival_2 "a complete floor plan" x=0 y=0 width=1280 height=720 originX=0.54573828125 originY=0.5006944444444444 z=2
+      text #w_a "a" text="a" x=414.08 y=321 width=33.79 height=79 fill=#000000 fontFamily=Geist fontSize=61 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.3 z=1
+      text #w_complete "complete" text="complete" x=460.46 y=321 width=253.14 height=79 fill=#000000 fontFamily=Geist fontSize=61 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.3 z=2
+      text #w_floor_plan "floor plan" text="floor plan" x=726.19 y=321 width=256.82 height=79 fill=#333CEE fontFamily=Geist fontSize=61 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.3 z=3
+motion #act_w_into_in "Into appears" #w_into opacity in at=0 dur=3 opacity=[0:0.7 easeOutQuad 2:1]
+motion #act_w_into_focus "Into comes into focus" #w_into layerBlur custom at=0 dur=3 blur=[0:9 easeOutQuad 2:0]
+motion #act_w_a_in "a appears" #w_a opacity in at=17 dur=3 opacity=[0:0.7 easeOutQuad 2:1]
+motion #act_w_a_focus "a comes into focus" #w_a layerBlur custom at=17 dur=3 blur=[0:9 easeOutQuad 2:0]
+motion #act_w_complete_in "complete appears" #w_complete opacity in at=19 dur=3 opacity=[0:0.7 easeOutQuad 2:1]
+motion #act_w_complete_focus "complete comes into focus" #w_complete layerBlur custom at=19 dur=3 blur=[0:9 easeOutQuad 2:0]
+motion #act_w_floor_plan_in "floor plan appears" #w_floor_plan opacity in at=21 dur=3 opacity=[0:0.7 easeOutQuad 2:1]
+motion #act_w_floor_plan_focus "floor plan comes into focus" #w_floor_plan layerBlur custom at=21 dur=3 blur=[0:9 easeOutQuad 2:0]
+motion #act_arrival_1_punch "Into lands large and settles" #arrival_1 scale custom at=0 dur=16 scaleX,scaleY*=[0:3.6,3.6 easeOutQuart 15:1,1]
+motion #act_line_1_room "Line 1 makes room" #line_1 move custom at=0 dur=25 x,y+=[0:290.76,0 17:290.76,0 linear 19:267.57,0 linear 21:134.71,0 easeOutCubic 24:0,0]

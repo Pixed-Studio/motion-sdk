@@ -7,10 +7,12 @@ import {
   compileToRemotion,
   statementConverge,
   veridianNoir,
+  wordByWord,
   type MotionDocument,
   type Shot,
 } from "motion-sdk";
 import { referenceDocument } from "./reference.ts";
+import { wordByWordVariants } from "./word-by-word-variants.ts";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.join(here, "out");
@@ -66,7 +68,7 @@ const variants: { slug: string; component: string; title: string; brief: string;
 
 const write = (name: string, text: string) => fs.writeFileSync(path.join(outDir, name), text);
 
-for (const v of variants) {
+for (const v of [...variants, ...wordByWordVariants]) {
   const audit = v.shot.audit();
   const motionade = compileToMotionade(v.shot.ir);
   write(`${v.slug}.hyperframes.html`, compileToHyperframes(v.shot.ir));
@@ -82,6 +84,7 @@ for (const v of variants) {
 const reference = referenceDocument();
 write("00-reference.hyperframes.html", compileToHyperframes(reference));
 write("statement-converge.describe.txt", statementConverge.describe() + "\n");
+write("word-by-word.describe.txt", wordByWord.describe() + "\n");
 
 // One page that plays every composition, for looking at them side by side in a browser.
 const body = (html: string) =>

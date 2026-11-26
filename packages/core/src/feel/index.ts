@@ -23,6 +23,20 @@ export interface Feel {
     /** Extra letter-spacing at the start, in em. */
     looseEm: number;
     ease: EasingSpec;
+    /** Seconds between the words of one arrival. Shorter than a claim on purpose: they read as one gesture. */
+    staggerSec: number;
+    /** Seconds a word takes to come into focus, and the blur it starts from in design units. */
+    focusSec: number;
+    focusBlur: number;
+    /** Seconds what is already on the line takes to make room for a word joining it. */
+    shiftSec: number;
+  };
+  punch: {
+    /** How large an accent starts when it has the stage to itself, as a multiple of its resting size. */
+    scale: number;
+    /** Seconds it takes to settle to its resting size. Most of the fall is in the first third. */
+    sec: number;
+    ease: EasingSpec;
   };
   respond: {
     /** Seconds an answer winds up before its cue. */
@@ -52,12 +66,25 @@ export interface Feel {
   };
 }
 
-/** Quick to arrive, long to settle, hard on the beat. Measured from the Glean opening. */
+/** Quick to arrive, long to settle, hard on the beat. Measured from the Glean opening, except where noted. */
 export const snappyEditorial: Feel = {
   id: "snappy-editorial",
   name: "Snappy editorial",
   claimSec: 0.3,
-  arrive: { travelSec: 0.88, settleSec: 0.82, travelEm: 0.31, looseEm: 0.054, ease: ease("easeOutQuart") },
+  arrive: {
+    travelSec: 0.88,
+    settleSec: 0.82,
+    travelEm: 0.31,
+    looseEm: 0.054,
+    ease: ease("easeOutQuart"),
+    // The four below and the punch are measured from the Synaps product film: words two frames
+    // apart at 30 fps, sharp within three, and a lead word falling from 3.6 times its size.
+    staggerSec: 0.067,
+    focusSec: 0.1,
+    focusBlur: 9,
+    shiftSec: 0.1,
+  },
+  punch: { scale: 3.6, sec: 0.53, ease: ease("easeOutQuart") },
   respond: {
     windUpSec: 0.17,
     releaseSec: 0.2,

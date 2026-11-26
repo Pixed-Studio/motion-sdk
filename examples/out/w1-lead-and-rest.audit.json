@@ -1,0 +1,164 @@
+{
+  "format": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationFrames": 51
+  },
+  "score": {
+    "shot": "word-by-word",
+    "cues": [
+      {
+        "name": "arrival-1",
+        "frame": 0,
+        "kind": "accent",
+        "weight": 1.15,
+        "why": "The arrival the phrase builds to. It keeps the stage longest and the world answers it hardest."
+      },
+      {
+        "name": "arrival-2",
+        "frame": 17,
+        "kind": "beat",
+        "weight": 0.9,
+        "why": "An arrival."
+      }
+    ],
+    "subjects": [
+      {
+        "nodeId": "w_into",
+        "cue": "arrival-1",
+        "needsSec": 0.48,
+        "untilFrame": 51,
+        "accent": true
+      },
+      {
+        "nodeId": "w_a",
+        "cue": "arrival-2",
+        "needsSec": 0.85,
+        "untilFrame": 51,
+        "accent": false
+      },
+      {
+        "nodeId": "w_complete",
+        "cue": "arrival-2",
+        "needsSec": 0.85,
+        "untilFrame": 51,
+        "accent": false
+      },
+      {
+        "nodeId": "w_floor_plan",
+        "cue": "arrival-2",
+        "needsSec": 0.85,
+        "untilFrame": 51,
+        "accent": false
+      }
+    ],
+    "claimFrames": 9,
+    "regions": {
+      "phrase": {
+        "x": 297,
+        "y": 321,
+        "width": 686,
+        "height": 79
+      }
+    },
+    "safeArea": {
+      "x": 102,
+      "y": 65,
+      "width": 1076,
+      "height": 590
+    },
+    "invariants": [],
+    "handoff": {
+      "entry": {
+        "frame": 0,
+        "nodeId": "w_into",
+        "position": {
+          "x": 640,
+          "y": 360.5
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        },
+        "size": 376,
+        "color": "#000000"
+      },
+      "exit": {
+        "frame": 50,
+        "nodeId": "w_floor_plan",
+        "position": {
+          "x": 854.6,
+          "y": 360.5
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        },
+        "size": 257,
+        "color": "#333CEE"
+      }
+    },
+    "notes": []
+  },
+  "audit": {
+    "ok": true,
+    "findings": [],
+    "measures": {
+      "reading": [
+        {
+          "nodeId": "w_into",
+          "label": "Into",
+          "cue": "arrival-1",
+          "arrivesFrame": 0,
+          "untilFrame": 51,
+          "needsSec": 0.48,
+          "offeredSec": 1.7,
+          "clearSec": 1.6333333333333333,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_a",
+          "label": "a",
+          "cue": "arrival-2",
+          "arrivesFrame": 17,
+          "untilFrame": 51,
+          "needsSec": 0.85,
+          "offeredSec": 1.1333333333333333,
+          "clearSec": 1.0666666666666667,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_complete",
+          "label": "complete",
+          "cue": "arrival-2",
+          "arrivesFrame": 17,
+          "untilFrame": 51,
+          "needsSec": 0.85,
+          "offeredSec": 1.0666666666666667,
+          "clearSec": 1,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_floor_plan",
+          "label": "floor plan",
+          "cue": "arrival-2",
+          "arrivesFrame": 17,
+          "untilFrame": 51,
+          "needsSec": 0.85,
+          "offeredSec": 1,
+          "clearSec": 0.9333333333333333,
+          "blockedBy": []
+        }
+      ],
+      "answers": [],
+      "stills": [
+        {
+          "fromFrame": 24,
+          "toFrame": 50
+        }
+      ],
+      "contrast": 6.24
+    }
+  }
+}

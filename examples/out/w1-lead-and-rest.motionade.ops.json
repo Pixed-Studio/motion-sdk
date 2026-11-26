@@ -1,0 +1,731 @@
+[
+  {
+    "kind": "updateSceneName",
+    "sceneId": "lead_and_rest__scene-1",
+    "name": "Word by word"
+  },
+  {
+    "kind": "updateSceneDuration",
+    "sceneId": "lead_and_rest__scene-1",
+    "durationFrames": 51
+  },
+  {
+    "kind": "setSceneBackgroundFill",
+    "sceneId": "lead_and_rest__scene-1",
+    "background": {
+      "kind": "solid",
+      "color": "#F7F2EB"
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "lead_and_rest__scene-1",
+    "object": {
+      "id": "phrase",
+      "kind": "frame",
+      "name": "Phrase",
+      "layer": 10,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "lead_and_rest__scene-1",
+    "object": {
+      "id": "line_1",
+      "kind": "frame",
+      "name": "Line 1",
+      "parentId": "phrase",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "lead_and_rest__scene-1",
+    "object": {
+      "id": "arrival_1",
+      "kind": "frame",
+      "name": "Into",
+      "parentId": "line_1",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.27284375,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "lead_and_rest__scene-1",
+    "object": {
+      "id": "w_into",
+      "kind": "text",
+      "name": "Into",
+      "parentId": "arrival_1",
+      "layer": 1,
+      "base": {
+        "x": 349.24,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "Into"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "lead_and_rest__scene-1",
+    "object": {
+      "id": "arrival_2",
+      "kind": "frame",
+      "name": "a complete floor plan",
+      "parentId": "line_1",
+      "layer": 2,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.54573828125,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "lead_and_rest__scene-1",
+    "object": {
+      "id": "w_a",
+      "kind": "text",
+      "name": "a",
+      "parentId": "arrival_2",
+      "layer": 1,
+      "base": {
+        "x": 430.98,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "a"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "lead_and_rest__scene-1",
+    "object": {
+      "id": "w_complete",
+      "kind": "text",
+      "name": "complete",
+      "parentId": "arrival_2",
+      "layer": 2,
+      "base": {
+        "x": 587.03,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "complete"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "lead_and_rest__scene-1",
+    "object": {
+      "id": "w_floor_plan",
+      "kind": "text",
+      "name": "floor plan",
+      "parentId": "arrival_2",
+      "layer": 3,
+      "base": {
+        "x": 854.6,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "floor plan"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#333CEE"
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_into_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_into_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_into_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_into_in",
+        "name": "Into appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_into"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_into_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_into_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_into_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_into_focus",
+        "name": "Into comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_into"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_a_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_a_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_a_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_a_in",
+        "name": "a appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_a"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 17,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_a_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_a_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_a_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_a_focus",
+        "name": "a comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 17,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_complete_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_complete_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_complete_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_complete_in",
+        "name": "complete appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_complete"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 19,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_complete_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_complete_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_complete_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_complete_focus",
+        "name": "complete comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_complete"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 19,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_floor_plan_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_floor_plan_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_floor_plan_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_floor_plan_in",
+        "name": "floor plan appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_floor_plan"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 21,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_floor_plan_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_floor_plan_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_floor_plan_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_floor_plan_focus",
+        "name": "floor plan comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_floor_plan"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 21,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_arrival_1_punch_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_arrival_1_punch_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 3.6,
+                  "scaleY": 3.6
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "act_arrival_1_punch_k1",
+                "frame": 15,
+                "value": {
+                  "scaleX": 1,
+                  "scaleY": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_arrival_1_punch",
+        "name": "Into lands large and settles",
+        "target": {
+          "kind": "object",
+          "objectId": "arrival_1"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 16
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "lead_and_rest__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_line_1_room_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_line_1_room_k0",
+                "frame": 0,
+                "value": {
+                  "x": 290.76,
+                  "y": 0
+                }
+              },
+              {
+                "id": "act_line_1_room_k1",
+                "frame": 17,
+                "value": {
+                  "x": 290.76,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_line_1_room_k2",
+                "frame": 19,
+                "value": {
+                  "x": 267.57,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_line_1_room_k3",
+                "frame": 21,
+                "value": {
+                  "x": 134.71,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_line_1_room_k4",
+                "frame": 24,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_line_1_room",
+        "name": "Line 1 makes room",
+        "target": {
+          "kind": "object",
+          "objectId": "line_1"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 25
+        }
+      }
+    }
+  }
+]
