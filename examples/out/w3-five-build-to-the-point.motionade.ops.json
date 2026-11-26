@@ -1,0 +1,1411 @@
+[
+  {
+    "kind": "updateSceneName",
+    "sceneId": "five_build__scene-1",
+    "name": "Word by word"
+  },
+  {
+    "kind": "updateSceneDuration",
+    "sceneId": "five_build__scene-1",
+    "durationFrames": 102
+  },
+  {
+    "kind": "setSceneBackgroundFill",
+    "sceneId": "five_build__scene-1",
+    "background": {
+      "kind": "solid",
+      "color": "#F7F2EB"
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "glow_a",
+      "kind": "shape",
+      "name": "glow-a",
+      "layer": 1,
+      "base": {
+        "x": 239.6,
+        "y": 140.1,
+        "width": 458,
+        "height": 281
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#DCFC5E"
+        },
+        "blur": 70
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "glow_b",
+      "kind": "shape",
+      "name": "glow-b",
+      "layer": 2,
+      "base": {
+        "x": 653.9,
+        "y": 300.4,
+        "width": 390,
+        "height": 256
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#DCFC5E"
+        },
+        "blur": 70
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "phrase",
+      "kind": "frame",
+      "name": "Phrase",
+      "layer": 10,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "line_1",
+      "kind": "frame",
+      "name": "Line 1",
+      "parentId": "phrase",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "arrival_1",
+      "kind": "frame",
+      "name": "Plan,",
+      "parentId": "line_1",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.23935937499999999,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "w_plan",
+      "kind": "text",
+      "name": "Plan,",
+      "parentId": "arrival_1",
+      "layer": 1,
+      "base": {
+        "x": 306.38,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "Plan,"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "arrival_2",
+      "kind": "frame",
+      "name": "build,",
+      "parentId": "line_1",
+      "layer": 2,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.35680859375,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "w_build",
+      "kind": "text",
+      "name": "build,",
+      "parentId": "arrival_2",
+      "layer": 1,
+      "base": {
+        "x": 456.72,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "build,"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "arrival_3",
+      "kind": "frame",
+      "name": "test,",
+      "parentId": "line_1",
+      "layer": 3,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.4693476562499999,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "w_test",
+      "kind": "text",
+      "name": "test,",
+      "parentId": "arrival_3",
+      "layer": 1,
+      "base": {
+        "x": 600.77,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "test,"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "arrival_4",
+      "kind": "frame",
+      "name": "ship",
+      "parentId": "line_1",
+      "layer": 4,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5707265625,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "w_ship",
+      "kind": "text",
+      "name": "ship",
+      "parentId": "arrival_4",
+      "layer": 1,
+      "base": {
+        "x": 730.53,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "ship"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "arrival_5",
+      "kind": "frame",
+      "name": "together.",
+      "parentId": "line_1",
+      "layer": 5,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.625265625,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "five_build__scene-1",
+    "object": {
+      "id": "w_together",
+      "kind": "text",
+      "name": "together.",
+      "parentId": "arrival_5",
+      "layer": 1,
+      "base": {
+        "x": 920.1,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "together."
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#333CEE"
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_a_answers_2_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_a_answers_2_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k1",
+                "frame": 6,
+                "value": {
+                  "x": -5.8,
+                  "y": -2.7
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k2",
+                "frame": 11,
+                "value": {
+                  "x": -8.12,
+                  "y": -3.79
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k3",
+                "frame": 16,
+                "value": {
+                  "x": -11.91,
+                  "y": -5.55
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k4",
+                "frame": 22,
+                "value": {
+                  "x": -18.22,
+                  "y": -8.49
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k5",
+                "frame": 26,
+                "value": {
+                  "x": -20.74,
+                  "y": -9.67
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k6",
+                "frame": 31,
+                "value": {
+                  "x": -24.78,
+                  "y": -11.55
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k7",
+                "frame": 37,
+                "value": {
+                  "x": -31.52,
+                  "y": -14.7
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k8",
+                "frame": 42,
+                "value": {
+                  "x": -34.22,
+                  "y": -15.96
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k9",
+                "frame": 47,
+                "value": {
+                  "x": -38.57,
+                  "y": -17.99
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k10",
+                "frame": 53,
+                "value": {
+                  "x": -45.82,
+                  "y": -21.37
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k11",
+                "frame": 58,
+                "value": {
+                  "x": -48.72,
+                  "y": -22.72
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k12",
+                "frame": 63,
+                "value": {
+                  "x": -53.73,
+                  "y": -25.05
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k13",
+                "frame": 69,
+                "value": {
+                  "x": -62.06,
+                  "y": -28.94
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k14",
+                "frame": 101,
+                "value": {
+                  "x": -65.4,
+                  "y": -30.5
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_a_answers_2",
+        "name": "glow-a answers the arrivals",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 102
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_b_answers_2_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_b_answers_2_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k1",
+                "frame": 6,
+                "value": {
+                  "x": 6.09,
+                  "y": 1.98
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k2",
+                "frame": 11,
+                "value": {
+                  "x": 8.52,
+                  "y": 2.77
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k3",
+                "frame": 16,
+                "value": {
+                  "x": 12.5,
+                  "y": 4.06
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k4",
+                "frame": 22,
+                "value": {
+                  "x": 19.12,
+                  "y": 6.21
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k5",
+                "frame": 26,
+                "value": {
+                  "x": 21.76,
+                  "y": 7.07
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k6",
+                "frame": 31,
+                "value": {
+                  "x": 26,
+                  "y": 8.45
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k7",
+                "frame": 37,
+                "value": {
+                  "x": 33.08,
+                  "y": 10.75
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k8",
+                "frame": 42,
+                "value": {
+                  "x": 35.91,
+                  "y": 11.67
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k9",
+                "frame": 47,
+                "value": {
+                  "x": 40.48,
+                  "y": 13.15
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k10",
+                "frame": 53,
+                "value": {
+                  "x": 48.09,
+                  "y": 15.62
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k11",
+                "frame": 58,
+                "value": {
+                  "x": 51.13,
+                  "y": 16.61
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k12",
+                "frame": 63,
+                "value": {
+                  "x": 56.38,
+                  "y": 18.32
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k13",
+                "frame": 69,
+                "value": {
+                  "x": 65.13,
+                  "y": 21.16
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k14",
+                "frame": 101,
+                "value": {
+                  "x": 68.63,
+                  "y": 22.3
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_b_answers_2",
+        "name": "glow-b answers the arrivals",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 102
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_plan_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_plan_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_plan_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_plan_in",
+        "name": "Plan, appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_plan"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_plan_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_plan_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_plan_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_plan_focus",
+        "name": "Plan, comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_plan"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_build_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_build_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_build_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_build_in",
+        "name": "build, appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_build"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 16,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_build_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_build_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_build_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_build_focus",
+        "name": "build, comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_build"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 16,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_test_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_test_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_test_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_test_in",
+        "name": "test, appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_test"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 31,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_test_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_test_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_test_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_test_focus",
+        "name": "test, comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_test"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 31,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_ship_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_ship_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_ship_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_ship_in",
+        "name": "ship appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_ship"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 47,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_ship_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_ship_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_ship_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_ship_focus",
+        "name": "ship comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_ship"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 47,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_together_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_together_in_k0",
+                "frame": 0,
+                "value": 0.7,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_together_in_k1",
+                "frame": 2,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_together_in",
+        "name": "together. appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_together"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 63,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_together_focus_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_together_focus_k0",
+                "frame": 0,
+                "value": 9,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuad"
+                }
+              },
+              {
+                "id": "act_w_together_focus_k1",
+                "frame": 2,
+                "value": 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_together_focus",
+        "name": "together. comes into focus",
+        "target": {
+          "kind": "object",
+          "objectId": "w_together"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 63,
+          "durationFrames": 3
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_arrival_5_punch_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_arrival_5_punch_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.14,
+                  "scaleY": 1.14
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "act_arrival_5_punch_k1",
+                "frame": 15,
+                "value": {
+                  "scaleX": 1,
+                  "scaleY": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_arrival_5_punch",
+        "name": "together. lands large and settles",
+        "target": {
+          "kind": "object",
+          "objectId": "arrival_5"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 63,
+          "durationFrames": 16
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "five_build__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_line_1_room_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_line_1_room_k0",
+                "frame": 0,
+                "value": {
+                  "x": 333.62,
+                  "y": 0
+                }
+              },
+              {
+                "id": "act_line_1_room_k1",
+                "frame": 16,
+                "value": {
+                  "x": 333.62,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_line_1_room_k2",
+                "frame": 19,
+                "value": {
+                  "x": 255.82,
+                  "y": 0
+                }
+              },
+              {
+                "id": "act_line_1_room_k3",
+                "frame": 31,
+                "value": {
+                  "x": 255.82,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_line_1_room_k4",
+                "frame": 34,
+                "value": {
+                  "x": 189.57,
+                  "y": 0
+                }
+              },
+              {
+                "id": "act_line_1_room_k5",
+                "frame": 47,
+                "value": {
+                  "x": 189.57,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_line_1_room_k6",
+                "frame": 50,
+                "value": {
+                  "x": 126.06,
+                  "y": 0
+                }
+              },
+              {
+                "id": "act_line_1_room_k7",
+                "frame": 63,
+                "value": {
+                  "x": 126.06,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_line_1_room_k8",
+                "frame": 66,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_line_1_room",
+        "name": "Line 1 makes room",
+        "target": {
+          "kind": "object",
+          "objectId": "line_1"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 67
+        }
+      }
+    }
+  }
+]

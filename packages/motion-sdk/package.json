@@ -15,7 +15,8 @@
     "./feel": "./src/feel.ts",
     "./look": "./src/look.ts",
     "./stage": "./src/stage.ts",
-    "./atoms/statement-converge": "./src/atoms/statement-converge.ts"
+    "./atoms/statement-converge": "./src/atoms/statement-converge.ts",
+    "./atoms/word-by-word": "./src/atoms/word-by-word.ts"
   },
   "files": [
     "src",

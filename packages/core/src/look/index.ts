@@ -1,4 +1,6 @@
+import type { FontMetrics } from "../kernel/geometry.ts";
 import type { FillSpec } from "../kernel/ir.ts";
+import { geist420, geist500 } from "./geist-metrics.ts";
 
 export type MaterialName = "primary" | "fresh" | "warm";
 
@@ -27,6 +29,8 @@ export interface Look {
     weight: number;
     /** Resting letter-spacing in em. */
     trackingEm: number;
+    /** The font's own spacing at this weight. Shots that set words side by side need it. */
+    metrics?: FontMetrics;
   };
   materials: Record<MaterialName, Material>;
 }
@@ -57,7 +61,7 @@ export const gleanEditorial: Look = {
   surface: "#F7F2EB",
   ink: "#000000",
   backdrop: "#DCFC5E",
-  type: { family: "Geist", weight: 420, trackingEm: -0.0215 },
+  type: { family: "Geist", weight: 420, trackingEm: -0.0215, metrics: geist420 },
   materials: {
     primary: {
       flat: "#333CEE",
@@ -122,7 +126,7 @@ export const veridianNoir: Look = {
   surface: "#0E131F",
   ink: "#F6F8FC",
   backdrop: "#0B5E57",
-  type: { family: "Geist", weight: 500, trackingEm: -0.0215 },
+  type: { family: "Geist", weight: 500, trackingEm: -0.0215, metrics: geist500 },
   materials: {
     primary: {
       flat: "#00D4B2",

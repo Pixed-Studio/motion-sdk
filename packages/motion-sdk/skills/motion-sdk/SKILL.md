@@ -9,7 +9,7 @@ A shot is written as a designer would brief it: who is on stage and what each is
 
 ## Read first
 
-1. `statementConverge.describe()` (or any shot's `describe()`): its intent, its slots, every decision it leaves to you with what the default does, and what to reconsider when the content changes. Read it before you fill a slot.
+1. The shot's `describe()`, for example `statementConverge.describe()` or `wordByWord.describe()`: its intent, its slots, every decision it leaves to you with what the default does, and what to reconsider when the content changes. Read it before you fill a slot.
 2. The JSDoc on the option you are about to set. Each says when to choose which value. The types in `node_modules/@motion-sdk/core/src` are the API.
 3. `shot.audit()` after every change, including its `measures` when it passes.
 
@@ -26,7 +26,7 @@ These are where shots go wrong. Decide each in a sentence first.
 
 ## Pick your path
 
-1. **Fill a shipped shot.** `statementConverge({ decisions, slots })`. Change copy, count, tempo, accent, duration, format, look, world, passes or mark. A slot you leave out keeps the shot's own content; an empty list means none.
+1. **Fill a shipped shot.** `statementConverge({ decisions, slots })` builds a short statement line by line while a world answers it and a mark arrives. `wordByWord({ decisions, slots })` brings a sentence in a few words at a time: give it as arrivals (the words that land together on one cue), and say which arrival is the accent. Change copy, count, tempo, accent, duration, format, look and what is behind. A slot you leave out keeps the shot's own content; an empty list means none.
 2. **Compose a new shot.** `defineShot` with `slot.one` / `slot.many`, then in `compose`: place objects with `stack`, `group`, `place`, `guide`; time them with `createClock` and `solvePhrase`; move them with `arrive`, `respond`, `keepUpright`, `recolorWhere`, `pass`, `focusPull`, `travel`. Read how `statement-converge` is composed first: it is built from the same pieces you have.
 
 When the same movement repeats across two shots and no behavior covers it, write one shaped like ours: it takes the score and the ids of objects that already exist, adds motion with a `reason`, and creates no content of its own. Keep a picture that belongs to one shot (a shader, a mark) in that shot's folder.

@@ -6,6 +6,8 @@ export interface HyperframesOptions {
    * the text uses; pass `false` when the page that hosts the composition already loads them.
    */
   fonts?: string | false;
+  /** Where the page loads GSAP from. Defaults to a public CDN; give your own copy to host it yourself. */
+  gsap?: string;
 }
 
 const escapeHtml = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -145,7 +147,7 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
   <style>
     html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: ${doc.scene.backgroundColor}; }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="${options.gsap ?? "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"}"></script>
 </head>
 <body>
   <div id="${p}root" data-composition-id="${compId}" data-start="0" data-width="${width}" data-height="${height}" data-fps="${fps}" data-duration="${durSec}" style="position:relative;width:${width}px;height:${height}px;overflow:hidden;background:${doc.scene.backgroundColor}">

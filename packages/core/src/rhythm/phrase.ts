@@ -58,6 +58,21 @@ function solveFree(count: number, from: number, to: number, accent: number | nul
 }
 
 /**
+ * When the last arrival would be left less than its reading time, the arrivals before it close up
+ * to give it that time, as far as one claim each allows. What still does not fit is for the audit.
+ */
+function makeRoom(frames: number[], opts: PhraseOptions): number[] {
+  const { from, to } = opts.window;
+  const last = frames.length - 1;
+  const latest = to - (opts.needFrames[last] ?? 0);
+  if (last < 1 || frames[last]! <= latest) return frames;
+  const earliest = from + last * opts.claimFrames;
+  const target = Math.max(latest, Math.min(earliest, frames[last]!));
+  const k = (target - from) / (frames[last]! - from);
+  return frames.map((f) => Math.round(from + (f - from) * k));
+}
+
+/**
  * Places the arrivals on the tempo's grid. The accent takes the whole beat nearest its free
  * position that still leaves it its reading time. The arrivals before it run from the first grid
  * position on consecutive steps of the coarsest division that leaves a step of rest before the
@@ -124,7 +139,7 @@ export function solvePhrase(opts: PhraseOptions): Phrase {
     }
     frames = opts.at.map((s) => clock.frame(s));
   } else {
-    const free = solveFree(count, from, to, accent, hold);
+    const free = makeRoom(solveFree(count, from, to, accent, hold), opts);
     frames = clock.tempo ? solveOnGrid(opts, accent, hold, free) : free;
   }
 

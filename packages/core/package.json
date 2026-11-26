@@ -11,7 +11,8 @@
     "./feel": "./src/feel/index.ts",
     "./look": "./src/look/index.ts",
     "./stage": "./src/stage/index.ts",
-    "./atoms/statement-converge": "./src/atoms/statement-converge/index.ts"
+    "./atoms/statement-converge": "./src/atoms/statement-converge/index.ts",
+    "./atoms/word-by-word": "./src/atoms/word-by-word/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

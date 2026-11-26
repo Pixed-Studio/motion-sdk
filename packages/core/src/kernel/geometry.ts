@@ -71,6 +71,31 @@ const CHAR_WIDTH_FACTORS: Record<string, number> = {
  * Deterministic proportional glyph measurement calibrated against Geist 400–500.
  * Handles ASCII, punctuation, and wide CJK characters without requiring a live browser DOM.
  */
+/** A font's own spacing: how far each character advances and how pairs close up, per `unitsPerEm`. */
+export interface FontMetrics {
+  unitsPerEm: number;
+  advances: Record<string, number>;
+  /** Adjustment between two characters, keyed by the pair. */
+  kerning: Record<string, number>;
+}
+
+/**
+ * Width of a run of text. With the font's metrics it is the width the font sets; without them it
+ * falls back to `estimateTextBox`, which is within a few percent and good for a block of lines
+ * but not for setting words side by side.
+ */
+export function measureText(text: string, fontSize: number, letterSpacing: number, metrics?: FontMetrics): number {
+  if (!metrics) return estimateTextBox(text, fontSize, letterSpacing).width;
+  const chars = Array.from(text);
+  const fallback = metrics.advances["n"] ?? metrics.unitsPerEm * 0.56;
+  let units = 0;
+  chars.forEach((ch, i) => {
+    units += metrics.advances[ch] ?? ((ch.codePointAt(0) ?? 32) > 0x2e80 ? metrics.unitsPerEm : fallback);
+    if (i > 0) units += metrics.kerning[chars[i - 1]! + ch] ?? 0;
+  });
+  return Math.round(((units / metrics.unitsPerEm) * fontSize + Math.max(0, chars.length - 1) * letterSpacing) * 100) / 100;
+}
+
 export function estimateTextBox(
   text: string,
   fontSize: number,

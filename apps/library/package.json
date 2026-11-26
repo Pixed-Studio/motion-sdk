@@ -1,0 +1,30 @@
+{
+  "name": "@motion-sdk/library",
+  "private": true,
+  "type": "module",
+  "description": "The Motion SDK library: every shipped atom, playing live, with the decisions it leaves to its author",
+  "scripts": {
+    "vendor": "node scripts/vendor.mjs",
+    "dev": "node scripts/vendor.mjs && next dev -p 4420",
+    "build": "node scripts/vendor.mjs && next build",
+    "start": "next start -p 4420",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@motion-sdk/core": "workspace:*",
+    "@ui-sdk/core": "0.1.0-beta.17",
+    "@ui-sdk/react": "0.1.0-beta.17",
+    "motion-sdk": "workspace:*",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "geist": "^1.5.1",
+    "gsap": "3.12.5",
+    "@types/react": "^19.3.1",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^5.7.0"
+  }
+}

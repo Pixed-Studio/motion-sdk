@@ -21,9 +21,10 @@ When AI agents write low-level animation primitives directly, they burn context 
   - `src/kernel/` — Canonical Motion IR with its score (`ir.ts`), the `Score` a shot is written on (`score.ts`), `defineShot` + `slot` (`shot.ts`), the evaluator and zero-screenshot `snapshot` (`evaluate.ts`), the audit (`audit.ts`), handoffs (`handoff.ts`), easing and geometry. The kernel knows no particular shot.
   - `src/rhythm/`, `src/feel/`, `src/look/`, `src/stage/` — one module per axis: `createClock` and `solvePhrase`; `Feel`; `Look` and materials; `stack`, `group`, `place`, `guide`.
   - `src/behaviors/` — Motion behaviors. Each attaches to objects that already exist and creates no content: `arrive`, `respond`, `keepUpright`, `recolorWhere`, `pass`, `focusPull`, `travel`.
-  - `src/atoms/<name>/` — Shots composed from the above, with whatever belongs to that shot alone (its default content, a shader). `statement-converge` is the first.
+  - `src/atoms/<name>/` — Shots composed from the above, with whatever belongs to that shot alone (its default content, a shader). `statement-converge` is the first; `word-by-word` is the second, fitted to a reference taken from the film library.
 - `packages/motion-sdk/` (`motion-sdk`) — **Single-package entry for AI agents** (`npm i motion-sdk`): re-exports `@motion-sdk/core`, zero-dependency target compilers (`src/compile/{motionade,hyperframes,remotion}.ts`), and the shipped agent skill (`skills/motion-sdk/SKILL.md`).
 - `packages/remotion/` (`@motion-sdk/remotion`) — **Isolated runtime adapter** (`peerDependencies: { react, remotion }`): live `<MotionShot />` and `getRemotionCompositionConfig()`.
+- `apps/library/` (`@motion-sdk/library`, private) — **The library site**: Next.js, interface built with UI SDK (`@ui-sdk/react`; read `node_modules/@ui-sdk/react/docs/llms.txt` before touching it). It draws each atom live from `compileToHyperframes` and holds no choreography: an atom's page is described in `lib/atoms.ts` as controls that map to the shot's decisions and slots.
 - `scripts/check-boundaries.ts` — Enforces zero external/DOM leaks in `@motion-sdk/core` and zero peer-dep bloat in `motion-sdk`.
 - `examples/reference.ts` — Reads the project `/reconstruct` built (`examples/glean-reference/`) into a motion document. `tests/fidelity.test.ts` holds the atom's output to it.
 

@@ -239,8 +239,9 @@ export function auditMotion(doc: MotionDocument): AuditReport {
     });
   }
 
-  // Attention: arrivals closer than one claim compete for the eye.
-  const arrivals = doc.score.subjects
+  // Attention: arrivals closer than one claim compete for the eye. Subjects that share a cue are
+  // one arrival, made of several objects on purpose.
+  const arrivals = [...new Map(doc.score.subjects.map((s) => [s.cue, s])).values()]
     .map((s) => ({ subject: s, frame: cueFrame.get(s.cue) ?? 0 }))
     .sort((a, b) => a.frame - b.frame);
   let crowded = 0;

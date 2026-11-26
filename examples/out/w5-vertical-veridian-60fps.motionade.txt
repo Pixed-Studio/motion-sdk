@@ -1,0 +1,36 @@
+project "Vertical words" 1080x1920 60fps timingStyles=[] brushes=[] authoringDefaults={emptyShapeFill: "none"}
+
+scene #vertical_words__scene-1 "Word by word" dur=216 bg=#0E131F motionBlockGroups=[]
+shape #glow_a "glow-a" ellipse x=-162.1 y=574.3 width=803 height=492 fill=#0B5E57 blur=59 z=1
+shape #glow_b "glow-b" ellipse x=563.8 y=855 width=685 height=449 fill=#0B5E57 blur=59 z=2
+frame #phrase "Phrase" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5002604166666667 z=10
+  frame #line_1 "Line 1" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5 z=1
+    frame #arrival_1 "Meet" x=0 y=0 width=1080 height=1920 originX=0.14062962962962963 originY=0.4356770833333333 z=1
+      text #w_meet "Meet" text="Meet" x=151.88 y=767 width=250.22 height=139 fill=#F6F8FC fontFamily=Geist fontSize=107 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-2.3 z=1
+  frame #line_2 "Line 2" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5 z=2
+    frame #arrival_2 "agents that ship" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5002604166666667 z=2
+      text #w_agents "agents" text="agents" x=151.88 y=891 width=331.54 height=139 fill=#F6F8FC fontFamily=Geist fontSize=107 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-2.3 z=1
+      text #w_that "that" text="that" x=504.82 y=891 width=196.72 height=139 fill=#F6F8FC fontFamily=Geist fontSize=107 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-2.3 z=2
+      text #w_ship "ship" text="ship" x=722.95 y=891 width=205.17 height=139 fill=#00D4B2 fontFamily=Geist fontSize=107 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-2.3 z=3
+  frame #line_3 "Line 3" x=0 y=0 width=1080 height=1920 originX=0.5 originY=0.5 z=3
+    frame #arrival_3 "while you sleep." x=0 y=0 width=1080 height=1920 originX=0.49316203703703704 originY=0.56484375 z=3
+      text #w_while "while" text="while" x=151.88 y=1015 width=258.62 height=139 fill=#F6F8FC fontFamily=Geist fontSize=107 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-2.3 z=1
+      text #w_you "you" text="you" x=431.9 y=1015 width=176.23 height=139 fill=#F6F8FC fontFamily=Geist fontSize=107 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-2.3 z=2
+      text #w_sleep "sleep." text="sleep." x=629.53 y=1015 width=283.82 height=139 fill=#F6F8FC fontFamily=Geist fontSize=107 fontWeight=500 textAlign=center textSizing=auto-width letterSpacing=-2.3 z=3
+motion #act_glow_a_answers_2 "glow-a answers the arrivals" #glow_a move custom at=0 dur=216 x,y+=[0:0,0 easeOutCubic 12:-7.03,-3.28 linear 75:-9.85,-4.59 easeInQuad 85:-13.15,-6.13 easeOutCubic 97:-18.66,-8.7 linear 131:-20.86,-9.73 easeInQuad 141:-24.16,-11.27 easeOutCubic 153:-29.67,-13.84 linear 215:-31.87,-14.86]
+motion #act_glow_b_answers_2 "glow-b answers the arrivals" #glow_b move custom at=0 dur=216 x,y+=[0:0,0 easeOutCubic 12:7.38,2.4 linear 75:10.34,3.36 easeInQuad 85:13.8,4.48 easeOutCubic 97:19.58,6.36 linear 131:21.89,7.11 easeInQuad 141:25.36,8.24 easeOutCubic 153:31.14,10.12 linear 215:33.45,10.87]
+motion #act_w_meet_in "Meet appears" #w_meet opacity in at=0 dur=6 opacity=[0:0.7 easeOutQuad 5:1]
+motion #act_w_meet_focus "Meet comes into focus" #w_meet layerBlur custom at=0 dur=6 blur=[0:7.6 easeOutQuad 5:0]
+motion #act_w_agents_in "agents appears" #w_agents opacity in at=85 dur=6 opacity=[0:0.7 easeOutQuad 5:1]
+motion #act_w_agents_focus "agents comes into focus" #w_agents layerBlur custom at=85 dur=6 blur=[0:7.6 easeOutQuad 5:0]
+motion #act_w_that_in "that appears" #w_that opacity in at=89 dur=6 opacity=[0:0.7 easeOutQuad 5:1]
+motion #act_w_that_focus "that comes into focus" #w_that layerBlur custom at=89 dur=6 blur=[0:7.6 easeOutQuad 5:0]
+motion #act_w_ship_in "ship appears" #w_ship opacity in at=93 dur=6 opacity=[0:0.7 easeOutQuad 5:1]
+motion #act_w_ship_focus "ship comes into focus" #w_ship layerBlur custom at=93 dur=6 blur=[0:7.6 easeOutQuad 5:0]
+motion #act_w_while_in "while appears" #w_while opacity in at=141 dur=6 opacity=[0:0.7 easeOutQuad 5:1]
+motion #act_w_while_focus "while comes into focus" #w_while layerBlur custom at=141 dur=6 blur=[0:7.6 easeOutQuad 5:0]
+motion #act_w_you_in "you appears" #w_you opacity in at=145 dur=6 opacity=[0:0.7 easeOutQuad 5:1]
+motion #act_w_you_focus "you comes into focus" #w_you layerBlur custom at=145 dur=6 blur=[0:7.6 easeOutQuad 5:0]
+motion #act_w_sleep_in "sleep. appears" #w_sleep opacity in at=149 dur=6 opacity=[0:0.7 easeOutQuad 5:1]
+motion #act_w_sleep_focus "sleep. comes into focus" #w_sleep layerBlur custom at=149 dur=6 blur=[0:7.6 easeOutQuad 5:0]
+motion #act_arrival_1_punch "Meet lands large and settles" #arrival_1 scale custom at=0 dur=32 scaleX,scaleY*=[0:3.37,3.37 easeOutQuart 31:1,1]

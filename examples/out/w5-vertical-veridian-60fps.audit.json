@@ -1,0 +1,253 @@
+{
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 60,
+    "durationFrames": 216
+  },
+  "score": {
+    "shot": "word-by-word",
+    "cues": [
+      {
+        "name": "arrival-1",
+        "frame": 0,
+        "kind": "accent",
+        "weight": 1.15,
+        "why": "The arrival the phrase builds to. It keeps the stage longest and the world answers it hardest."
+      },
+      {
+        "name": "arrival-2",
+        "frame": 85,
+        "kind": "beat",
+        "weight": 0.9,
+        "why": "An arrival."
+      },
+      {
+        "name": "arrival-3",
+        "frame": 141,
+        "kind": "beat",
+        "weight": 0.9,
+        "why": "An arrival."
+      }
+    ],
+    "subjects": [
+      {
+        "nodeId": "w_meet",
+        "cue": "arrival-1",
+        "needsSec": 0.48,
+        "untilFrame": 216,
+        "accent": true
+      },
+      {
+        "nodeId": "w_agents",
+        "cue": "arrival-2",
+        "needsSec": 1.02,
+        "untilFrame": 216,
+        "accent": false
+      },
+      {
+        "nodeId": "w_that",
+        "cue": "arrival-2",
+        "needsSec": 1.02,
+        "untilFrame": 216,
+        "accent": false
+      },
+      {
+        "nodeId": "w_ship",
+        "cue": "arrival-2",
+        "needsSec": 1.02,
+        "untilFrame": 216,
+        "accent": false
+      },
+      {
+        "nodeId": "w_while",
+        "cue": "arrival-3",
+        "needsSec": 1.02,
+        "untilFrame": 216,
+        "accent": false
+      },
+      {
+        "nodeId": "w_you",
+        "cue": "arrival-3",
+        "needsSec": 1.02,
+        "untilFrame": 216,
+        "accent": false
+      },
+      {
+        "nodeId": "w_sleep",
+        "cue": "arrival-3",
+        "needsSec": 1.02,
+        "untilFrame": 216,
+        "accent": false
+      }
+    ],
+    "claimFrames": 18,
+    "regions": {
+      "phrase": {
+        "x": 152,
+        "y": 767,
+        "width": 776,
+        "height": 387
+      }
+    },
+    "safeArea": {
+      "x": 86,
+      "y": 173,
+      "width": 908,
+      "height": 1574
+    },
+    "invariants": [],
+    "handoff": {
+      "entry": {
+        "frame": 0,
+        "nodeId": "w_meet",
+        "position": {
+          "x": 573.5,
+          "y": 836.5
+        },
+        "velocity": {
+          "x": -2187,
+          "y": 0
+        },
+        "size": 843,
+        "color": "#F6F8FC"
+      },
+      "exit": {
+        "frame": 215,
+        "nodeId": "w_ship",
+        "position": {
+          "x": 825.5,
+          "y": 960.5
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        },
+        "size": 205,
+        "color": "#00D4B2"
+      }
+    },
+    "notes": []
+  },
+  "audit": {
+    "ok": true,
+    "findings": [],
+    "measures": {
+      "reading": [
+        {
+          "nodeId": "w_meet",
+          "label": "Meet",
+          "cue": "arrival-1",
+          "arrivesFrame": 0,
+          "untilFrame": 216,
+          "needsSec": 0.48,
+          "offeredSec": 3.6,
+          "clearSec": 3.55,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_agents",
+          "label": "agents",
+          "cue": "arrival-2",
+          "arrivesFrame": 85,
+          "untilFrame": 216,
+          "needsSec": 1.02,
+          "offeredSec": 2.183333333333333,
+          "clearSec": 2.1333333333333333,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_that",
+          "label": "that",
+          "cue": "arrival-2",
+          "arrivesFrame": 85,
+          "untilFrame": 216,
+          "needsSec": 1.02,
+          "offeredSec": 2.1166666666666667,
+          "clearSec": 2.066666666666667,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_ship",
+          "label": "ship",
+          "cue": "arrival-2",
+          "arrivesFrame": 85,
+          "untilFrame": 216,
+          "needsSec": 1.02,
+          "offeredSec": 2.05,
+          "clearSec": 2,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_while",
+          "label": "while",
+          "cue": "arrival-3",
+          "arrivesFrame": 141,
+          "untilFrame": 216,
+          "needsSec": 1.02,
+          "offeredSec": 1.25,
+          "clearSec": 1.2,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_you",
+          "label": "you",
+          "cue": "arrival-3",
+          "arrivesFrame": 141,
+          "untilFrame": 216,
+          "needsSec": 1.02,
+          "offeredSec": 1.1833333333333333,
+          "clearSec": 1.1333333333333333,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_sleep",
+          "label": "sleep.",
+          "cue": "arrival-3",
+          "arrivesFrame": 141,
+          "untilFrame": 216,
+          "needsSec": 1.02,
+          "offeredSec": 1.1166666666666667,
+          "clearSec": 1.0666666666666667,
+          "blockedBy": []
+        }
+      ],
+      "answers": [
+        {
+          "motionId": "act_glow_a_answers_2",
+          "cue": "arrival-2",
+          "frame": 85,
+          "speedBefore": 0.6919131159329189,
+          "speedAfter": 1.3968254006541614,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_glow_a_answers_2",
+          "cue": "arrival-3",
+          "frame": 141,
+          "speedBefore": 0.6919131159329174,
+          "speedAfter": 1.3968254006541632,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_glow_b_answers_2",
+          "cue": "arrival-2",
+          "frame": 85,
+          "speedBefore": 0.6909837914162668,
+          "speedAfter": 1.3964058932670949,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_glow_b_answers_2",
+          "cue": "arrival-3",
+          "frame": 141,
+          "speedBefore": 0.693377660441983,
+          "speedAfter": 1.3964058932670964,
+          "peakOffset": 0
+        }
+      ],
+      "stills": [],
+      "contrast": 9.77
+    }
+  }
+}

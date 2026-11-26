@@ -1,0 +1,181 @@
+{
+  "format": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationFrames": 90
+  },
+  "score": {
+    "shot": "word-by-word",
+    "cues": [
+      {
+        "name": "arrival-1",
+        "frame": 0,
+        "kind": "beat",
+        "weight": 1,
+        "why": "An arrival."
+      },
+      {
+        "name": "arrival-2",
+        "frame": 15,
+        "kind": "beat",
+        "weight": 1,
+        "why": "An arrival."
+      },
+      {
+        "name": "arrival-3",
+        "frame": 30,
+        "kind": "beat",
+        "weight": 1,
+        "why": "An arrival."
+      }
+    ],
+    "subjects": [
+      {
+        "nodeId": "w_plan",
+        "cue": "arrival-1",
+        "needsSec": 0.52,
+        "untilFrame": 90,
+        "accent": false
+      },
+      {
+        "nodeId": "w_build",
+        "cue": "arrival-2",
+        "needsSec": 0.57,
+        "untilFrame": 90,
+        "accent": false
+      },
+      {
+        "nodeId": "w_ship",
+        "cue": "arrival-3",
+        "needsSec": 0.52,
+        "untilFrame": 90,
+        "accent": false
+      }
+    ],
+    "claimFrames": 9,
+    "regions": {
+      "phrase": {
+        "x": 420,
+        "y": 321,
+        "width": 440,
+        "height": 79
+      }
+    },
+    "safeArea": {
+      "x": 102,
+      "y": 65,
+      "width": 1076,
+      "height": 590
+    },
+    "invariants": [],
+    "handoff": {
+      "entry": {
+        "frame": 0,
+        "nodeId": "w_plan",
+        "position": {
+          "x": 640,
+          "y": 360.5
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        },
+        "size": 132,
+        "color": "#000000"
+      },
+      "exit": {
+        "frame": 89,
+        "nodeId": "w_ship",
+        "position": {
+          "x": 792.8,
+          "y": 360.5
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        },
+        "size": 134,
+        "color": "#000000"
+      }
+    },
+    "notes": []
+  },
+  "audit": {
+    "ok": true,
+    "findings": [],
+    "measures": {
+      "reading": [
+        {
+          "nodeId": "w_plan",
+          "label": "Plan.",
+          "cue": "arrival-1",
+          "arrivesFrame": 0,
+          "untilFrame": 90,
+          "needsSec": 0.52,
+          "offeredSec": 3,
+          "clearSec": 2.933333333333333,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_build",
+          "label": "Build.",
+          "cue": "arrival-2",
+          "arrivesFrame": 15,
+          "untilFrame": 90,
+          "needsSec": 0.57,
+          "offeredSec": 2.5,
+          "clearSec": 2.433333333333333,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_ship",
+          "label": "Ship.",
+          "cue": "arrival-3",
+          "arrivesFrame": 30,
+          "untilFrame": 90,
+          "needsSec": 0.52,
+          "offeredSec": 2,
+          "clearSec": 1.9333333333333333,
+          "blockedBy": []
+        }
+      ],
+      "answers": [
+        {
+          "motionId": "act_glow_a_answers_2",
+          "cue": "arrival-2",
+          "frame": 15,
+          "speedBefore": 1.7281274952965697,
+          "speedAfter": 3.3700254163749293,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_glow_a_answers_2",
+          "cue": "arrival-3",
+          "frame": 30,
+          "speedBefore": 1.7266081894859633,
+          "speedAfter": 3.370025416374929,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_glow_b_answers_2",
+          "cue": "arrival-2",
+          "frame": 15,
+          "speedBefore": 1.7293232433527277,
+          "speedAfter": 3.372015657444382,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_glow_b_answers_2",
+          "cue": "arrival-3",
+          "frame": 30,
+          "speedBefore": 1.7258987224052291,
+          "speedAfter": 3.3707126562302907,
+          "peakOffset": 0
+        }
+      ],
+      "stills": [],
+      "contrast": 18.86
+    }
+  }
+}
