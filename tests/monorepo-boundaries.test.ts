@@ -10,7 +10,7 @@ import { compileToMotionade } from "motion-sdk/compile/motionade";
 
 test("@motion-sdk/core stays strictly target-agnostic (no compiler/adapter exports)", () => {
   assert.equal(typeof corePkg.statementConverge, "function");
-  assert.equal(typeof corePkg.createBeatGrid, "function");
+  assert.equal(typeof corePkg.respond, "function");
   assert.equal("compileToMotionade" in corePkg, false);
   assert.equal("compileToHyperframes" in corePkg, false);
   assert.equal("compileToRemotion" in corePkg, false);
@@ -19,8 +19,8 @@ test("@motion-sdk/core stays strictly target-agnostic (no compiler/adapter expor
 test("motion-sdk single-package entry exposes both core behaviors and zero-dep compilers", () => {
   const shot = agentEntryPkg.statementConverge({
     id: "entry_smoke",
-    options: { durationSec: 3.0, fps: 30 },
-    slots: { headlineLines: ["One install", "Zero friction"] },
+    decisions: { durationSec: 3.0, fps: 30 },
+    slots: { lines: ["One install", "Zero friction"] },
   });
   assert.equal(shot.audit().ok, true);
   const out = compileToMotionade(shot.ir);
@@ -31,8 +31,8 @@ test("motion-sdk single-package entry exposes both core behaviors and zero-dep c
 test("@motion-sdk/remotion runtime virtual-tree builder evaluates frames without intermediate TSX files", () => {
   const shot = corePkg.statementConverge({
     id: "remotion_runtime_test",
-    options: { durationSec: 3.0, fps: 30 },
-    slots: { headlineLines: ["Runtime", "Remotion"] },
+    decisions: { durationSec: 3.0, fps: 30 },
+    slots: { lines: ["Runtime", "Remotion"] },
   });
 
   const cfg = getRemotionCompositionConfig(shot);
@@ -58,5 +58,5 @@ test("@motion-sdk/remotion runtime virtual-tree builder evaluates frames without
 
   const treeAtEnd = buildRemotionFrameElement(shot.ir, 89, h, "AbsoluteFill");
   const serializedEnd = JSON.stringify(treeAtEnd);
-  assert.ok(serializedEnd.includes("clip_mb_hero_xor"));
+  assert.ok(serializedEnd.includes("clip_clip_mark_triangle_over_mark_square"));
 });

@@ -1,4 +1,4 @@
-import { vectorNetworkToSvgPath, type MotionDocument } from "@motion-sdk/core";
+import { lifetime, vectorNetworkToSvgPath, type MotionDocument } from "@motion-sdk/core";
 
 /**
  * Target Adapter C: Compiles Canonical Motion IR into a self-contained, pure-function
@@ -19,6 +19,9 @@ export function compileToRemotion(
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 
 const IR_DOCUMENT = ${JSON.stringify(doc, null, 2)} as const;
+const LIVES: Record<string, { start: number; end: number }> = ${JSON.stringify(
+    Object.fromEntries(doc.nodes.map((n) => [n.id, lifetime(doc, n)]))
+  )};
 const SVG_PATHS: Record<string, string> = ${JSON.stringify(svgPaths, null, 2)};
 
 function solveBezier(x1: number, y1: number, x2: number, y2: number, x: number): number {
@@ -99,7 +102,7 @@ export const ${componentName}: React.FC = () => {
   const guideTables = useMemo(() => {
     const map = new Map<string, { pts: { x: number; y: number; len: number }[]; total: number }>();
     for (const n of IR_DOCUMENT.nodes as readonly any[]) {
-      if (n.kind === "path" && n.role === "guide-path") {
+      if (n.kind === "path" && n.role === "guide") {
         const vMap = new Map<string, any>(n.network.vertices.map((v: any) => [v.id, v]));
         const pts: { x: number; y: number; len: number }[] = [];
         let total = 0;
@@ -128,9 +131,8 @@ export const ${componentName}: React.FC = () => {
   }, []);
 
   const evalNodeTransform = (node: any) => {
-    const inRange =
-      !node.range ||
-      (frame >= node.range.startFrame && frame < node.range.startFrame + node.range.durationFrames);
+    const life = LIVES[node.id as string]!;
+    const inRange = frame >= life.start && frame < life.end;
     let x = node.base.x as number;
     let y = node.base.y as number;
     let rot = (node.base.rotation ?? 0) as number;
@@ -188,7 +190,7 @@ export const ${componentName}: React.FC = () => {
 
   const renderSubtree = (parentId?: string): React.ReactNode => {
     return nodes
-      .filter((n) => n.parentId === parentId && n.role !== "guide-path" && !maskSourceIds.has(n.id))
+      .filter((n) => n.parentId === parentId && n.role !== "guide" && !maskSourceIds.has(n.id))
       .sort((a, b) => a.layer - b.layer)
       .map((n) => {
         const st = evalNodeTransform(n);
@@ -277,15 +279,13 @@ export const ${componentName}: React.FC = () => {
             const st = evalNodeTransform(src);
             return (
               <clipPath key={m.id} id={\`clip_\${m.id}\`} clipPathUnits="userSpaceOnUse">
-                <g transform={st.transform}>
-                  {src.kind === "shape" && src.shape === "ellipse" ? (
-                    <ellipse cx={src.base.width / 2} cy={src.base.height / 2} rx={src.base.width / 2} ry={src.base.height / 2} />
-                  ) : src.kind === "shape" ? (
-                    <rect x={0} y={0} width={src.base.width} height={src.base.height} rx={src.borderRadius ?? 0} />
-                  ) : (
-                    <path d={SVG_PATHS[src.id]} />
-                  )}
-                </g>
+                {src.kind === "shape" && src.shape === "ellipse" ? (
+                  <ellipse transform={st.transform} cx={src.base.width / 2} cy={src.base.height / 2} rx={src.base.width / 2} ry={src.base.height / 2} />
+                ) : src.kind === "shape" ? (
+                  <rect transform={st.transform} x={0} y={0} width={src.base.width} height={src.base.height} rx={src.borderRadius ?? 0} />
+                ) : (
+                  <path transform={st.transform} d={SVG_PATHS[src.id]} />
+                )}
               </clipPath>
             );
           })}

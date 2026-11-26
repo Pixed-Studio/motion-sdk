@@ -1,235 +1,208 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
-  GLEAN_EDITORIAL_THEME,
-  VERIDIAN_NOIR_THEME,
+  arrive,
+  checkHandoff,
   compileToHyperframes,
   compileToMotionade,
   compileToRemotion,
-  createBeatGrid,
-  createConvergeEmblem,
-  createKineticStack,
-  defaultBrandEmblemSlots,
-  defineShotPrimitive,
+  createClock,
+  defineShot,
+  evaluateAt,
+  gleanEditorial,
+  group,
+  place,
+  respond,
   slot,
+  snappyEditorial,
+  solvePhrase,
+  stack,
   statementConverge,
+  veridianNoir,
 } from "motion-sdk";
 
-test("Baseline 3-line Glean shot matches 3.0s@30fps beat landmarks and passes semantic audit", () => {
-  const shot = statementConverge({
-    id: "glean_baseline",
-    options: {
-      durationSec: 3.0,
-      fps: 30,
-      theme: GLEAN_EDITORIAL_THEME,
-      cueSeconds: [0, 0.6, 1.2],
-      convergeAtSec: 2.3334,
-    },
-    slots: {
-      headlineLines: ["Work", "differently", "with AI"],
-    },
-  });
+const REFERENCE = ["Work", "differently", "with AI"];
+const FIVE = ["Plan", "build", "test", "ship", "with AI"];
+const cues = (shot: { ir: { score: { cues: { name: string; frame: number }[] } } }) =>
+  Object.fromEntries(shot.ir.score.cues.map((c) => [c.name, c.frame]));
 
-  assert.deepEqual(shot.ir.annotations.beatFrames, [0, 18, 36]);
-  assert.equal(shot.ir.annotations.convergeStartFrame, 70);
+test("three lines land where the reference's do, with no cue given", () => {
+  const shot = statementConverge({ slots: { lines: REFERENCE } });
+  assert.deepEqual(cues(shot), { "line-1": 0, "line-2": 18, "line-3": 36, turn: 70, land: 89 });
   assert.equal(shot.ir.format.durationFrames, 90);
-
   const report = shot.audit();
   assert.equal(report.ok, true, JSON.stringify(report.findings));
-  assert.ok(report.contrastRatio >= 18);
-  assert.equal(shot.ir.masks.length, 3);
 });
 
-test("Variable-cardinality headline slot adapts cleanly from 2 lines to 4 lines without collision or overflow", () => {
-  const twoLines = statementConverge({
-    options: { durationSec: 3.0, fps: 30 },
-    slots: { headlineLines: ["Think", "beyond limits"] },
-  });
-  const fourLines = statementConverge({
-    options: { durationSec: 3.0, fps: 30 },
-    slots: {
-      headlineLines: ["Orchestrate", "autonomous", "enterprise", "workflows"],
-    },
-  });
+test("five lines are a run-up and a landing, not the same arrival five times", () => {
+  const free = statementConverge({ slots: { lines: FIVE } });
+  const frames = free.ir.score.cues.filter((c) => c.name.startsWith("line")).map((c) => c.frame);
+  const steps = frames.slice(1).map((f, i) => f - frames[i]!);
+  const hold = free.ir.score.subjects[4]!.untilFrame - frames[4]!;
+  assert.ok(Math.max(...steps) < hold, `the accent holds ${hold} frames; the run-up steps are ${steps}`);
+  const weights = free.ir.score.cues.filter((c) => c.name.startsWith("line")).map((c) => c.weight);
+  assert.deepEqual([...weights].sort((a, b) => a - b), weights, "each step answers harder than the one before");
+  assert.equal(free.ir.score.cues.find((c) => c.kind === "accent")!.name, "line-5");
+  assert.equal(free.audit().ok, true);
 
-  assert.equal(twoLines.ir.annotations.beatFrames.length, 2);
-  assert.equal(fourLines.ir.annotations.beatFrames.length, 4);
-
-  // 4-line typography automatically scales font down vs 2-line to preserve safe margins
-  const font2 = twoLines.ir.nodes.find((n) => n.kind === "text")!;
-  const font4 = fourLines.ir.nodes.find((n) => n.kind === "text")!;
-  assert.ok(font2.kind === "text" && font4.kind === "text");
-  assert.ok(font4.fontSize < font2.fontSize);
-
-  assert.equal(twoLines.audit().ok, true);
-  assert.equal(fourLines.audit().ok, true);
-});
-
-test("Elastic duration & fps (4.5s @ 60fps) keeps physical transient snap while expanding hold spacing", () => {
-  const shot30 = statementConverge({
-    options: { durationSec: 3.0, fps: 30 },
-    slots: { headlineLines: ["One", "Two", "Three"] },
-  });
-  const shot60 = statementConverge({
-    options: { durationSec: 4.5, fps: 60 },
-    slots: { headlineLines: ["One", "Two", "Three"] },
-  });
-
-  assert.equal(shot60.ir.format.durationFrames, 270);
-
-  // Slide transient in seconds stays constant (~0.88s), NOT sluggishly stretched 1.5x!
-  const slide30 = shot30.ir.motions.find((m) => m.id.endsWith("_slide"))!;
-  const slide60 = shot60.ir.motions.find((m) => m.id.endsWith("_slide"))!;
-  const sec30 = slide30.durationFrames / 30;
-  const sec60 = slide60.durationFrames / 60;
-  assert.ok(Math.abs(sec30 - sec60) < 0.04);
-
-  // Beat spacing in seconds expands naturally with longer shot duration
-  const gapSec30 = (shot30.ir.annotations.beatFrames[2]! - shot30.ir.annotations.beatFrames[0]!) / 30;
-  const gapSec60 = (shot60.ir.annotations.beatFrames[2]! - shot60.ir.annotations.beatFrames[0]!) / 60;
-  assert.ok(gapSec60 > gapSec30);
-  assert.equal(shot60.audit().ok, true);
-});
-
-test("Brand swap + custom polygon emblem lowers boolean overlap masks and compiles across all 3 targets", () => {
-  const shot = statementConverge({
-    id: "veridian_custom",
-    options: {
-      durationSec: 3.6,
-      fps: 30,
-      theme: VERIDIAN_NOIR_THEME,
-    },
-    slots: {
-      headlineLines: ["Autonomous", "by design"],
-      emblemHost: {
-        id: "hex_host",
-        name: "Hexagon Host",
-        geometry: { kind: "rounded-polygon", sides: 6, diameter: 640, cornerRadius: 60 },
-        outsideFill: { kind: "solid", color: VERIDIAN_NOIR_THEME.brandPrimary },
-        waypoints1280: [
-          { x: -80, y: 360 },
-          { x: 420, y: 120 },
-          { x: 640, y: 360 },
-        ],
-        scaleFrom: 1.15,
-        scaleTo: 0.85,
-        progressEasing: { kind: "easing", preset: "easeOutCubic" },
-      },
-      emblemParts: [
-        {
-          id: "wing_l",
-          name: "Left Diamond",
-          geometry: { kind: "rounded-polygon", sides: 4, diameter: 300, cornerRadius: 42 },
-          outsideFill: { kind: "solid", color: VERIDIAN_NOIR_THEME.accentWarm },
-          insideHostFill: { kind: "solid", color: "#FFFFFF" },
-          waypoints1280: [
-            { x: 200, y: 700 },
-            { x: 580, y: 340 },
-          ],
-          enterDelaySec: 0.15,
-          scaleFrom: 1.2,
-          scaleTo: 0.9,
-          progressEasing: { kind: "easing", preset: "easeOutQuart" },
-        },
-        {
-          id: "wing_r",
-          name: "Right Diamond",
-          geometry: { kind: "rounded-polygon", sides: 4, diameter: 300, cornerRadius: 42 },
-          outsideFill: { kind: "solid", color: VERIDIAN_NOIR_THEME.accentFresh },
-          insideHostFill: { kind: "solid", color: "#FFE66D" },
-          waypoints1280: [
-            { x: 1080, y: 20 },
-            { x: 700, y: 380 },
-          ],
-          enterDelaySec: 0.22,
-          scaleFrom: 1.2,
-          scaleTo: 0.9,
-          progressEasing: { kind: "easing", preset: "easeOutQuart" },
-        },
-      ],
-      overlapRules: [
-        {
-          id: "diamond_xor",
-          name: "Diamond Overlap Lens",
-          firstPartId: "wing_l",
-          secondPartId: "wing_r",
-          intersectionFill: { kind: "solid", color: VERIDIAN_NOIR_THEME.surface },
-        },
-      ],
-    },
-  });
-
-  assert.equal(shot.audit().ok, true);
-
-  const mOut = compileToMotionade(shot.ir);
-  assert.ok(mOut.operations.some((o) => o.kind === "addShader"));
-  assert.equal(
-    mOut.operations.filter((o) => o.kind === "addMaskBinding").length,
-    3
+  // On a tempo the same decision lands on the grid: an eighth-note run-up, the accent on a whole beat.
+  const onBeat = statementConverge({ decisions: { tempo: { bpm: 100 } }, slots: { lines: FIVE } });
+  assert.deepEqual(
+    onBeat.ir.score.cues.filter((c) => c.name.startsWith("line")).map((c) => c.frame),
+    [0, 9, 18, 27, 36]
   );
-  assert.ok(mOut.textView.includes("shader #glean_chevron_ribbon_v3"));
-
-  const hfHtml = compileToHyperframes(shot.ir);
-  assert.ok(hfHtml.includes('data-composition-id="veridian_custom"'));
-  assert.ok(hfHtml.includes("window.__timelines[COMP_ID] = tl"));
-  assert.ok(hfHtml.includes('<clipPath id="clip_mb_diamond_xor"'));
-
-  const remotionTsx = compileToRemotion(shot.ir, "VeridianCustomComp");
-  assert.ok(remotionTsx.includes("export const VeridianCustomComp: React.FC"));
-  assert.ok(remotionTsx.includes("useCurrentFrame()"));
+  assert.equal(onBeat.audit().ok, true, JSON.stringify(onBeat.audit().findings));
 });
 
-test("No-cliff composability: L1 behaviors assemble a brand-new minimal primitive without orbit or bokeh", () => {
-  const minimalReveal = defineShotPrimitive({
-    name: "minimal-title-badge",
-    description: "Minimal kinetic title -> emblem without orbital clutter",
-    slots: {
-      lines: slot<string, "collection">({ cardinality: "collection", required: true, minItems: 1, description: "Title lines" }),
-    },
-    compose: ({ id, name, options, slots }: { id: string; name: string; options: { durationSec: number }; slots: { lines: string[] } }) => {
-      const schedule = createBeatGrid({ durationSec: options.durationSec, fps: 30, itemCount: slots.lines.length });
-      const format = { width: 1280, height: 720, fps: 30, durationFrames: schedule.totalFrames };
-      const stack = createKineticStack({
-        parentId: "stage_a",
-        format,
-        theme: GLEAN_EDITORIAL_THEME,
-        schedule,
-        lines: slots.lines,
-      });
-      const defEmblem = defaultBrandEmblemSlots(GLEAN_EDITORIAL_THEME);
-      const emb = createConvergeEmblem({
-        format,
-        schedule,
-        host: defEmblem.host,
-        parts: defEmblem.parts.slice(0, 1),
-      });
-      return {
-        id,
-        name,
-        format,
-        scene: { id: `${id}__s1`, name, durationFrames: schedule.totalFrames, backgroundColor: GLEAN_EDITORIAL_THEME.surface },
-        shaders: [],
-        nodes: [
-          { id: "stage_a", kind: "frame", name: "Stage A", slot: "stage", role: "stage", layer: 1, range: { startFrame: 0, durationFrames: schedule.introEndFrame }, base: { x: 0, y: 0, width: 1280, height: 720 } },
-          ...stack.nodes,
-          ...emb.nodes,
-        ],
-        masks: emb.masks,
-        motions: [...stack.motions, ...emb.motions],
-        annotations: {
-          primitiveName: "minimal-title-badge",
-          beatFrames: schedule.beatFrames,
-          convergeStartFrame: schedule.convergeStartFrame,
-          emblemSettleFrame: schedule.emblemSettleFrame,
-          focalBounds: stack.focalBounds,
-          safeMargin: { x: 100, y: 64 },
-        },
-      };
-    },
-    agent: { intent: "Minimalist opener", actions: ["audit"], invariants: [], adaptableAxes: ["lines"] },
-  });
+test("the accent is the author's to move", () => {
+  const even = statementConverge({ decisions: { accent: "none" }, slots: { lines: FIVE } });
+  const frames = even.ir.score.cues.filter((c) => c.name.startsWith("line")).map((c) => c.frame);
+  const steps = frames.slice(1).map((f, i) => f - frames[i]!);
+  assert.ok(Math.max(...steps) - Math.min(...steps) <= 1, `even steps, got ${steps}`);
+  assert.equal(even.ir.score.cues.some((c) => c.kind === "accent"), false);
 
-  const inst = minimalReveal({ options: { durationSec: 2.8 }, slots: { lines: ["Less noise", "More craft"] } });
-  assert.equal(inst.audit().ok, true);
-  assert.equal(inst.ir.masks.length, 1);
+  const marked = statementConverge({ decisions: { cueSeconds: [0, 0.6, 1.2] }, slots: { lines: REFERENCE } });
+  assert.deepEqual(cues(marked), cues(statementConverge({ slots: { lines: REFERENCE } })));
+});
+
+test("a longer shot at another frame rate keeps its transients and spends the time on reading", () => {
+  const short = statementConverge({ slots: { lines: REFERENCE } });
+  const long = statementConverge({ decisions: { durationSec: 4.5, fps: 60 }, slots: { lines: REFERENCE } });
+  const seconds = (shot: typeof short, id: string) => {
+    const m = shot.ir.motions.find((x) => x.id === id)!;
+    return m.durationFrames / shot.ir.format.fps;
+  };
+  for (const id of ["act_txt_work_slide", "act_mark_host_travel", "act_statement_world_fade"]) {
+    assert.ok(Math.abs(seconds(short, id) - seconds(long, id)) < 0.04, id);
+  }
+  const reading = (shot: typeof short) => shot.audit().measures.reading.at(-1)!.clearSec;
+  assert.ok(reading(long) > reading(short) + 0.3);
+  assert.equal(long.audit().ok, true, JSON.stringify(long.audit().findings));
+});
+
+test("the world makes room for whatever the statement becomes", () => {
+  const wide = statementConverge({ slots: { lines: ["Orchestrate", "autonomous", "enterprise", "workflows"] } });
+  const region = wide.ir.score.regions.statement!;
+  const clear = Math.max(region.width, region.height) / 2;
+  const read = wide.ir.score.subjects[0]!.untilFrame - 1;
+  const ring = evaluateAt(wide.ir, read).get("world_ring")!;
+  for (const node of wide.ir.nodes.filter((n) => n.slot === "world")) {
+    const st = evaluateAt(wide.ir, read).get(node.id)!;
+    const distance = Math.hypot(st.x - ring.x, st.y - ring.y);
+    assert.ok(distance >= clear, `${node.id} rests ${distance.toFixed(0)} px out; the statement reaches ${clear}`);
+  }
+  assert.equal(wide.audit().ok, true, JSON.stringify(wide.audit().findings));
+});
+
+test("the mark assembles the same way in every format", () => {
+  const shares: number[] = [];
+  for (const [width, height] of [[1280, 720], [1920, 1080], [1080, 1080], [1080, 1920]] as const) {
+    const shot = statementConverge({ decisions: { width, height }, slots: { lines: REFERENCE } });
+    const report = shot.audit();
+    assert.equal(report.ok, true, `${width}x${height}: ${JSON.stringify(report.findings)}`);
+    const at = evaluateAt(shot.ir, shot.ir.score.cues.find((c) => c.name === "land")!.frame);
+    const host = at.get("mark_host")!;
+    const square = at.get("mark_square")!;
+    shares.push((square.x - host.x) / host.width, (square.y - host.y) / host.width, square.width / host.width);
+  }
+  for (let i = 3; i < shares.length; i++) {
+    assert.ok(Math.abs(shares[i]! - shares[i % 3]!) < 0.005, "the square sits on the host the same way");
+  }
+});
+
+test("lit orbs stay upright however the ring is timed", () => {
+  for (const lines of [REFERENCE, FIVE]) {
+    const shot = statementConverge({ decisions: { tempo: { bpm: 128 } }, slots: { lines } });
+    for (let f = 0; f < shot.ir.format.durationFrames; f++) {
+      for (const id of ["mid_blue_big", "mid_blue_small"]) {
+        const st = evaluateAt(shot.ir, f).get(id)!;
+        if (st.visible) assert.ok(Math.abs(st.rotation) < 0.6, `${id} is turned ${st.rotation}° at frame ${f}`);
+      }
+    }
+  }
+});
+
+test("a shot says where attention is at its edges, and a join can be checked", () => {
+  const shot = statementConverge({ slots: { lines: REFERENCE } });
+  const exit = shot.handoff.exit!;
+  assert.equal(exit.nodeId, "mark_host");
+  assert.equal(exit.frame, 89);
+  assert.equal(exit.color, gleanEditorial.materials.primary.flat);
+  assert.deepEqual(checkHandoff(exit, { ...exit, frame: 0 }), []);
+  const far = checkHandoff(exit, { ...exit, frame: 0, position: { x: 100, y: 100 }, color: "#FF0000" });
+  assert.deepEqual(far.map((m) => m.what), ["position", "color"]);
+});
+
+test("one document compiles to three targets", () => {
+  const shot = statementConverge({ id: "veridian", decisions: { look: veridianNoir }, slots: { lines: ["Autonomous", "by design"] } });
+  assert.equal(shot.audit().ok, true, JSON.stringify(shot.audit().findings));
+
+  const html = compileToHyperframes(shot.ir);
+  assert.ok(html.includes('data-composition-id="veridian"'));
+  assert.ok(html.includes("window.__timelines[COMP_ID] = tl"));
+  // A clip path holds its shape directly: a group inside one clips everything away.
+  assert.match(html, /<clipPath id="veridian__clip_[^"]+" clipPathUnits="userSpaceOnUse"><(ellipse|rect|path) /);
+  assert.ok(!/<clipPath[^>]*><g/.test(html));
+  // Two things HyperFrames' compile step does to a page, found by rendering with its CLI: it
+  // rewrites the ids of SVG elements, and it turns an empty canvas into <canvas />.
+  assert.ok(!html.includes("getElementById"), "elements are found by attribute, not by id");
+  assert.ok(!/<canvas[^>]*><\/canvas>/.test(html), "the shader's canvas is never empty");
+
+  const motionade = compileToMotionade(shot.ir);
+  assert.equal(motionade.operations.filter((o) => o.kind === "addMaskBinding").length, 3);
+  assert.ok(motionade.operations.some((o) => o.kind === "addShader"));
+  assert.ok(motionade.textView.includes('text="Autonomous"'));
+
+  const tsx = compileToRemotion(shot.ir, "Veridian");
+  assert.ok(tsx.includes("export const Veridian: React.FC"));
+});
+
+test("the same behaviors make a shot that looks nothing like the first", () => {
+  // A countdown: numbers arrive on the beat, one bar under them jumps wider on each.
+  const countdown = defineShot<{ width?: number; height?: number; fps?: number; durationSec?: number }, { counts: ReturnType<typeof slot.many<string>> }>({
+    name: "countdown",
+    intent: "Numbers arrive on the beat over one bar that widens with each.",
+    slots: { counts: slot.many<string>({ role: "subject", plane: "focal", min: 1, describe: "The counts, in order." }) },
+    decisions: { width: "Stage width.", height: "Stage height.", fps: "Frame rate.", durationSec: "Length." },
+    whenContentChanges: ["Count: check each number's reading time."],
+    stage: { width: 1080, height: 1080, fps: 30, durationSec: 3 },
+    compose: (score, { slots }) => {
+      const clock = createClock({ fps: 30, durationSec: 3, tempo: { bpm: 120 } });
+      const until = score.format.durationFrames;
+      const world = group(score, { id: "world", name: "World", slot: "world", layer: 1 });
+      const phrase = solvePhrase({
+        count: slots.counts.length,
+        window: { from: 0, to: until },
+        clock,
+        accent: "none",
+        needFrames: slots.counts.map(() => 9),
+        claimFrames: 9,
+      });
+      const beats = phrase.cues.map((c) => score.cue(c));
+      const text = stack(score, slots.counts.map((t) => ({ text: t, needsSec: 0.3 })), { look: gleanEditorial, parentId: world.id });
+      arrive(score, text.lines, { on: beats, feel: snappyEditorial, until, from: "below", needsSec: slots.counts.map(() => 0.3) });
+      const bar = place(score, {
+        id: "bar",
+        name: "Bar",
+        slot: "bar",
+        role: "support",
+        parentId: world.id,
+        layer: 1,
+        shape: { kind: "rounded-rect", width: 80, height: 16, radius: 8 },
+        fill: { kind: "solid", color: gleanEditorial.materials.primary.flat },
+        center: { x: 200, y: 900 },
+      });
+      respond(score, bar.id, { property: "move", along: { x: 1, y: 0 } }, {
+        feel: snappyEditorial,
+        start: 0,
+        end: until,
+        answers: beats.map((cue) => ({ cue, amount: 180 })),
+      });
+    },
+  });
+  const shot = countdown({ slots: { counts: ["3", "2", "1"] } });
+  assert.deepEqual(shot.ir.score.cues.map((c) => c.frame), [0, 15, 30]);
+  assert.equal(shot.audit().ok, true, JSON.stringify(shot.audit().findings));
+  assert.ok(compileToHyperframes(shot.ir).includes("countdown_shot"));
+  assert.ok(countdown.describe().includes("The counts, in order."));
 });

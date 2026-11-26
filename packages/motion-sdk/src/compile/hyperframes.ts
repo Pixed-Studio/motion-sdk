@@ -1,208 +1,200 @@
-import {
-  vectorNetworkToSvgPath,
-  type FillSpec,
-  type MotionDocument,
-  type SceneNodeIR,
-} from "@motion-sdk/core";
+import { lifetime, vectorNetworkToSvgPath, type FillSpec, type MotionDocument, type SceneNodeIR } from "@motion-sdk/core";
+
+export interface HyperframesOptions {
+  /**
+   * Stylesheet that provides the document's typefaces. Defaults to Google Fonts for the families
+   * the text uses; pass `false` when the page that hosts the composition already loads them.
+   */
+  fonts?: string | false;
+}
+
+const escapeHtml = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 /**
- * Target Adapter B: Compiles Canonical Motion IR into a standalone, deterministic,
- * seek-safe HyperFrames HTML composition (`window.__timelines[id]` + SVG `<clipPath>` + procedural Canvas).
- * Complies with `hyperframes-core` determinism & lint contracts (zero CSS/GSAP transform conflicts).
+ * Compiles a motion document into one self-contained HyperFrames composition: an SVG scene, a
+ * paused GSAP timeline registered in `window.__timelines`, and a pure function of the frame that
+ * poses every object. It reads only the document. Nothing here knows a particular shot.
  */
-export function compileToHyperframes(doc: MotionDocument): string {
+export function compileToHyperframes(doc: MotionDocument, options: HyperframesOptions = {}): string {
   const compId = doc.id.replace(/[^a-zA-Z0-9_-]/g, "-");
-  const durSec = Math.round((doc.format.durationFrames / doc.format.fps) * 1000) / 1000;
+  // Ids carry the composition id, so several compositions can share one page. Only references
+  // (gradients, clip paths) use ids: HyperFrames rewrites the ids of SVG elements when it compiles
+  // a page, so the runtime finds its elements by attribute instead.
+  const p = `${compId}__`;
+  const { width, height, fps, durationFrames } = doc.format;
+  const durSec = Math.round((durationFrames / fps) * 1000) / 1000;
+  const byId = new Map<string, SceneNodeIR>(doc.nodes.map((n) => [n.id, n]));
 
-  // Prepare SVG defs (gradients + vector mask clipPaths) and precomputed SVG path strings
-  const svgPaths: Record<string, string> = {};
-  for (const n of doc.nodes) {
-    if (n.kind === "path") {
-      svgPaths[n.id] = vectorNetworkToSvgPath(n.network);
-    }
-  }
-
-  const defsMarkup: string[] = [];
-  const fillRefFor = (nodeId: string, fill: FillSpec): string => {
-    if (fill.kind === "none") return "none";
+  const defs: string[] = [];
+  const fillRef = (nodeId: string, fill: FillSpec): string => {
+    if (fill.kind === "none" || fill.kind === "shader") return "none";
     if (fill.kind === "solid") return fill.color;
+    const stops = fill.stops.map((s) => `<stop offset="${s.offset * 100}%" stop-color="${s.color}"></stop>`).join("");
+    const id = `${p}grad_${nodeId}`;
     if (fill.kind === "linear") {
-      const gid = `grad_${nodeId}`;
       const rad = ((fill.angleDeg - 90) * Math.PI) / 180;
-      const x1 = (50 - Math.cos(rad) * 50).toFixed(1);
-      const y1 = (50 - Math.sin(rad) * 50).toFixed(1);
-      const x2 = (50 + Math.cos(rad) * 50).toFixed(1);
-      const y2 = (50 + Math.sin(rad) * 50).toFixed(1);
-      const stops = fill.stops
-        .map((s) => `<stop offset="${s.offset * 100}%" stop-color="${s.color}" />`)
-        .join("");
-      defsMarkup.push(
-        `<linearGradient id="${gid}" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%">${stops}</linearGradient>`
+      const at = (sign: number, f: (n: number) => number) => (50 + sign * f(rad) * 50).toFixed(1);
+      defs.push(
+        `<linearGradient id="${id}" x1="${at(-1, Math.cos)}%" y1="${at(-1, Math.sin)}%" x2="${at(1, Math.cos)}%" y2="${at(1, Math.sin)}%">${stops}</linearGradient>`
       );
-      return `url(#${gid})`;
-    }
-    if (fill.kind === "radial") {
-      const gid = `grad_${nodeId}`;
+    } else {
       const cx = ((fill.domain.x + fill.domain.width / 2) * 100).toFixed(1);
       const cy = ((fill.domain.y + fill.domain.height / 2) * 100).toFixed(1);
-      const r = ((fill.domain.width / 2) * 125).toFixed(1);
-      const stops = fill.stops
-        .map((s) => `<stop offset="${s.offset * 100}%" stop-color="${s.color}" />`)
-        .join("");
-      defsMarkup.push(
-        `<radialGradient id="${gid}" cx="${cx}%" cy="${cy}%" r="${r}%">${stops}</radialGradient>`
-      );
-      return `url(#${gid})`;
+      defs.push(`<radialGradient id="${id}" cx="${cx}%" cy="${cy}%" r="${((fill.domain.width / 2) * 125).toFixed(1)}%">${stops}</radialGradient>`);
     }
-    return "transparent";
+    return `url(#${id})`;
   };
 
-  const maskTargetToClipId = new Map<string, string>();
-  const maskSourceIds = new Set<string>();
-  for (const m of doc.masks) {
-    const clipId = `clip_${m.id}`;
-    maskTargetToClipId.set(m.targetObjectId, clipId);
-    maskSourceIds.add(m.sourceObjectId);
-  }
-
-  const nodeMap = new Map<string, SceneNodeIR>(doc.nodes.map((n) => [n.id, n]));
-  for (const m of doc.masks) {
-    const src = nodeMap.get(m.sourceObjectId);
-    if (!src) continue;
-    const clipId = `clip_${m.id}`;
-    let inner = "";
-    if (src.kind === "shape" && src.shape === "ellipse") {
-      inner = `<ellipse id="el_${src.id}" cx="${src.base.width / 2}" cy="${src.base.height / 2}" rx="${src.base.width / 2}" ry="${src.base.height / 2}" />`;
-    } else if (src.kind === "shape") {
-      inner = `<rect id="el_${src.id}" x="0" y="0" width="${src.base.width}" height="${src.base.height}" rx="${src.borderRadius ?? 0}" />`;
-    } else if (src.kind === "path") {
-      inner = `<path id="el_${src.id}" d="${svgPaths[src.id]}" />`;
+  const outline = (n: SceneNodeIR, attrs: string): string => {
+    if (n.kind === "shape" && n.shape === "ellipse") {
+      return `<ellipse cx="${n.base.width / 2}" cy="${n.base.height / 2}" rx="${n.base.width / 2}" ry="${n.base.height / 2}" ${attrs}></ellipse>`;
     }
-    defsMarkup.push(`<clipPath id="${clipId}" clipPathUnits="userSpaceOnUse"><g id="node_${src.id}">${inner}</g></clipPath>`);
+    if (n.kind === "shape") {
+      return `<rect x="0" y="0" width="${n.base.width}" height="${n.base.height}" rx="${n.borderRadius ?? 0}" ${attrs}></rect>`;
+    }
+    if (n.kind === "path") return `<path d="${vectorNetworkToSvgPath(n.network)}" ${attrs}></path>`;
+    return "";
+  };
+
+  // A clip path may hold only shapes, so each mask source is one shape that is posed directly.
+  const clipOf = new Map<string, string>();
+  const maskSources = new Set<string>();
+  for (const mask of doc.masks) {
+    const source = byId.get(mask.sourceObjectId);
+    if (!source) continue;
+    maskSources.add(source.id);
+    clipOf.set(mask.targetObjectId, `${p}clip_${mask.id}`);
+    defs.push(`<clipPath id="${p}clip_${mask.id}" clipPathUnits="userSpaceOnUse">${outline(source, `data-ms-node="${source.id}"`)}</clipPath>`);
   }
 
-  const childrenMap = new Map<string | undefined, SceneNodeIR[]>();
+  const children = new Map<string | undefined, SceneNodeIR[]>();
   for (const n of doc.nodes) {
-    const arr = childrenMap.get(n.parentId) ?? [];
-    arr.push(n);
-    childrenMap.set(n.parentId, arr);
+    const list = children.get(n.parentId) ?? [];
+    list.push(n);
+    children.set(n.parentId, list);
   }
-  for (const arr of childrenMap.values()) {
-    arr.sort((a, b) => a.layer - b.layer);
-  }
+  for (const list of children.values()) list.sort((a, b) => a.layer - b.layer);
 
-  let ribbonCanvasHtml = "";
-  const renderSvgSubtree = (parentId: string | undefined): string => {
-    const kids = childrenMap.get(parentId) ?? [];
-    const chunks: string[] = [];
-    for (const n of kids) {
-      if (n.role === "guide-path" || maskSourceIds.has(n.id)) continue;
-      if (n.kind === "shape" && n.fill.kind === "shader") {
-        ribbonCanvasHtml = `<canvas id="canvas_${n.id}" data-slot="${n.slot}" width="${n.base.width}" height="${n.base.height}" style="position:absolute;left:${n.base.x}px;top:${n.base.y}px;width:${n.base.width}px;height:${n.base.height}px;pointer-events:none;"></canvas>`;
-        continue;
-      }
-
-      const clipAttr = maskTargetToClipId.has(n.id)
-        ? ` clip-path="url(#${maskTargetToClipId.get(n.id)})"`
-        : "";
-
+  const subtree = (parentId: string | undefined): string => {
+    const out: string[] = [];
+    for (const n of children.get(parentId) ?? []) {
+      if (n.role === "guide" || maskSources.has(n.id)) continue;
+      const clip = clipOf.has(n.id) ? ` clip-path="url(#${clipOf.get(n.id)})"` : "";
+      const open = `<g data-ms-wrap="${n.id}" data-slot="${n.slot}" data-role="${n.role}"${clip}>`;
       if (n.kind === "frame") {
-        const inner = renderSvgSubtree(n.id);
-        chunks.push(
-          `<g id="wrap_${n.id}" data-slot="${n.slot}"${clipAttr}><g id="node_${n.id}">${inner}</g></g>`
-        );
+        out.push(`${open}<g data-ms-node="${n.id}">${subtree(n.id)}</g></g>`);
       } else if (n.kind === "text") {
-        const escaped = n.text
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;");
-        chunks.push(
-          `<g id="wrap_${n.id}" data-slot="${n.slot}"${clipAttr}><text id="node_${n.id}" x="${n.base.width / 2}" y="${Math.round(n.fontSize * 0.92)}" text-anchor="middle" fill="${n.fill.color}" font-family="${n.fontFamily}, system-ui, sans-serif" font-size="${n.fontSize}" font-weight="${n.fontWeight}" style="letter-spacing:${n.letterSpacing}px">${escaped}</text></g>`
+        out.push(
+          `${open}<text data-ms-node="${n.id}" x="${n.base.width / 2}" y="${n.base.height / 2}" text-anchor="middle" dominant-baseline="central" fill="${n.fill.color}" font-family="'${n.fontFamily}', system-ui, sans-serif" font-size="${n.fontSize}" font-weight="${n.fontWeight}" style="letter-spacing:${n.letterSpacing}px">${escapeHtml(n.text)}</text></g>`
         );
-      } else if (n.kind === "shape") {
-        const fillStr = fillRefFor(n.id, n.fill);
-        const shapeTag =
-          n.shape === "ellipse"
-            ? `<ellipse cx="${n.base.width / 2}" cy="${n.base.height / 2}" rx="${n.base.width / 2}" ry="${n.base.height / 2}" fill="${fillStr}" />`
-            : `<rect x="0" y="0" width="${n.base.width}" height="${n.base.height}" rx="${n.borderRadius ?? 0}" fill="${fillStr}" />`;
-        chunks.push(
-          `<g id="wrap_${n.id}" data-slot="${n.slot}"${clipAttr}><g id="node_${n.id}">${shapeTag}</g></g>`
+      } else if (n.fill.kind === "shader") {
+        // The canvas carries fallback text on purpose. HyperFrames rewrites an empty canvas here as
+        // <canvas />, which HTML does not close, and everything after it is swallowed as fallback.
+        out.push(
+          `${open}<foreignObject data-ms-node="${n.id}" x="0" y="0" width="${n.base.width}" height="${n.base.height}"><canvas xmlns="http://www.w3.org/1999/xhtml" data-ms-canvas="${n.id}" width="${n.base.width}" height="${n.base.height}" style="display:block;width:${n.base.width}px;height:${n.base.height}px">${escapeHtml(n.name)}</canvas></foreignObject></g>`
         );
-      } else if (n.kind === "path") {
-        const fillStr = fillRefFor(n.id, n.fill);
-        chunks.push(
-          `<g id="wrap_${n.id}" data-slot="${n.slot}"${clipAttr}><g id="node_${n.id}"><path d="${svgPaths[n.id]}" fill="${fillStr}" /></g></g>`
-        );
+      } else {
+        out.push(`${open}<g data-ms-node="${n.id}">${outline(n, `fill="${fillRef(n.id, n.fill)}"`)}</g></g>`);
       }
     }
-    return chunks.join("\n");
+    return out.join("\n");
   };
+  const scene = subtree(undefined);
 
-  const sceneSvgBody = renderSvgSubtree(undefined);
-  const serializedDoc = JSON.stringify(doc);
+  const families = [...new Set(doc.nodes.flatMap((n) => (n.kind === "text" ? [n.fontFamily] : [])))];
+  const fontHref =
+    options.fonts === false
+      ? null
+      : (options.fonts ??
+        (families.length
+          ? `https://fonts.googleapis.com/css2?${families.map((f) => `family=${encodeURIComponent(f)}:wght@100..900`).join("&")}&display=block`
+          : null));
+
+  // The page carries only what posing needs: outlines are already in the markup, and names,
+  // reasons and key ids stay in the document.
+  const lives = Object.fromEntries(doc.nodes.map((n) => [n.id, lifetime(doc, n)]));
+  const bare = <K extends { frame: number; easing?: unknown }>(keys: (K & { id?: string })[]) => keys.map(({ id: _id, ...key }) => key);
+  const payload = JSON.stringify({
+    format: doc.format,
+    lives,
+    shaders: doc.shaders.map((s) => ({ id: s.id, canvas2d: s.canvas2d })),
+    nodes: doc.nodes.map((n) => ({
+      id: n.id,
+      kind: n.kind,
+      role: n.role,
+      base: n.base,
+      letterSpacing: n.kind === "text" ? n.letterSpacing : undefined,
+      network: n.kind === "path" && n.role === "guide" ? n.network : undefined,
+      fill: n.kind !== "frame" && n.kind !== "text" && n.fill.kind === "shader" ? n.fill : undefined,
+    })),
+    motions: doc.motions.map((m) => {
+      const base = { kind: m.kind, targetId: m.targetId, startFrame: m.startFrame, durationFrames: m.durationFrames };
+      if (m.kind === "scalar") return { ...base, property: m.property, mode: m.mode, post: m.post, baseValue: m.baseValue, keys: bare(m.keys) };
+      if (m.kind === "vec2") return { ...base, property: m.property, mode: m.mode, keys: bare(m.keys) };
+      if (m.kind === "followPath") return { ...base, guidePathId: m.guidePathId, progressEasing: m.progressEasing };
+      return { ...base, tracks: Object.fromEntries(Object.entries(m.tracks).map(([k, keys]) => [k, bare(keys)])) };
+    }),
+  });
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>${doc.name}</title>
+  <title>${escapeHtml(doc.name)}</title>
+  ${fontHref ? `<link rel="stylesheet" href="${fontHref}" />` : ""}
   <style>
     html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: ${doc.scene.backgroundColor}; }
-    #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: ${doc.scene.backgroundColor}; }
-    svg.stage-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; overflow: hidden; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 </head>
 <body>
-  <div
-    id="root"
-    data-composition-id="${compId}"
-    data-width="${doc.format.width}"
-    data-height="${doc.format.height}"
-    data-fps="${doc.format.fps}"
-    data-duration="${durSec}"
-  >
-    <div id="intro_backdrop_host" style="position:absolute;inset:0;pointer-events:none;">
-      ${ribbonCanvasHtml}
-    </div>
-    <svg class="stage-svg" viewBox="0 0 ${doc.format.width} ${doc.format.height}" xmlns="http://www.w3.org/2000/svg">
+  <div id="${p}root" data-composition-id="${compId}" data-start="0" data-width="${width}" data-height="${height}" data-fps="${fps}" data-duration="${durSec}" style="position:relative;width:${width}px;height:${height}px;overflow:hidden;background:${doc.scene.backgroundColor}">
+    <svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;display:block;overflow:hidden">
       <defs>
-        ${defsMarkup.join("\n        ")}
+        ${defs.join("\n        ")}
       </defs>
-      ${sceneSvgBody}
+      ${scene}
     </svg>
   </div>
   <script>
     (function () {
-      const DOC = ${serializedDoc};
-      const COMP_ID = ${JSON.stringify(compId)};
+      var DOC = ${payload};
+      var COMP_ID = ${JSON.stringify(compId)};
+      var ROOT = document.querySelector('[data-composition-id="' + COMP_ID + '"]');
+      var found = {};
+      var el$ = function (kind, id) {
+        var key = kind + ":" + id;
+        if (!(key in found)) found[key] = ROOT.querySelector("[data-ms-" + kind + '="' + id + '"]');
+        return found[key];
+      };
 
-      function solveBezier(x1, y1, x2, y2, x) {
+      function bezier(x1, y1, x2, y2, x) {
         if (x <= 0) return 0;
         if (x >= 1) return 1;
-        const cx = (t) => ((1 - 3 * x2 + 3 * x1) * t * t * t) + ((3 * x2 - 6 * x1) * t * t) + (3 * x1 * t);
-        const cy = (t) => ((1 - 3 * y2 + 3 * y1) * t * t * t) + ((3 * y2 - 6 * y1) * t * t) + (3 * y1 * t);
-        let lo = 0, hi = 1, t = x;
-        for (let i = 0; i < 16; i++) {
-          const v = cx(t);
-          if (Math.abs(v - x) < 1e-5) break;
+        var cx = function (t) { return (1 - 3 * x2 + 3 * x1) * t * t * t + (3 * x2 - 6 * x1) * t * t + 3 * x1 * t; };
+        var cy = function (t) { return (1 - 3 * y2 + 3 * y1) * t * t * t + (3 * y2 - 6 * y1) * t * t + 3 * y1 * t; };
+        var lo = 0, hi = 1, t = x;
+        for (var i = 0; i < 24; i++) {
+          var v = cx(t);
+          if (Math.abs(v - x) < 1e-6) break;
           if (x > v) lo = t; else hi = t;
           t = 0.5 * (lo + hi);
         }
         return cy(t);
       }
 
-      function easeValue(spec, rawT) {
-        const t = Math.max(0, Math.min(1, rawT));
+      function eased(spec, raw) {
+        var t = Math.max(0, Math.min(1, raw));
         if (!spec || spec.kind === "linear") return t;
         if (spec.kind === "hold") return t >= 1 ? 1 : 0;
-        if (spec.kind === "cubicBezier") return solveBezier(spec.x1, spec.y1, spec.x2, spec.y2, t);
+        if (spec.kind === "cubicBezier") return bezier(spec.x1, spec.y1, spec.x2, spec.y2, t);
         switch (spec.preset) {
           case "easeInQuad": return t * t;
           case "easeOutQuad": return 1 - (1 - t) * (1 - t);
           case "easeInOutQuad": return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
           case "easeInCubic": return t * t * t;
           case "easeOutCubic": return 1 - Math.pow(1 - t, 3);
+          case "easeInOutCubic": return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
           case "easeOutQuart": return 1 - Math.pow(1 - t, 4);
           case "easeInSine": return 1 - Math.cos((t * Math.PI) / 2);
           case "easeOutSine": return Math.sin((t * Math.PI) / 2);
@@ -211,205 +203,126 @@ export function compileToHyperframes(doc: MotionDocument): string {
         }
       }
 
-      function sampleScalar(keys, localF, fallback) {
-        if (!keys || !keys.length) return fallback;
-        if (localF <= keys[0].frame) return keys[0].value;
-        const last = keys[keys.length - 1];
-        if (localF >= last.frame) return last.value;
-        for (let i = 0; i < keys.length - 1; i++) {
-          const a = keys[i], b = keys[i + 1];
-          if (localF >= a.frame && localF <= b.frame) {
-            const u = easeValue(a.easing, (localF - a.frame) / Math.max(1e-6, b.frame - a.frame));
-            return a.value + (b.value - a.value) * u;
+      function between(keys, f, read) {
+        if (f <= keys[0].frame) return read(keys[0], keys[0], 0);
+        var last = keys[keys.length - 1];
+        if (f >= last.frame) return read(last, last, 0);
+        for (var i = 0; i < keys.length - 1; i++) {
+          var a = keys[i], b = keys[i + 1];
+          if (f >= a.frame && f <= b.frame) return read(a, b, eased(a.easing, (f - a.frame) / Math.max(1e-6, b.frame - a.frame)));
+        }
+        return read(last, last, 0);
+      }
+      function scalarAt(keys, f, fallback) {
+        return keys && keys.length ? between(keys, f, function (a, b, u) { return a.value + (b.value - a.value) * u; }) : fallback;
+      }
+      function pointAt(keys, f, fallback) {
+        return keys && keys.length ? between(keys, f, function (a, b, u) { return { x: a.x + (b.x - a.x) * u, y: a.y + (b.y - a.y) * u }; }) : fallback;
+      }
+
+      var guides = {};
+      DOC.nodes.forEach(function (n) {
+        if (n.kind !== "path" || n.role !== "guide") return;
+        var at = {}, pts = [], total = 0;
+        n.network.vertices.forEach(function (v) { at[v.id] = v; });
+        n.network.segments.forEach(function (seg, s) {
+          var p0 = at[seg.startVertexId], p3 = at[seg.endVertexId];
+          var ts = seg.tangentStart || { x: 0, y: 0 }, te = seg.tangentEnd || { x: 0, y: 0 };
+          var p1 = { x: p0.x + ts.x, y: p0.y + ts.y }, p2 = { x: p3.x + te.x, y: p3.y + te.y };
+          for (var k = s === 0 ? 0 : 1; k <= 24; k++) {
+            var t = k / 24, m = 1 - t;
+            var x = n.base.x + m * m * m * p0.x + 3 * m * m * t * p1.x + 3 * m * t * t * p2.x + t * t * t * p3.x;
+            var y = n.base.y + m * m * m * p0.y + 3 * m * m * t * p1.y + 3 * m * t * t * p2.y + t * t * t * p3.y;
+            if (pts.length) total += Math.hypot(x - pts[pts.length - 1].x, y - pts[pts.length - 1].y);
+            pts.push({ x: x, y: y, len: total });
           }
-        }
-        return last.value;
-      }
-
-      function sampleVec2(keys, localF, fallback) {
-        if (!keys || !keys.length) return fallback;
-        if (localF <= keys[0].frame) return { x: keys[0].x, y: keys[0].y };
-        const last = keys[keys.length - 1];
-        if (localF >= last.frame) return { x: last.x, y: last.y };
-        for (let i = 0; i < keys.length - 1; i++) {
-          const a = keys[i], b = keys[i + 1];
-          if (localF >= a.frame && localF <= b.frame) {
-            const u = easeValue(a.easing, (localF - a.frame) / Math.max(1e-6, b.frame - a.frame));
-            return { x: a.x + (b.x - a.x) * u, y: a.y + (b.y - a.y) * u };
-          }
-        }
-        return { x: last.x, y: last.y };
-      }
-
-      // Prebuild arc-length tables for guide paths once at setup
-      const guideTables = new Map();
-      for (const n of DOC.nodes) {
-        if (n.kind === "path" && n.role === "guide-path") {
-          const vMap = new Map(n.network.vertices.map((v) => [v.id, v]));
-          const pts = [];
-          let total = 0;
-          n.network.segments.forEach((seg, sIdx) => {
-            const p0 = vMap.get(seg.startVertexId);
-            const p3 = vMap.get(seg.endVertexId);
-            const ts = seg.tangentStart || { x: 0, y: 0 };
-            const te = seg.tangentEnd || { x: 0, y: 0 };
-            const p1 = { x: p0.x + ts.x, y: p0.y + ts.y };
-            const p2 = { x: p3.x + te.x, y: p3.y + te.y };
-            for (let k = sIdx === 0 ? 0 : 1; k <= 24; k++) {
-              const t = k / 24, mt = 1 - t;
-              const x = mt*mt*mt*p0.x + 3*mt*mt*t*p1.x + 3*mt*t*t*p2.x + t*t*t*p3.x;
-              const y = mt*mt*mt*p0.y + 3*mt*mt*t*p1.y + 3*mt*t*t*p2.y + t*t*t*p3.y;
-              if (pts.length) total += Math.hypot(x - (pts[pts.length - 1].x - n.base.x), y - (pts[pts.length - 1].y - n.base.y));
-              pts.push({ x: n.base.x + x, y: n.base.y + y, len: total });
-            }
-          });
-          guideTables.set(n.id, { pts, total });
-        }
-      }
-
-      function sampleGuide(guideId, u) {
-        const g = guideTables.get(guideId);
+        });
+        guides[n.id] = { pts: pts, total: total };
+      });
+      function along(guideId, u) {
+        var g = guides[guideId];
         if (!g || !g.pts.length) return { x: 0, y: 0 };
-        const target = Math.max(0, Math.min(1, u)) * g.total;
-        for (let i = 0; i < g.pts.length - 1; i++) {
-          if (target >= g.pts[i].len && target <= g.pts[i + 1].len) {
-            const f = (target - g.pts[i].len) / Math.max(1e-6, g.pts[i + 1].len - g.pts[i].len);
-            return { x: g.pts[i].x + (g.pts[i + 1].x - g.pts[i].x) * f, y: g.pts[i].y + (g.pts[i + 1].y - g.pts[i].y) * f };
+        var target = Math.max(0, Math.min(1, u)) * g.total;
+        for (var i = 0; i < g.pts.length - 1; i++) {
+          var a = g.pts[i], b = g.pts[i + 1];
+          if (target >= a.len && target <= b.len) {
+            var f = (target - a.len) / Math.max(1e-6, b.len - a.len);
+            return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f };
           }
         }
         return g.pts[g.pts.length - 1];
       }
 
-      function drawChevronRibbon(canvas, params) {
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-        const W = canvas.width, H = canvas.height;
-        ctx.clearRect(0, 0, W, H);
-        const S = params.pillarSize;
-        const theta = params.spinAngle * 0.0174532925;
-        const R = S * 0.70710678;
-        const angles = [0.78539816, 2.35619449, 3.92699082, 5.49778714].map((a) => theta + a);
-        const verts = angles.map((a) => ({ x: R * Math.sin(a), y: R * Math.cos(a) }));
-        const xMin = Math.min(...verts.map((v) => v.x));
-        const xMax = Math.max(...verts.map((v) => v.x));
-        const hex = String(params.limeColor || "#DCFC5E").replace("#", "");
-        const cr = parseInt(hex.slice(0, 2), 16), cg = parseInt(hex.slice(2, 4), 16), cb = parseInt(hex.slice(4, 6), 16);
-        const cx = W / 2, cy = H / 2;
+      var painters = {};
+      DOC.shaders.forEach(function (s) {
+        if (s.canvas2d) painters[s.id] = new Function("ctx", "width", "height", "params", s.canvas2d);
+      });
+      var motionsOf = {};
+      DOC.motions.forEach(function (m) { (motionsOf[m.targetId] = motionsOf[m.targetId] || []).push(m); });
 
-        for (let px = Math.max(0, Math.floor(cx + xMin)); px <= Math.min(W - 1, Math.ceil(cx + xMax)); px++) {
-          const x = px - cx;
-          let zMax = -1e6;
-          for (let e = 0; e < 4; e++) {
-            const v0 = verts[e], v1 = verts[(e + 1) % 4];
-            const lo = Math.min(v0.x, v1.x), hi = Math.max(v0.x, v1.x);
-            if (hi - lo > 0.001 && x >= lo - 0.5 && x <= hi + 0.5) {
-              const t = Math.max(0, Math.min(1, (x - v0.x) / (v1.x - v0.x)));
-              zMax = Math.max(zMax, v0.y + (v1.y - v0.y) * t);
-            }
-          }
-          const innerHalf = Math.max(3, params.baseHalfGap - params.chevronSlope * zMax);
-          const fadeH = Math.max(1, params.fadeHeight);
-          const gTop = ctx.createLinearGradient(0, cy - innerHalf, 0, Math.max(0, cy - innerHalf - fadeH));
-          gTop.addColorStop(0, "rgba(" + cr + "," + cg + "," + cb + ",1)");
-          gTop.addColorStop(1, "rgba(" + cr + "," + cg + "," + cb + ",0)");
-          ctx.fillStyle = gTop;
-          ctx.fillRect(px, Math.max(0, cy - innerHalf - fadeH), 1, fadeH);
+      function pose(frame) {
+        DOC.nodes.forEach(function (node) {
+          if (node.role === "guide") return;
+          var el = el$("node", node.id);
+          if (!el) return;
+          var shown = el$("wrap", node.id) || el;
+          var life = DOC.lives[node.id];
+          // display, not visibility: a hidden group must hide what it carries.
+          if (frame < life.start || frame >= life.end) { shown.style.display = "none"; return; }
+          shown.style.display = "";
 
-          const gBot = ctx.createLinearGradient(0, cy + innerHalf, 0, Math.min(H, cy + innerHalf + fadeH));
-          gBot.addColorStop(0, "rgba(" + cr + "," + cg + "," + cb + ",1)");
-          gBot.addColorStop(1, "rgba(" + cr + "," + cg + "," + cb + ",0)");
-          ctx.fillStyle = gBot;
-          ctx.fillRect(px, cy + innerHalf, 1, fadeH);
-        }
-      }
-
-      function renderAtFrame(frame) {
-        for (const node of DOC.nodes) {
-          if (node.role === "guide-path") continue;
-          const el = document.getElementById("node_" + node.id);
-          const wrap = document.getElementById("wrap_" + node.id);
-          const inRange = !node.range || (frame >= node.range.startFrame && frame < node.range.startFrame + node.range.durationFrames);
-
-          if (node.kind === "shape" && node.fill.kind === "shader") {
-            const cvs = document.getElementById("canvas_" + node.id);
-            if (cvs) {
-              const p = Object.assign({}, node.fill.params);
-              for (const m of DOC.motions) {
-                if (m.kind === "shaderParams" && m.targetId === node.id && frame >= m.startFrame) {
-                  const lf = Math.min(frame - m.startFrame, m.durationFrames - 1);
-                  for (const k of Object.keys(m.tracks)) p[k] = sampleScalar(m.tracks[k], lf, p[k]);
-                }
-              }
-              drawChevronRibbon(cvs, p);
-            }
-            continue;
-          }
-
-          if (!el) continue;
-          if (!inRange) {
-            (wrap || el).setAttribute("visibility", "hidden");
-            continue;
-          }
-          (wrap || el).setAttribute("visibility", "visible");
-
-          let x = node.base.x, y = node.base.y;
-          let rot = node.base.rotation || 0;
-          let op = node.base.opacity !== undefined ? node.base.opacity : 1;
-          let blur = node.base.blur || 0;
-          let sx = 1, sy = 1;
-          let trackVal = node.kind === "text" ? node.letterSpacing : 0;
-          let followed = null;
-
-          for (const m of DOC.motions) {
-            if (m.targetId !== node.id || frame < m.startFrame) continue;
-            const lf = Math.min(frame - m.startFrame, Math.max(0, m.durationFrames - 1));
+          var x = node.base.x, y = node.base.y, rot = node.base.rotation || 0;
+          var op = node.base.opacity === undefined ? 1 : node.base.opacity, blur = node.base.blur || 0;
+          var sx = 1, sy = 1, tracking = node.kind === "text" ? node.letterSpacing : 0, followed = null, params = null;
+          (motionsOf[node.id] || []).forEach(function (m) {
+            if (frame < m.startFrame) return;
+            var ended = frame > m.startFrame + m.durationFrames - 1;
+            var f = Math.min(frame - m.startFrame, Math.max(0, m.durationFrames - 1));
             if (m.kind === "scalar") {
-              const v = sampleScalar(m.keys, lf, m.baseValue || 0);
+              if (ended && m.post === "none") return;
+              var v = scalarAt(m.keys, f, m.baseValue || 0);
               if (m.property === "opacity") op = m.mode === "set" ? v : op + v;
               else if (m.property === "layerBlur") blur = m.mode === "set" ? v : blur + v;
               else if (m.property === "rotation") rot = m.mode === "set" ? v : rot + v;
-              else if (m.property === "letterSpacing") trackVal = v;
+              else if (m.property === "letterSpacing") tracking = v;
             } else if (m.kind === "vec2") {
-              const v = sampleVec2(m.keys, lf, m.mode === "multiply" ? { x: 1, y: 1 } : { x: 0, y: 0 });
-              if (m.property === "move") { x += v.x; y += v.y; }
-              else if (m.property === "scale") { sx *= v.x; sy *= v.y; }
+              var p = pointAt(m.keys, f, m.mode === "multiply" ? { x: 1, y: 1 } : { x: 0, y: 0 });
+              if (m.property === "move") { x += p.x; y += p.y; } else { sx *= p.x; sy *= p.y; }
             } else if (m.kind === "followPath") {
-              const u = easeValue(m.progressEasing, m.durationFrames <= 1 ? 1 : lf / (m.durationFrames - 1));
-              followed = sampleGuide(m.guidePathId, u);
+              followed = along(m.guidePathId, eased(m.progressEasing, m.durationFrames <= 1 ? 1 : f / (m.durationFrames - 1)));
+            } else if (m.kind === "shaderParams") {
+              params = params || Object.assign({}, node.fill.params);
+              Object.keys(m.tracks).forEach(function (k) { params[k] = scalarAt(m.tracks[k], f, params[k]); });
             }
-          }
+          });
 
-          const ox = node.base.width * (node.base.originX !== undefined ? node.base.originX : 0.5);
-          const oy = node.base.height * (node.base.originY !== undefined ? node.base.originY : 0.5);
-          const tx = followed ? followed.x - ox : x;
-          const ty = followed ? followed.y - oy : y;
-          const xf = "translate(" + tx.toFixed(2) + "," + ty.toFixed(2) + ") translate(" + ox.toFixed(2) + "," + oy.toFixed(2) + ") rotate(" + rot.toFixed(2) + ") scale(" + sx.toFixed(4) + "," + sy.toFixed(4) + ") translate(" + (-ox).toFixed(2) + "," + (-oy).toFixed(2) + ")";
-          el.setAttribute("transform", xf);
+          var ox = node.base.width * (node.base.originX === undefined ? 0.5 : node.base.originX);
+          var oy = node.base.height * (node.base.originY === undefined ? 0.5 : node.base.originY);
+          var tx = followed ? followed.x - ox : x, ty = followed ? followed.y - oy : y;
+          el.setAttribute("transform", "translate(" + (tx + ox).toFixed(2) + "," + (ty + oy).toFixed(2) + ") rotate(" + rot.toFixed(2) + ") scale(" + sx.toFixed(4) + "," + sy.toFixed(4) + ") translate(" + (-ox).toFixed(2) + "," + (-oy).toFixed(2) + ")");
+          if (el.parentNode && el.parentNode.nodeName.toLowerCase() === "clippath") return;
           el.style.opacity = String(Math.max(0, Math.min(1, op)));
           el.style.filter = blur > 0.2 ? "blur(" + blur.toFixed(1) + "px)" : "none";
-          if (node.kind === "text") el.style.letterSpacing = trackVal.toFixed(2) + "px";
-
-          if (node.id === "intro_world") {
-            const host = document.getElementById("intro_backdrop_host");
-            if (host) {
-              host.style.opacity = String(Math.max(0, Math.min(1, op)));
-              host.style.filter = blur > 0.2 ? "blur(" + blur.toFixed(1) + "px)" : "none";
-            }
+          if (node.kind === "text") el.style.letterSpacing = tracking.toFixed(2) + "px";
+          if (node.fill && node.fill.kind === "shader" && painters[node.fill.shaderId]) {
+            var canvas = el$("canvas", node.id);
+            painters[node.fill.shaderId](canvas.getContext("2d"), canvas.width, canvas.height, params || node.fill.params);
           }
-        }
+        });
       }
 
-      window.__seekToFrame = renderAtFrame;
-      renderAtFrame(0);
-
+      window.__seekToFrame = pose;
+      window.__motionSdk = window.__motionSdk || {};
+      window.__motionSdk[COMP_ID] = { pose: pose, format: DOC.format };
+      pose(0);
       if (window.gsap) {
-        const proxy = { frame: 0 };
-        const tl = window.gsap.timeline({ paused: true });
-        tl.to(proxy, {
-          frame: DOC.format.durationFrames - 1,
+        var clock = { frame: 0 };
+        var tl = window.gsap.timeline({ paused: true });
+        tl.to(clock, {
+          frame: DOC.format.durationFrames,
           duration: ${durSec},
           ease: "none",
-          onUpdate: function () { renderAtFrame(proxy.frame); }
+          onUpdate: function () { pose(Math.min(clock.frame, DOC.format.durationFrames - 1)); }
         }, 0);
         window.__timelines = window.__timelines || {};
         window.__timelines[COMP_ID] = tl;

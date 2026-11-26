@@ -1,8 +1,9 @@
 import {
   evaluateEasing,
+  lifetime,
   sampleGuideNetworkAtProgress,
   vectorNetworkToSvgPath,
-  type CompiledShotInstance,
+  type Shot,
   type MotionDocument,
   type PathNodeIR,
   type ScalarKey,
@@ -25,7 +26,7 @@ export type CreateElementFn<TEl = any> = (
 ) => TEl;
 
 export function getRemotionCompositionConfig(
-  input: CompiledShotInstance | MotionDocument
+  input: Shot | MotionDocument
 ): RemotionCompositionConfig {
   const doc = "ir" in input ? input.ir : input;
   return {
@@ -92,10 +93,8 @@ export function buildRemotionFrameElement<TEl = any>(
   }
 
   const evalTransform = (node: SceneNodeIR) => {
-    const inRange =
-      !node.range ||
-      (frame >= node.range.startFrame &&
-        frame < node.range.startFrame + node.range.durationFrames);
+    const life = lifetime(doc, node);
+    const inRange = frame >= life.start && frame < life.end;
     let x = node.base.x;
     let y = node.base.y;
     let rot = node.base.rotation ?? 0;
@@ -209,6 +208,7 @@ export function buildRemotionFrameElement<TEl = any>(
     const geom =
       src.kind === "shape" && src.shape === "ellipse"
         ? h("ellipse", {
+            transform: st.transform,
             cx: src.base.width / 2,
             cy: src.base.height / 2,
             rx: src.base.width / 2,
@@ -216,18 +216,19 @@ export function buildRemotionFrameElement<TEl = any>(
           })
         : src.kind === "shape"
           ? h("rect", {
+              transform: st.transform,
               x: 0,
               y: 0,
               width: src.base.width,
               height: src.base.height,
               rx: src.borderRadius ?? 0,
             })
-          : h("path", { d: svgPaths[src.id] });
+          : h("path", { transform: st.transform, d: svgPaths[src.id] });
     defsChildren.push(
       h(
         "clipPath",
         { key: m.id, id: `clip_${m.id}`, clipPathUnits: "userSpaceOnUse" },
-        h("g", { transform: st.transform }, geom)
+        geom
       )
     );
   }
@@ -237,7 +238,7 @@ export function buildRemotionFrameElement<TEl = any>(
       .filter(
         (n) =>
           n.parentId === parentId &&
-          n.role !== "guide-path" &&
+          n.role !== "guide" &&
           !maskSourceIds.has(n.id)
       )
       .sort((a, b) => a.layer - b.layer)

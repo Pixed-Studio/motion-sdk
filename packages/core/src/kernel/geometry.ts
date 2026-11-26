@@ -1,8 +1,17 @@
-import type { BBox, VectorNetworkIR, VectorSegment, VectorVertex } from "./ir.ts";
+import type { BBox, Point2D, VectorNetworkIR, VectorSegment, VectorVertex } from "./ir.ts";
 
-export interface Point2D {
-  x: number;
-  y: number;
+export function intersectionArea(a: BBox, b: BBox): number {
+  const w = Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x);
+  const h = Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y);
+  return w > 0 && h > 0 ? w * h : 0;
+}
+
+export function unionBox(boxes: BBox[]): BBox {
+  const x0 = Math.min(...boxes.map((b) => b.x));
+  const y0 = Math.min(...boxes.map((b) => b.y));
+  const x1 = Math.max(...boxes.map((b) => b.x + b.width));
+  const y1 = Math.max(...boxes.map((b) => b.y + b.height));
+  return { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };
 }
 
 export function padBox(box: BBox, padX: number, padY = padX): BBox {
@@ -196,7 +205,7 @@ export function waypointsToSmoothGuideNetwork(
   const tangents: Point2D[] = localPts.map((pt, i) => {
     const prev = localPts[Math.max(0, i - 1)]!;
     const next = localPts[Math.min(n - 1, i + 1)]!;
-    const scale = i === 0 || i === n - 1 ? tension : tension * 0.5;
+    const scale = tension * 0.5;
     return {
       x: (next.x - prev.x) * scale,
       y: (next.y - prev.y) * scale,

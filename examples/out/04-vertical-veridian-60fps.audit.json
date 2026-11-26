@@ -1,0 +1,345 @@
+{
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 60,
+    "durationFrames": 270
+  },
+  "score": {
+    "shot": "statement-converge",
+    "cues": [
+      {
+        "name": "line-1",
+        "frame": 0,
+        "kind": "beat",
+        "weight": 0.8,
+        "why": "A step of the run-up toward the accent."
+      },
+      {
+        "name": "line-2",
+        "frame": 34,
+        "kind": "beat",
+        "weight": 0.9,
+        "why": "A step of the run-up toward the accent."
+      },
+      {
+        "name": "line-3",
+        "frame": 68,
+        "kind": "beat",
+        "weight": 1,
+        "why": "A step of the run-up toward the accent."
+      },
+      {
+        "name": "line-4",
+        "frame": 101,
+        "kind": "accent",
+        "weight": 1.15,
+        "why": "The arrival the phrase builds to. It keeps the stage longest and the world answers it hardest."
+      },
+      {
+        "name": "turn",
+        "frame": 200,
+        "kind": "structure",
+        "weight": 1,
+        "why": "Attention passes from the statement to the mark."
+      },
+      {
+        "name": "land",
+        "frame": 239,
+        "kind": "structure",
+        "weight": 1,
+        "why": "The mark is complete and at rest."
+      }
+    ],
+    "subjects": [
+      {
+        "nodeId": "txt_ship",
+        "cue": "line-1",
+        "needsSec": 0.48,
+        "untilFrame": 186,
+        "accent": false
+      },
+      {
+        "nodeId": "txt_fearless",
+        "cue": "line-2",
+        "needsSec": 0.66,
+        "untilFrame": 186,
+        "accent": false
+      },
+      {
+        "nodeId": "txt_agents",
+        "cue": "line-3",
+        "needsSec": 0.57,
+        "untilFrame": 186,
+        "accent": false
+      },
+      {
+        "nodeId": "txt_at_scale",
+        "cue": "line-4",
+        "needsSec": 0.66,
+        "untilFrame": 186,
+        "accent": true
+      }
+    ],
+    "claimFrames": 18,
+    "regions": {
+      "statement": {
+        "x": 251,
+        "y": 608,
+        "width": 578,
+        "height": 739
+      }
+    },
+    "safeArea": {
+      "x": 86,
+      "y": 173,
+      "width": 908,
+      "height": 1574
+    },
+    "invariants": [
+      {
+        "kind": "upright",
+        "nodeId": "mid_blue_big",
+        "toleranceDeg": 1,
+        "why": "It is lit from one side, so it must not turn with the group that carries it."
+      },
+      {
+        "kind": "upright",
+        "nodeId": "mid_blue_small",
+        "toleranceDeg": 1,
+        "why": "It is lit from one side, so it must not turn with the group that carries it."
+      },
+      {
+        "kind": "overlap",
+        "a": "mark_square",
+        "b": "mark_host",
+        "frame": 239,
+        "minShare": 0.5,
+        "why": "A part of the mark rests on its host; off it, the mark has come apart."
+      },
+      {
+        "kind": "overlap",
+        "a": "mark_triangle",
+        "b": "mark_host",
+        "frame": 239,
+        "minShare": 0.5,
+        "why": "A part of the mark rests on its host; off it, the mark has come apart."
+      },
+      {
+        "kind": "overlap",
+        "a": "mark_triangle",
+        "b": "mark_square",
+        "frame": 239,
+        "minShare": 0.03,
+        "why": "The overlap has its own fill, so the two parts must cross at rest."
+      }
+    ],
+    "handoff": {
+      "exit": {
+        "frame": 239,
+        "nodeId": "mark_host",
+        "position": {
+          "x": 534.9,
+          "y": 893.4
+        },
+        "velocity": {
+          "x": 1,
+          "y": 0
+        },
+        "size": 495,
+        "color": "#00D4B2"
+      },
+      "entry": {
+        "frame": 0,
+        "nodeId": "txt_ship",
+        "position": {
+          "x": 614,
+          "y": 718
+        },
+        "velocity": {
+          "x": -332,
+          "y": 0
+        },
+        "size": 339,
+        "color": "#F6F8FC"
+      }
+    },
+    "notes": []
+  },
+  "audit": {
+    "ok": true,
+    "findings": [],
+    "measures": {
+      "reading": [
+        {
+          "nodeId": "txt_ship",
+          "label": "Ship",
+          "cue": "line-1",
+          "arrivesFrame": 0,
+          "untilFrame": 186,
+          "needsSec": 0.48,
+          "offeredSec": 3.1,
+          "clearSec": 3.1,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "txt_fearless",
+          "label": "fearless",
+          "cue": "line-2",
+          "arrivesFrame": 34,
+          "untilFrame": 186,
+          "needsSec": 0.66,
+          "offeredSec": 2.533333333333333,
+          "clearSec": 2.533333333333333,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "txt_agents",
+          "label": "agents",
+          "cue": "line-3",
+          "arrivesFrame": 68,
+          "untilFrame": 186,
+          "needsSec": 0.57,
+          "offeredSec": 1.9666666666666666,
+          "clearSec": 1.9666666666666666,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "txt_at_scale",
+          "label": "at scale",
+          "cue": "line-4",
+          "arrivesFrame": 101,
+          "untilFrame": 186,
+          "needsSec": 0.66,
+          "offeredSec": 1.4166666666666667,
+          "clearSec": 1.4166666666666667,
+          "blockedBy": []
+        }
+      ],
+      "answers": [
+        {
+          "motionId": "act_ribbon_spin",
+          "track": "spinAngle",
+          "cue": "line-2",
+          "frame": 34,
+          "speedBefore": 5.794378698224847,
+          "speedAfter": 8.657839012345676,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_ribbon_spin",
+          "track": "spinAngle",
+          "cue": "line-3",
+          "frame": 68,
+          "speedBefore": 6.248520710059154,
+          "speedAfter": 9.337925530864197,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_ribbon_spin",
+          "track": "spinAngle",
+          "cue": "line-4",
+          "frame": 101,
+          "speedBefore": 7.838757396449694,
+          "speedAfter": 11.715816691358043,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_world_ring_turn",
+          "cue": "line-2",
+          "frame": 34,
+          "speedBefore": 5.0882000000000005,
+          "speedAfter": 10.251238425925933,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_world_ring_turn",
+          "cue": "line-3",
+          "frame": 68,
+          "speedBefore": 5.487200000000001,
+          "speedAfter": 11.055347222222224,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_world_ring_turn",
+          "cue": "line-4",
+          "frame": 101,
+          "speedBefore": 6.883699999999976,
+          "speedAfter": 13.86972800925929,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_world_ring_turn",
+          "cue": "turn",
+          "frame": 200,
+          "speedBefore": 3.0712500000000205,
+          "speedAfter": 4.083333333333314,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_blue_big_makes_room",
+          "cue": "turn",
+          "frame": 200,
+          "speedBefore": 8.582814049636264,
+          "speedAfter": 10.713196593454265,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_tri_big_makes_room",
+          "cue": "turn",
+          "frame": 200,
+          "speedBefore": 8.741131137115774,
+          "speedAfter": 10.911603310492701,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_tri_small_makes_room",
+          "cue": "turn",
+          "frame": 200,
+          "speedBefore": 8.267021149959481,
+          "speedAfter": 10.319084598182352,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_blue_small_makes_room",
+          "cue": "turn",
+          "frame": 200,
+          "speedBefore": 6.319404171617885,
+          "speedAfter": 7.885108547480842,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_warm_tiny_makes_room",
+          "cue": "turn",
+          "frame": 200,
+          "speedBefore": 7.634022259902005,
+          "speedAfter": 9.53077343981646,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_warm_big_makes_room",
+          "cue": "turn",
+          "frame": 200,
+          "speedBefore": 5.317565263185167,
+          "speedAfter": 6.6374463797792265,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mid_warm_med_makes_room",
+          "cue": "turn",
+          "frame": 200,
+          "speedBefore": 4.685844514378814,
+          "speedAfter": 5.848291892130179,
+          "peakOffset": 0
+        }
+      ],
+      "stills": [
+        {
+          "fromFrame": 239,
+          "toFrame": 269
+        }
+      ],
+      "contrast": 17.45
+    }
+  }
+}
