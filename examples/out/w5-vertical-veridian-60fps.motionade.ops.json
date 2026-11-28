@@ -7,7 +7,7 @@
   {
     "kind": "updateSceneDuration",
     "sceneId": "vertical_words__scene-1",
-    "durationFrames": 216
+    "durationFrames": 112
   },
   {
     "kind": "setSceneBackgroundFill",
@@ -15,58 +15,6 @@
     "background": {
       "kind": "solid",
       "color": "#0E131F"
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "vertical_words__scene-1",
-    "object": {
-      "id": "glow_a",
-      "kind": "shape",
-      "name": "glow-a",
-      "layer": 1,
-      "base": {
-        "x": -162.1,
-        "y": 574.3,
-        "width": 803,
-        "height": 492
-      },
-      "content": {
-        "shape": "ellipse"
-      },
-      "style": {
-        "primaryFill": {
-          "kind": "solid",
-          "color": "#0B5E57"
-        },
-        "blur": 59
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "vertical_words__scene-1",
-    "object": {
-      "id": "glow_b",
-      "kind": "shape",
-      "name": "glow-b",
-      "layer": 2,
-      "base": {
-        "x": 563.8,
-        "y": 855,
-        "width": 685,
-        "height": 449
-      },
-      "content": {
-        "shape": "ellipse"
-      },
-      "style": {
-        "primaryFill": {
-          "kind": "solid",
-          "color": "#0B5E57"
-        },
-        "blur": 59
-      }
     }
   },
   {
@@ -83,7 +31,7 @@
         "width": 1080,
         "height": 1920,
         "originX": 0.5,
-        "originY": 0.5002604166666667
+        "originY": 0.49042708333333335
       }
     }
   },
@@ -110,44 +58,6 @@
     "kind": "addObject",
     "sceneId": "vertical_words__scene-1",
     "object": {
-      "id": "line_2",
-      "kind": "frame",
-      "name": "Line 2",
-      "parentId": "phrase",
-      "layer": 2,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1080,
-        "height": 1920,
-        "originX": 0.5,
-        "originY": 0.5
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "vertical_words__scene-1",
-    "object": {
-      "id": "line_3",
-      "kind": "frame",
-      "name": "Line 3",
-      "parentId": "phrase",
-      "layer": 3,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1080,
-        "height": 1920,
-        "originX": 0.5,
-        "originY": 0.5
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "vertical_words__scene-1",
-    "object": {
       "id": "arrival_1",
       "kind": "frame",
       "name": "Meet",
@@ -158,8 +68,8 @@
         "y": 0,
         "width": 1080,
         "height": 1920,
-        "originX": 0.14062962962962963,
-        "originY": 0.4356770833333333
+        "originX": 0.2930092592592593,
+        "originY": 0.5
       }
     }
   },
@@ -173,8 +83,8 @@
       "parentId": "arrival_1",
       "layer": 1,
       "base": {
-        "x": 276.99,
-        "y": 767
+        "x": 316.45,
+        "y": 921
       },
       "content": {
         "design": {
@@ -183,9 +93,9 @@
       },
       "style": {
         "fontFamily": "Geist",
-        "fontSize": 107,
+        "fontSize": 60,
         "fontWeight": 500,
-        "letterSpacing": -2.3,
+        "letterSpacing": -1.3,
         "textAlign": "center",
         "primaryFill": {
           "kind": "solid",
@@ -201,15 +111,15 @@
       "id": "arrival_2",
       "kind": "frame",
       "name": "agents that ship",
-      "parentId": "line_2",
+      "parentId": "line_1",
       "layer": 2,
       "base": {
         "x": 0,
         "y": 0,
         "width": 1080,
         "height": 1920,
-        "originX": 0.5,
-        "originY": 0.5002604166666667
+        "originX": 0.5704907407407407,
+        "originY": 0.5
       }
     }
   },
@@ -223,8 +133,8 @@
       "parentId": "arrival_2",
       "layer": 1,
       "base": {
-        "x": 317.65,
-        "y": 891
+        "x": 491.5,
+        "y": 921
       },
       "content": {
         "design": {
@@ -233,9 +143,9 @@
       },
       "style": {
         "fontFamily": "Geist",
-        "fontSize": 107,
+        "fontSize": 60,
         "fontWeight": 500,
-        "letterSpacing": -2.3,
+        "letterSpacing": -1.3,
         "textAlign": "center",
         "primaryFill": {
           "kind": "solid",
@@ -254,8 +164,8 @@
       "parentId": "arrival_2",
       "layer": 2,
       "base": {
-        "x": 603.18,
-        "y": 891
+        "x": 651.55,
+        "y": 921
       },
       "content": {
         "design": {
@@ -264,9 +174,9 @@
       },
       "style": {
         "fontFamily": "Geist",
-        "fontSize": 107,
+        "fontSize": 60,
         "fontWeight": 500,
-        "letterSpacing": -2.3,
+        "letterSpacing": -1.3,
         "textAlign": "center",
         "primaryFill": {
           "kind": "solid",
@@ -285,8 +195,8 @@
       "parentId": "arrival_2",
       "layer": 3,
       "base": {
-        "x": 825.54,
-        "y": 891
+        "x": 776.18,
+        "y": 921
       },
       "content": {
         "design": {
@@ -295,9 +205,9 @@
       },
       "style": {
         "fontFamily": "Geist",
-        "fontSize": 107,
+        "fontSize": 60,
         "fontWeight": 500,
-        "letterSpacing": -2.3,
+        "letterSpacing": -1.3,
         "textAlign": "center",
         "primaryFill": {
           "kind": "solid",
@@ -310,49 +220,25 @@
     "kind": "addObject",
     "sceneId": "vertical_words__scene-1",
     "object": {
-      "id": "arrival_3",
-      "kind": "frame",
-      "name": "while you sleep.",
-      "parentId": "line_3",
-      "layer": 3,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1080,
-        "height": 1920,
-        "originX": 0.49316203703703704,
-        "originY": 0.56484375
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "vertical_words__scene-1",
-    "object": {
-      "id": "w_while",
-      "kind": "text",
-      "name": "while",
-      "parentId": "arrival_3",
+      "id": "glow_a",
+      "kind": "shape",
+      "name": "glow-a",
       "layer": 1,
       "base": {
-        "x": 281.19,
-        "y": 1015
+        "x": 146.4,
+        "y": 743.4,
+        "width": 450,
+        "height": 276
       },
       "content": {
-        "design": {
-          "text": "while"
-        }
+        "shape": "ellipse"
       },
       "style": {
-        "fontFamily": "Geist",
-        "fontSize": 107,
-        "fontWeight": 500,
-        "letterSpacing": -2.3,
-        "textAlign": "center",
         "primaryFill": {
           "kind": "solid",
-          "color": "#F6F8FC"
-        }
+          "color": "#0B5E57"
+        },
+        "blur": 59
       }
     }
   },
@@ -360,174 +246,57 @@
     "kind": "addObject",
     "sceneId": "vertical_words__scene-1",
     "object": {
-      "id": "w_you",
-      "kind": "text",
-      "name": "you",
-      "parentId": "arrival_3",
+      "id": "glow_b",
+      "kind": "shape",
+      "name": "glow-b",
       "layer": 2,
       "base": {
-        "x": 520.02,
-        "y": 1015
+        "x": 553.4,
+        "y": 900.7,
+        "width": 384,
+        "height": 252
       },
       "content": {
-        "design": {
-          "text": "you"
-        }
+        "shape": "ellipse"
       },
       "style": {
-        "fontFamily": "Geist",
-        "fontSize": 107,
-        "fontWeight": 500,
-        "letterSpacing": -2.3,
-        "textAlign": "center",
         "primaryFill": {
           "kind": "solid",
-          "color": "#F6F8FC"
-        }
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "vertical_words__scene-1",
-    "object": {
-      "id": "w_sleep",
-      "kind": "text",
-      "name": "sleep.",
-      "parentId": "arrival_3",
-      "layer": 3,
-      "base": {
-        "x": 771.44,
-        "y": 1015
-      },
-      "content": {
-        "design": {
-          "text": "sleep."
-        }
-      },
-      "style": {
-        "fontFamily": "Geist",
-        "fontSize": 107,
-        "fontWeight": 500,
-        "letterSpacing": -2.3,
-        "textAlign": "center",
-        "primaryFill": {
-          "kind": "solid",
-          "color": "#F6F8FC"
-        }
+          "color": "#0B5E57"
+        },
+        "blur": 59
       }
     }
   },
   {
     "kind": "materializeActionFacets",
     "sceneId": "vertical_words__scene-1",
-    "catalogId": "move",
+    "catalogId": "scale",
     "facets": [
       {
         "primitive": {
-          "id": "act_glow_a_answers_2_p",
+          "id": "act_phrase_lands_p",
           "kind": "property.writeGroup",
           "value": {
             "keys": [
               {
-                "id": "act_glow_a_answers_2_k0",
+                "id": "act_phrase_lands_k0",
                 "frame": 0,
                 "value": {
-                  "x": 0,
-                  "y": 0
+                  "scaleX": 3.6,
+                  "scaleY": 3.6
                 },
                 "outgoingTiming": {
                   "kind": "easing",
-                  "preset": "easeOutCubic"
+                  "preset": "easeOutQuart"
                 }
               },
               {
-                "id": "act_glow_a_answers_2_k1",
-                "frame": 12,
+                "id": "act_phrase_lands_k1",
+                "frame": 31,
                 "value": {
-                  "x": -7.03,
-                  "y": -3.28
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k2",
-                "frame": 75,
-                "value": {
-                  "x": -9.85,
-                  "y": -4.59
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeInQuad"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k3",
-                "frame": 85,
-                "value": {
-                  "x": -13.15,
-                  "y": -6.13
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k4",
-                "frame": 97,
-                "value": {
-                  "x": -18.66,
-                  "y": -8.7
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k5",
-                "frame": 131,
-                "value": {
-                  "x": -20.86,
-                  "y": -9.73
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeInQuad"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k6",
-                "frame": 141,
-                "value": {
-                  "x": -24.16,
-                  "y": -11.27
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k7",
-                "frame": 153,
-                "value": {
-                  "x": -29.67,
-                  "y": -13.84
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k8",
-                "frame": 215,
-                "value": {
-                  "x": -31.87,
-                  "y": -14.86
+                  "scaleX": 1,
+                  "scaleY": 1
                 }
               }
             ]
@@ -538,8 +307,61 @@
     "action": {
       "mode": "create",
       "blockMetadata": {
-        "id": "act_glow_a_answers_2",
-        "name": "glow-a answers the arrivals",
+        "id": "act_phrase_lands",
+        "name": "Phrase lands large and settles",
+        "target": {
+          "kind": "object",
+          "objectId": "phrase"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 32
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_a_lands_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_a_lands_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.78,
+                  "scaleY": 1.78
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "act_glow_a_lands_k1",
+                "frame": 31,
+                "value": {
+                  "scaleX": 1,
+                  "scaleY": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_a_lands",
+        "name": "glow-a lands with the lead",
         "target": {
           "kind": "object",
           "objectId": "glow_a"
@@ -547,7 +369,7 @@
         "stage": "custom",
         "timing": {
           "startFrame": 0,
-          "durationFrames": 216
+          "durationFrames": 32
         }
       }
     }
@@ -559,109 +381,28 @@
     "facets": [
       {
         "primitive": {
-          "id": "act_glow_b_answers_2_p",
+          "id": "act_glow_a_closes_in_p",
           "kind": "property.writeGroup",
           "value": {
             "keys": [
               {
-                "id": "act_glow_b_answers_2_k0",
+                "id": "act_glow_a_closes_in_k0",
                 "frame": 0,
+                "value": {
+                  "x": -131.51,
+                  "y": -61.31
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "act_glow_a_closes_in_k1",
+                "frame": 31,
                 "value": {
                   "x": 0,
                   "y": 0
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k1",
-                "frame": 12,
-                "value": {
-                  "x": 7.38,
-                  "y": 2.4
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k2",
-                "frame": 75,
-                "value": {
-                  "x": 10.34,
-                  "y": 3.36
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeInQuad"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k3",
-                "frame": 85,
-                "value": {
-                  "x": 13.8,
-                  "y": 4.48
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k4",
-                "frame": 97,
-                "value": {
-                  "x": 19.58,
-                  "y": 6.36
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k5",
-                "frame": 131,
-                "value": {
-                  "x": 21.89,
-                  "y": 7.11
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeInQuad"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k6",
-                "frame": 141,
-                "value": {
-                  "x": 25.36,
-                  "y": 8.24
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k7",
-                "frame": 153,
-                "value": {
-                  "x": 31.14,
-                  "y": 10.12
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k8",
-                "frame": 215,
-                "value": {
-                  "x": 33.45,
-                  "y": 10.87
                 }
               }
             ]
@@ -672,8 +413,61 @@
     "action": {
       "mode": "create",
       "blockMetadata": {
-        "id": "act_glow_b_answers_2",
-        "name": "glow-b answers the arrivals",
+        "id": "act_glow_a_closes_in",
+        "name": "glow-a closes in",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 32
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_b_lands_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_b_lands_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1.78,
+                  "scaleY": 1.78
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "act_glow_b_lands_k1",
+                "frame": 31,
+                "value": {
+                  "scaleX": 1,
+                  "scaleY": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_b_lands",
+        "name": "glow-b lands with the lead",
         "target": {
           "kind": "object",
           "objectId": "glow_b"
@@ -681,7 +475,60 @@
         "stage": "custom",
         "timing": {
           "startFrame": 0,
-          "durationFrames": 216
+          "durationFrames": 32
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_b_closes_in_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_b_closes_in_k0",
+                "frame": 0,
+                "value": {
+                  "x": 160.21,
+                  "y": 52.03
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutQuart"
+                }
+              },
+              {
+                "id": "act_glow_b_closes_in_k1",
+                "frame": 31,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_b_closes_in",
+        "name": "glow-b closes in",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 32
         }
       }
     }
@@ -700,15 +547,14 @@
               {
                 "id": "act_w_meet_in_k0",
                 "frame": 0,
-                "value": 0.7,
+                "value": 1,
                 "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
+                  "kind": "hold"
                 }
               },
               {
                 "id": "act_w_meet_in_k1",
-                "frame": 5,
+                "frame": 1,
                 "value": 1
               }
             ]
@@ -728,54 +574,7 @@
         "stage": "in",
         "timing": {
           "startFrame": 0,
-          "durationFrames": 6
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "vertical_words__scene-1",
-    "catalogId": "layerBlur",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_meet_focus_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_meet_focus_k0",
-                "frame": 0,
-                "value": 7.6,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_meet_focus_k1",
-                "frame": 5,
-                "value": 0
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_meet_focus",
-        "name": "Meet comes into focus",
-        "target": {
-          "kind": "object",
-          "objectId": "w_meet"
-        },
-        "stage": "custom",
-        "timing": {
-          "startFrame": 0,
-          "durationFrames": 6
+          "durationFrames": 2
         }
       }
     }
@@ -794,15 +593,14 @@
               {
                 "id": "act_w_agents_in_k0",
                 "frame": 0,
-                "value": 0.7,
+                "value": 1,
                 "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
+                  "kind": "hold"
                 }
               },
               {
                 "id": "act_w_agents_in_k1",
-                "frame": 5,
+                "frame": 1,
                 "value": 1
               }
             ]
@@ -821,8 +619,8 @@
         },
         "stage": "in",
         "timing": {
-          "startFrame": 85,
-          "durationFrames": 6
+          "startFrame": 34,
+          "durationFrames": 2
         }
       }
     }
@@ -830,27 +628,36 @@
   {
     "kind": "materializeActionFacets",
     "sceneId": "vertical_words__scene-1",
-    "catalogId": "layerBlur",
+    "catalogId": "move",
     "facets": [
       {
         "primitive": {
-          "id": "act_w_agents_focus_p",
-          "kind": "property.write",
+          "id": "act_w_agents_join_p",
+          "kind": "property.writeGroup",
           "value": {
             "keys": [
               {
-                "id": "act_w_agents_focus_k0",
+                "id": "act_w_agents_join_k0",
                 "frame": 0,
-                "value": 7.6,
+                "value": {
+                  "x": 0,
+                  "y": -36
+                },
                 "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
+                  "kind": "cubicBezier",
+                  "x1": 0.1,
+                  "y1": 0.72,
+                  "x2": 0.56,
+                  "y2": 1
                 }
               },
               {
-                "id": "act_w_agents_focus_k1",
-                "frame": 5,
-                "value": 0
+                "id": "act_w_agents_join_k1",
+                "frame": 31,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
               }
             ]
           }
@@ -860,16 +667,16 @@
     "action": {
       "mode": "create",
       "blockMetadata": {
-        "id": "act_w_agents_focus",
-        "name": "agents comes into focus",
+        "id": "act_w_agents_join",
+        "name": "agents rises into place",
         "target": {
           "kind": "object",
           "objectId": "w_agents"
         },
         "stage": "custom",
         "timing": {
-          "startFrame": 85,
-          "durationFrames": 6
+          "startFrame": 34,
+          "durationFrames": 32
         }
       }
     }
@@ -888,15 +695,14 @@
               {
                 "id": "act_w_that_in_k0",
                 "frame": 0,
-                "value": 0.7,
+                "value": 1,
                 "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
+                  "kind": "hold"
                 }
               },
               {
                 "id": "act_w_that_in_k1",
-                "frame": 5,
+                "frame": 1,
                 "value": 1
               }
             ]
@@ -915,8 +721,8 @@
         },
         "stage": "in",
         "timing": {
-          "startFrame": 89,
-          "durationFrames": 6
+          "startFrame": 38,
+          "durationFrames": 2
         }
       }
     }
@@ -924,27 +730,36 @@
   {
     "kind": "materializeActionFacets",
     "sceneId": "vertical_words__scene-1",
-    "catalogId": "layerBlur",
+    "catalogId": "move",
     "facets": [
       {
         "primitive": {
-          "id": "act_w_that_focus_p",
-          "kind": "property.write",
+          "id": "act_w_that_join_p",
+          "kind": "property.writeGroup",
           "value": {
             "keys": [
               {
-                "id": "act_w_that_focus_k0",
+                "id": "act_w_that_join_k0",
                 "frame": 0,
-                "value": 7.6,
+                "value": {
+                  "x": 0,
+                  "y": -36
+                },
                 "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
+                  "kind": "cubicBezier",
+                  "x1": 0.1,
+                  "y1": 0.72,
+                  "x2": 0.56,
+                  "y2": 1
                 }
               },
               {
-                "id": "act_w_that_focus_k1",
-                "frame": 5,
-                "value": 0
+                "id": "act_w_that_join_k1",
+                "frame": 31,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
               }
             ]
           }
@@ -954,16 +769,16 @@
     "action": {
       "mode": "create",
       "blockMetadata": {
-        "id": "act_w_that_focus",
-        "name": "that comes into focus",
+        "id": "act_w_that_join",
+        "name": "that rises into place",
         "target": {
           "kind": "object",
           "objectId": "w_that"
         },
         "stage": "custom",
         "timing": {
-          "startFrame": 89,
-          "durationFrames": 6
+          "startFrame": 38,
+          "durationFrames": 32
         }
       }
     }
@@ -982,15 +797,14 @@
               {
                 "id": "act_w_ship_in_k0",
                 "frame": 0,
-                "value": 0.7,
+                "value": 1,
                 "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
+                  "kind": "hold"
                 }
               },
               {
                 "id": "act_w_ship_in_k1",
-                "frame": 5,
+                "frame": 1,
                 "value": 1
               }
             ]
@@ -1009,8 +823,351 @@
         },
         "stage": "in",
         "timing": {
-          "startFrame": 93,
-          "durationFrames": 6
+          "startFrame": 42,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_ship_join_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_ship_join_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": -36
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.1,
+                  "y1": 0.72,
+                  "x2": 0.56,
+                  "y2": 1
+                }
+              },
+              {
+                "id": "act_w_ship_join_k1",
+                "frame": 31,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_ship_join",
+        "name": "ship rises into place",
+        "target": {
+          "kind": "object",
+          "objectId": "w_ship"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 42,
+          "durationFrames": 32
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_line_1_makes_room_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_line_1_makes_room_k0",
+                "frame": 0,
+                "value": {
+                  "x": 223.55,
+                  "y": -18.38
+                },
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_line_1_makes_room_k1",
+                "frame": 34,
+                "value": {
+                  "x": 223.55,
+                  "y": -18.38
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.045,
+                  "y1": 0.91,
+                  "x2": 0.317,
+                  "y2": 1
+                }
+              },
+              {
+                "id": "act_line_1_makes_room_k2",
+                "frame": 81,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_line_1_makes_room",
+        "name": "Meet makes room",
+        "target": {
+          "kind": "object",
+          "objectId": "line_1"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 82
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_phrase_drifts_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_phrase_drifts_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 18.38
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_phrase_drifts_k1",
+                "frame": 94,
+                "value": {
+                  "x": 0,
+                  "y": -8.62
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_phrase_drifts",
+        "name": "Phrase drifts",
+        "target": {
+          "kind": "object",
+          "objectId": "phrase"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 95
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_phrase_goes_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_phrase_goes_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.6,
+                  "y1": 0,
+                  "x2": 1,
+                  "y2": 0.8
+                }
+              },
+              {
+                "id": "act_phrase_goes_k1",
+                "frame": 17,
+                "value": {
+                  "x": 0,
+                  "y": -42
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_phrase_goes",
+        "name": "Phrase goes",
+        "target": {
+          "kind": "object",
+          "objectId": "phrase"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 94,
+          "durationFrames": 18
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_a_goes_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_a_goes_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.6,
+                  "y1": 0,
+                  "x2": 1,
+                  "y2": 0.8
+                }
+              },
+              {
+                "id": "act_glow_a_goes_k1",
+                "frame": 17,
+                "value": {
+                  "x": 0,
+                  "y": -12.6
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_a_goes",
+        "name": "glow-a goes with the line",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 94,
+          "durationFrames": 18
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "vertical_words__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_b_goes_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_b_goes_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.6,
+                  "y1": 0,
+                  "x2": 1,
+                  "y2": 0.8
+                }
+              },
+              {
+                "id": "act_glow_b_goes_k1",
+                "frame": 17,
+                "value": {
+                  "x": 0,
+                  "y": -12.6
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_b_goes",
+        "name": "glow-b goes with the line",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 94,
+          "durationFrames": 18
         }
       }
     }
@@ -1031,13 +1188,12 @@
                 "frame": 0,
                 "value": 7.6,
                 "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
+                  "kind": "linear"
                 }
               },
               {
                 "id": "act_w_ship_focus_k1",
-                "frame": 5,
+                "frame": 17,
                 "value": 0
               }
             ]
@@ -1056,343 +1212,8 @@
         },
         "stage": "custom",
         "timing": {
-          "startFrame": 93,
-          "durationFrames": 6
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "vertical_words__scene-1",
-    "catalogId": "opacity",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_while_in_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_while_in_k0",
-                "frame": 0,
-                "value": 0.7,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_while_in_k1",
-                "frame": 5,
-                "value": 1
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_while_in",
-        "name": "while appears",
-        "target": {
-          "kind": "object",
-          "objectId": "w_while"
-        },
-        "stage": "in",
-        "timing": {
-          "startFrame": 141,
-          "durationFrames": 6
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "vertical_words__scene-1",
-    "catalogId": "layerBlur",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_while_focus_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_while_focus_k0",
-                "frame": 0,
-                "value": 7.6,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_while_focus_k1",
-                "frame": 5,
-                "value": 0
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_while_focus",
-        "name": "while comes into focus",
-        "target": {
-          "kind": "object",
-          "objectId": "w_while"
-        },
-        "stage": "custom",
-        "timing": {
-          "startFrame": 141,
-          "durationFrames": 6
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "vertical_words__scene-1",
-    "catalogId": "opacity",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_you_in_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_you_in_k0",
-                "frame": 0,
-                "value": 0.7,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_you_in_k1",
-                "frame": 5,
-                "value": 1
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_you_in",
-        "name": "you appears",
-        "target": {
-          "kind": "object",
-          "objectId": "w_you"
-        },
-        "stage": "in",
-        "timing": {
-          "startFrame": 145,
-          "durationFrames": 6
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "vertical_words__scene-1",
-    "catalogId": "layerBlur",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_you_focus_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_you_focus_k0",
-                "frame": 0,
-                "value": 7.6,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_you_focus_k1",
-                "frame": 5,
-                "value": 0
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_you_focus",
-        "name": "you comes into focus",
-        "target": {
-          "kind": "object",
-          "objectId": "w_you"
-        },
-        "stage": "custom",
-        "timing": {
-          "startFrame": 145,
-          "durationFrames": 6
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "vertical_words__scene-1",
-    "catalogId": "opacity",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_sleep_in_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_sleep_in_k0",
-                "frame": 0,
-                "value": 0.7,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_sleep_in_k1",
-                "frame": 5,
-                "value": 1
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_sleep_in",
-        "name": "sleep. appears",
-        "target": {
-          "kind": "object",
-          "objectId": "w_sleep"
-        },
-        "stage": "in",
-        "timing": {
-          "startFrame": 149,
-          "durationFrames": 6
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "vertical_words__scene-1",
-    "catalogId": "layerBlur",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_sleep_focus_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_sleep_focus_k0",
-                "frame": 0,
-                "value": 7.6,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_sleep_focus_k1",
-                "frame": 5,
-                "value": 0
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_sleep_focus",
-        "name": "sleep. comes into focus",
-        "target": {
-          "kind": "object",
-          "objectId": "w_sleep"
-        },
-        "stage": "custom",
-        "timing": {
-          "startFrame": 149,
-          "durationFrames": 6
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "vertical_words__scene-1",
-    "catalogId": "scale",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_arrival_1_punch_p",
-          "kind": "property.writeGroup",
-          "value": {
-            "keys": [
-              {
-                "id": "act_arrival_1_punch_k0",
-                "frame": 0,
-                "value": {
-                  "scaleX": 3.37,
-                  "scaleY": 3.37
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuart"
-                }
-              },
-              {
-                "id": "act_arrival_1_punch_k1",
-                "frame": 31,
-                "value": {
-                  "scaleX": 1,
-                  "scaleY": 1
-                }
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_arrival_1_punch",
-        "name": "Meet lands large and settles",
-        "target": {
-          "kind": "object",
-          "objectId": "arrival_1"
-        },
-        "stage": "custom",
-        "timing": {
-          "startFrame": 0,
-          "durationFrames": 32
+          "startFrame": 42,
+          "durationFrames": 18
         }
       }
     }

@@ -218,6 +218,46 @@
       ],
       "answers": [
         {
+          "motionId": "act_mark_square_scale",
+          "cue": "land",
+          "frame": 239,
+          "speedBefore": 0.029565114081426702,
+          "speedAfter": 0,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mark_square_spin",
+          "cue": "land",
+          "frame": 239,
+          "speedBefore": 0.41796875,
+          "speedAfter": 0,
+          "peakOffset": -3
+        },
+        {
+          "motionId": "act_mark_triangle_scale",
+          "cue": "land",
+          "frame": 239,
+          "speedBefore": 0.023996948466726942,
+          "speedAfter": 0,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_mark_triangle_spin",
+          "cue": "land",
+          "frame": 239,
+          "speedBefore": 0.32638888888888573,
+          "speedAfter": 0,
+          "peakOffset": -2
+        },
+        {
+          "motionId": "act_mark_host_scale",
+          "cue": "land",
+          "frame": 239,
+          "speedBefore": 0.021876652556537757,
+          "speedAfter": 0,
+          "peakOffset": 0
+        },
+        {
           "motionId": "act_ribbon_spin",
           "track": "spinAngle",
           "cue": "line-2",
@@ -339,7 +379,8 @@
           "toFrame": 269
         }
       ],
-      "contrast": 17.45
+      "contrast": 17.45,
+      "hold": null
     }
   }
 }

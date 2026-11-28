@@ -1,17 +1,17 @@
 [
   {
     "kind": "updateSceneName",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "name": "Word by word"
   },
   {
     "kind": "updateSceneDuration",
-    "sceneId": "five_build__scene-1",
-    "durationFrames": 102
+    "sceneId": "three_on_the_beat__scene-1",
+    "durationFrames": 90
   },
   {
     "kind": "setSceneBackgroundFill",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "background": {
       "kind": "solid",
       "color": "#F7F2EB"
@@ -19,7 +19,194 @@
   },
   {
     "kind": "addObject",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
+    "object": {
+      "id": "phrase",
+      "kind": "frame",
+      "name": "Phrase",
+      "layer": 10,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "three_on_the_beat__scene-1",
+    "object": {
+      "id": "line_1",
+      "kind": "frame",
+      "name": "Line 1",
+      "parentId": "phrase",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "three_on_the_beat__scene-1",
+    "object": {
+      "id": "arrival_1",
+      "kind": "frame",
+      "name": "Plan.",
+      "parentId": "line_1",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.37992968749999995,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "three_on_the_beat__scene-1",
+    "object": {
+      "id": "w_plan",
+      "kind": "text",
+      "name": "Plan.",
+      "parentId": "arrival_1",
+      "layer": 1,
+      "base": {
+        "x": 486.31,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "Plan."
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "three_on_the_beat__scene-1",
+    "object": {
+      "id": "arrival_2",
+      "kind": "frame",
+      "name": "Build.",
+      "parentId": "line_1",
+      "layer": 2,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.49933203125,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "three_on_the_beat__scene-1",
+    "object": {
+      "id": "w_build",
+      "kind": "text",
+      "name": "Build.",
+      "parentId": "arrival_2",
+      "layer": 1,
+      "base": {
+        "x": 639.15,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "Build."
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "three_on_the_beat__scene-1",
+    "object": {
+      "id": "arrival_3",
+      "kind": "frame",
+      "name": "Ship.",
+      "parentId": "line_1",
+      "layer": 3,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.61940234375,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "three_on_the_beat__scene-1",
+    "object": {
+      "id": "w_ship",
+      "kind": "text",
+      "name": "Ship.",
+      "parentId": "arrival_3",
+      "layer": 1,
+      "base": {
+        "x": 792.84,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "Ship."
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "three_on_the_beat__scene-1",
     "object": {
       "id": "glow_a",
       "kind": "shape",
@@ -45,7 +232,7 @@
   },
   {
     "kind": "addObject",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "object": {
       "id": "glow_b",
       "kind": "shape",
@@ -70,295 +257,8 @@
     }
   },
   {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "phrase",
-      "kind": "frame",
-      "name": "Phrase",
-      "layer": 10,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1280,
-        "height": 720,
-        "originX": 0.5,
-        "originY": 0.5006944444444444
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "line_1",
-      "kind": "frame",
-      "name": "Line 1",
-      "parentId": "phrase",
-      "layer": 1,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1280,
-        "height": 720,
-        "originX": 0.5,
-        "originY": 0.5
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "arrival_1",
-      "kind": "frame",
-      "name": "Plan,",
-      "parentId": "line_1",
-      "layer": 1,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1280,
-        "height": 720,
-        "originX": 0.23935937499999999,
-        "originY": 0.5006944444444444
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "w_plan",
-      "kind": "text",
-      "name": "Plan,",
-      "parentId": "arrival_1",
-      "layer": 1,
-      "base": {
-        "x": 306.38,
-        "y": 321
-      },
-      "content": {
-        "design": {
-          "text": "Plan,"
-        }
-      },
-      "style": {
-        "fontFamily": "Geist",
-        "fontSize": 61,
-        "fontWeight": 420,
-        "letterSpacing": -1.3,
-        "textAlign": "center",
-        "primaryFill": {
-          "kind": "solid",
-          "color": "#000000"
-        }
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "arrival_2",
-      "kind": "frame",
-      "name": "build,",
-      "parentId": "line_1",
-      "layer": 2,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1280,
-        "height": 720,
-        "originX": 0.35680859375,
-        "originY": 0.5006944444444444
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "w_build",
-      "kind": "text",
-      "name": "build,",
-      "parentId": "arrival_2",
-      "layer": 1,
-      "base": {
-        "x": 456.72,
-        "y": 321
-      },
-      "content": {
-        "design": {
-          "text": "build,"
-        }
-      },
-      "style": {
-        "fontFamily": "Geist",
-        "fontSize": 61,
-        "fontWeight": 420,
-        "letterSpacing": -1.3,
-        "textAlign": "center",
-        "primaryFill": {
-          "kind": "solid",
-          "color": "#000000"
-        }
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "arrival_3",
-      "kind": "frame",
-      "name": "test,",
-      "parentId": "line_1",
-      "layer": 3,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1280,
-        "height": 720,
-        "originX": 0.4693476562499999,
-        "originY": 0.5006944444444444
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "w_test",
-      "kind": "text",
-      "name": "test,",
-      "parentId": "arrival_3",
-      "layer": 1,
-      "base": {
-        "x": 600.77,
-        "y": 321
-      },
-      "content": {
-        "design": {
-          "text": "test,"
-        }
-      },
-      "style": {
-        "fontFamily": "Geist",
-        "fontSize": 61,
-        "fontWeight": 420,
-        "letterSpacing": -1.3,
-        "textAlign": "center",
-        "primaryFill": {
-          "kind": "solid",
-          "color": "#000000"
-        }
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "arrival_4",
-      "kind": "frame",
-      "name": "ship",
-      "parentId": "line_1",
-      "layer": 4,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1280,
-        "height": 720,
-        "originX": 0.5707265625,
-        "originY": 0.5006944444444444
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "w_ship",
-      "kind": "text",
-      "name": "ship",
-      "parentId": "arrival_4",
-      "layer": 1,
-      "base": {
-        "x": 730.53,
-        "y": 321
-      },
-      "content": {
-        "design": {
-          "text": "ship"
-        }
-      },
-      "style": {
-        "fontFamily": "Geist",
-        "fontSize": 61,
-        "fontWeight": 420,
-        "letterSpacing": -1.3,
-        "textAlign": "center",
-        "primaryFill": {
-          "kind": "solid",
-          "color": "#000000"
-        }
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "arrival_5",
-      "kind": "frame",
-      "name": "together.",
-      "parentId": "line_1",
-      "layer": 5,
-      "base": {
-        "x": 0,
-        "y": 0,
-        "width": 1280,
-        "height": 720,
-        "originX": 0.625265625,
-        "originY": 0.5006944444444444
-      }
-    }
-  },
-  {
-    "kind": "addObject",
-    "sceneId": "five_build__scene-1",
-    "object": {
-      "id": "w_together",
-      "kind": "text",
-      "name": "together.",
-      "parentId": "arrival_5",
-      "layer": 1,
-      "base": {
-        "x": 920.1,
-        "y": 321
-      },
-      "content": {
-        "design": {
-          "text": "together."
-        }
-      },
-      "style": {
-        "fontFamily": "Geist",
-        "fontSize": 61,
-        "fontWeight": 420,
-        "letterSpacing": -1.3,
-        "textAlign": "center",
-        "primaryFill": {
-          "kind": "solid",
-          "color": "#333CEE"
-        }
-      }
-    }
-  },
-  {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "move",
     "facets": [
       {
@@ -383,8 +283,8 @@
                 "id": "act_glow_a_answers_2_k1",
                 "frame": 6,
                 "value": {
-                  "x": -5.8,
-                  "y": -2.7
+                  "x": -7.25,
+                  "y": -3.38
                 },
                 "outgoingTiming": {
                   "kind": "linear"
@@ -392,10 +292,10 @@
               },
               {
                 "id": "act_glow_a_answers_2_k2",
-                "frame": 11,
+                "frame": 10,
                 "value": {
-                  "x": -8.12,
-                  "y": -3.79
+                  "x": -10.15,
+                  "y": -4.73
                 },
                 "outgoingTiming": {
                   "kind": "easing",
@@ -404,10 +304,10 @@
               },
               {
                 "id": "act_glow_a_answers_2_k3",
-                "frame": 16,
+                "frame": 15,
                 "value": {
-                  "x": -11.91,
-                  "y": -5.55
+                  "x": -14.5,
+                  "y": -6.76
                 },
                 "outgoingTiming": {
                   "kind": "easing",
@@ -416,10 +316,10 @@
               },
               {
                 "id": "act_glow_a_answers_2_k4",
-                "frame": 22,
+                "frame": 21,
                 "value": {
-                  "x": -18.22,
-                  "y": -8.49
+                  "x": -21.75,
+                  "y": -10.14
                 },
                 "outgoingTiming": {
                   "kind": "linear"
@@ -427,10 +327,10 @@
               },
               {
                 "id": "act_glow_a_answers_2_k5",
-                "frame": 26,
+                "frame": 25,
                 "value": {
-                  "x": -20.74,
-                  "y": -9.67
+                  "x": -24.65,
+                  "y": -11.5
                 },
                 "outgoingTiming": {
                   "kind": "easing",
@@ -439,10 +339,10 @@
               },
               {
                 "id": "act_glow_a_answers_2_k6",
-                "frame": 31,
+                "frame": 30,
                 "value": {
-                  "x": -24.78,
-                  "y": -11.55
+                  "x": -29,
+                  "y": -13.52
                 },
                 "outgoingTiming": {
                   "kind": "easing",
@@ -451,10 +351,10 @@
               },
               {
                 "id": "act_glow_a_answers_2_k7",
-                "frame": 37,
+                "frame": 36,
                 "value": {
-                  "x": -31.52,
-                  "y": -14.7
+                  "x": -36.25,
+                  "y": -16.9
                 },
                 "outgoingTiming": {
                   "kind": "linear"
@@ -462,80 +362,10 @@
               },
               {
                 "id": "act_glow_a_answers_2_k8",
-                "frame": 42,
+                "frame": 89,
                 "value": {
-                  "x": -34.22,
-                  "y": -15.96
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeInQuad"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k9",
-                "frame": 47,
-                "value": {
-                  "x": -38.57,
-                  "y": -17.99
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k10",
-                "frame": 53,
-                "value": {
-                  "x": -45.82,
-                  "y": -21.37
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k11",
-                "frame": 58,
-                "value": {
-                  "x": -48.72,
-                  "y": -22.72
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeInQuad"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k12",
-                "frame": 63,
-                "value": {
-                  "x": -53.73,
-                  "y": -25.05
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k13",
-                "frame": 69,
-                "value": {
-                  "x": -62.06,
-                  "y": -28.94
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_a_answers_2_k14",
-                "frame": 101,
-                "value": {
-                  "x": -65.4,
-                  "y": -30.5
+                  "x": -39.15,
+                  "y": -18.26
                 }
               }
             ]
@@ -555,14 +385,14 @@
         "stage": "custom",
         "timing": {
           "startFrame": 0,
-          "durationFrames": 102
+          "durationFrames": 90
         }
       }
     }
   },
   {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "move",
     "facets": [
       {
@@ -587,8 +417,8 @@
                 "id": "act_glow_b_answers_2_k1",
                 "frame": 6,
                 "value": {
-                  "x": 6.09,
-                  "y": 1.98
+                  "x": 7.61,
+                  "y": 2.47
                 },
                 "outgoingTiming": {
                   "kind": "linear"
@@ -596,10 +426,10 @@
               },
               {
                 "id": "act_glow_b_answers_2_k2",
-                "frame": 11,
+                "frame": 10,
                 "value": {
-                  "x": 8.52,
-                  "y": 2.77
+                  "x": 10.65,
+                  "y": 3.46
                 },
                 "outgoingTiming": {
                   "kind": "easing",
@@ -608,10 +438,10 @@
               },
               {
                 "id": "act_glow_b_answers_2_k3",
-                "frame": 16,
+                "frame": 15,
                 "value": {
-                  "x": 12.5,
-                  "y": 4.06
+                  "x": 15.22,
+                  "y": 4.94
                 },
                 "outgoingTiming": {
                   "kind": "easing",
@@ -620,10 +450,10 @@
               },
               {
                 "id": "act_glow_b_answers_2_k4",
-                "frame": 22,
+                "frame": 21,
                 "value": {
-                  "x": 19.12,
-                  "y": 6.21
+                  "x": 22.83,
+                  "y": 7.42
                 },
                 "outgoingTiming": {
                   "kind": "linear"
@@ -631,10 +461,10 @@
               },
               {
                 "id": "act_glow_b_answers_2_k5",
-                "frame": 26,
+                "frame": 25,
                 "value": {
-                  "x": 21.76,
-                  "y": 7.07
+                  "x": 25.87,
+                  "y": 8.41
                 },
                 "outgoingTiming": {
                   "kind": "easing",
@@ -643,10 +473,10 @@
               },
               {
                 "id": "act_glow_b_answers_2_k6",
-                "frame": 31,
+                "frame": 30,
                 "value": {
-                  "x": 26,
-                  "y": 8.45
+                  "x": 30.43,
+                  "y": 9.89
                 },
                 "outgoingTiming": {
                   "kind": "easing",
@@ -655,10 +485,10 @@
               },
               {
                 "id": "act_glow_b_answers_2_k7",
-                "frame": 37,
+                "frame": 36,
                 "value": {
-                  "x": 33.08,
-                  "y": 10.75
+                  "x": 38.04,
+                  "y": 12.36
                 },
                 "outgoingTiming": {
                   "kind": "linear"
@@ -666,80 +496,10 @@
               },
               {
                 "id": "act_glow_b_answers_2_k8",
-                "frame": 42,
+                "frame": 89,
                 "value": {
-                  "x": 35.91,
-                  "y": 11.67
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeInQuad"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k9",
-                "frame": 47,
-                "value": {
-                  "x": 40.48,
-                  "y": 13.15
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k10",
-                "frame": 53,
-                "value": {
-                  "x": 48.09,
-                  "y": 15.62
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k11",
-                "frame": 58,
-                "value": {
-                  "x": 51.13,
-                  "y": 16.61
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeInQuad"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k12",
-                "frame": 63,
-                "value": {
-                  "x": 56.38,
-                  "y": 18.32
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k13",
-                "frame": 69,
-                "value": {
-                  "x": 65.13,
-                  "y": 21.16
-                },
-                "outgoingTiming": {
-                  "kind": "linear"
-                }
-              },
-              {
-                "id": "act_glow_b_answers_2_k14",
-                "frame": 101,
-                "value": {
-                  "x": 68.63,
-                  "y": 22.3
+                  "x": 41.09,
+                  "y": 13.35
                 }
               }
             ]
@@ -759,14 +519,14 @@
         "stage": "custom",
         "timing": {
           "startFrame": 0,
-          "durationFrames": 102
+          "durationFrames": 90
         }
       }
     }
   },
   {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "opacity",
     "facets": [
       {
@@ -798,7 +558,7 @@
       "mode": "create",
       "blockMetadata": {
         "id": "act_w_plan_in",
-        "name": "Plan, appears",
+        "name": "Plan. appears",
         "target": {
           "kind": "object",
           "objectId": "w_plan"
@@ -813,7 +573,7 @@
   },
   {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "layerBlur",
     "facets": [
       {
@@ -845,7 +605,7 @@
       "mode": "create",
       "blockMetadata": {
         "id": "act_w_plan_focus",
-        "name": "Plan, comes into focus",
+        "name": "Plan. comes into focus",
         "target": {
           "kind": "object",
           "objectId": "w_plan"
@@ -860,7 +620,7 @@
   },
   {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "opacity",
     "facets": [
       {
@@ -892,14 +652,14 @@
       "mode": "create",
       "blockMetadata": {
         "id": "act_w_build_in",
-        "name": "build, appears",
+        "name": "Build. appears",
         "target": {
           "kind": "object",
           "objectId": "w_build"
         },
         "stage": "in",
         "timing": {
-          "startFrame": 16,
+          "startFrame": 15,
           "durationFrames": 3
         }
       }
@@ -907,7 +667,7 @@
   },
   {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "layerBlur",
     "facets": [
       {
@@ -939,14 +699,14 @@
       "mode": "create",
       "blockMetadata": {
         "id": "act_w_build_focus",
-        "name": "build, comes into focus",
+        "name": "Build. comes into focus",
         "target": {
           "kind": "object",
           "objectId": "w_build"
         },
         "stage": "custom",
         "timing": {
-          "startFrame": 16,
+          "startFrame": 15,
           "durationFrames": 3
         }
       }
@@ -954,101 +714,7 @@
   },
   {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
-    "catalogId": "opacity",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_test_in_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_test_in_k0",
-                "frame": 0,
-                "value": 0.7,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_test_in_k1",
-                "frame": 2,
-                "value": 1
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_test_in",
-        "name": "test, appears",
-        "target": {
-          "kind": "object",
-          "objectId": "w_test"
-        },
-        "stage": "in",
-        "timing": {
-          "startFrame": 31,
-          "durationFrames": 3
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
-    "catalogId": "layerBlur",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_test_focus_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_test_focus_k0",
-                "frame": 0,
-                "value": 9,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_test_focus_k1",
-                "frame": 2,
-                "value": 0
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_test_focus",
-        "name": "test, comes into focus",
-        "target": {
-          "kind": "object",
-          "objectId": "w_test"
-        },
-        "stage": "custom",
-        "timing": {
-          "startFrame": 31,
-          "durationFrames": 3
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "opacity",
     "facets": [
       {
@@ -1080,14 +746,14 @@
       "mode": "create",
       "blockMetadata": {
         "id": "act_w_ship_in",
-        "name": "ship appears",
+        "name": "Ship. appears",
         "target": {
           "kind": "object",
           "objectId": "w_ship"
         },
         "stage": "in",
         "timing": {
-          "startFrame": 47,
+          "startFrame": 30,
           "durationFrames": 3
         }
       }
@@ -1095,7 +761,7 @@
   },
   {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "layerBlur",
     "facets": [
       {
@@ -1127,14 +793,14 @@
       "mode": "create",
       "blockMetadata": {
         "id": "act_w_ship_focus",
-        "name": "ship comes into focus",
+        "name": "Ship. comes into focus",
         "target": {
           "kind": "object",
           "objectId": "w_ship"
         },
         "stage": "custom",
         "timing": {
-          "startFrame": 47,
+          "startFrame": 30,
           "durationFrames": 3
         }
       }
@@ -1142,154 +808,7 @@
   },
   {
     "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
-    "catalogId": "opacity",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_together_in_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_together_in_k0",
-                "frame": 0,
-                "value": 0.7,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_together_in_k1",
-                "frame": 2,
-                "value": 1
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_together_in",
-        "name": "together. appears",
-        "target": {
-          "kind": "object",
-          "objectId": "w_together"
-        },
-        "stage": "in",
-        "timing": {
-          "startFrame": 63,
-          "durationFrames": 3
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
-    "catalogId": "layerBlur",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_w_together_focus_p",
-          "kind": "property.write",
-          "value": {
-            "keys": [
-              {
-                "id": "act_w_together_focus_k0",
-                "frame": 0,
-                "value": 9,
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuad"
-                }
-              },
-              {
-                "id": "act_w_together_focus_k1",
-                "frame": 2,
-                "value": 0
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_w_together_focus",
-        "name": "together. comes into focus",
-        "target": {
-          "kind": "object",
-          "objectId": "w_together"
-        },
-        "stage": "custom",
-        "timing": {
-          "startFrame": 63,
-          "durationFrames": 3
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
-    "catalogId": "scale",
-    "facets": [
-      {
-        "primitive": {
-          "id": "act_arrival_5_punch_p",
-          "kind": "property.writeGroup",
-          "value": {
-            "keys": [
-              {
-                "id": "act_arrival_5_punch_k0",
-                "frame": 0,
-                "value": {
-                  "scaleX": 1.14,
-                  "scaleY": 1.14
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutQuart"
-                }
-              },
-              {
-                "id": "act_arrival_5_punch_k1",
-                "frame": 15,
-                "value": {
-                  "scaleX": 1,
-                  "scaleY": 1
-                }
-              }
-            ]
-          }
-        }
-      }
-    ],
-    "action": {
-      "mode": "create",
-      "blockMetadata": {
-        "id": "act_arrival_5_punch",
-        "name": "together. lands large and settles",
-        "target": {
-          "kind": "object",
-          "objectId": "arrival_5"
-        },
-        "stage": "custom",
-        "timing": {
-          "startFrame": 63,
-          "durationFrames": 16
-        }
-      }
-    }
-  },
-  {
-    "kind": "materializeActionFacets",
-    "sceneId": "five_build__scene-1",
+    "sceneId": "three_on_the_beat__scene-1",
     "catalogId": "move",
     "facets": [
       {
@@ -1302,15 +821,15 @@
                 "id": "act_line_1_room_k0",
                 "frame": 0,
                 "value": {
-                  "x": 333.62,
+                  "x": 153.69,
                   "y": 0
                 }
               },
               {
                 "id": "act_line_1_room_k1",
-                "frame": 16,
+                "frame": 15,
                 "value": {
-                  "x": 333.62,
+                  "x": 153.69,
                   "y": 0
                 },
                 "outgoingTiming": {
@@ -1320,17 +839,17 @@
               },
               {
                 "id": "act_line_1_room_k2",
-                "frame": 19,
+                "frame": 18,
                 "value": {
-                  "x": 255.82,
+                  "x": 73.39,
                   "y": 0
                 }
               },
               {
                 "id": "act_line_1_room_k3",
-                "frame": 31,
+                "frame": 30,
                 "value": {
-                  "x": 255.82,
+                  "x": 73.39,
                   "y": 0
                 },
                 "outgoingTiming": {
@@ -1340,47 +859,7 @@
               },
               {
                 "id": "act_line_1_room_k4",
-                "frame": 34,
-                "value": {
-                  "x": 189.57,
-                  "y": 0
-                }
-              },
-              {
-                "id": "act_line_1_room_k5",
-                "frame": 47,
-                "value": {
-                  "x": 189.57,
-                  "y": 0
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_line_1_room_k6",
-                "frame": 50,
-                "value": {
-                  "x": 126.06,
-                  "y": 0
-                }
-              },
-              {
-                "id": "act_line_1_room_k7",
-                "frame": 63,
-                "value": {
-                  "x": 126.06,
-                  "y": 0
-                },
-                "outgoingTiming": {
-                  "kind": "easing",
-                  "preset": "easeOutCubic"
-                }
-              },
-              {
-                "id": "act_line_1_room_k8",
-                "frame": 66,
+                "frame": 33,
                 "value": {
                   "x": 0,
                   "y": 0
@@ -1403,7 +882,7 @@
         "stage": "custom",
         "timing": {
           "startFrame": 0,
-          "durationFrames": 67
+          "durationFrames": 34
         }
       }
     }

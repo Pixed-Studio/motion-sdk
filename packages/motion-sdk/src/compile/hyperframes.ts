@@ -126,6 +126,8 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
       role: n.role,
       base: n.base,
       letterSpacing: n.kind === "text" ? n.letterSpacing : undefined,
+      // An object whose fill a colour movement writes keeps its own fill to go back to.
+      ownFill: doc.motions.some((m) => m.kind === "color" && m.targetId === n.id) && n.kind !== "frame" ? (n.kind === "text" ? n.fill.color : fillRef(n.id, n.fill)) : undefined,
       network: n.kind === "path" && n.role === "guide" ? n.network : undefined,
       fill: n.kind !== "frame" && n.kind !== "text" && n.fill.kind === "shader" ? n.fill : undefined,
     })),
@@ -134,9 +136,15 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
       if (m.kind === "scalar") return { ...base, property: m.property, mode: m.mode, post: m.post, baseValue: m.baseValue, keys: bare(m.keys) };
       if (m.kind === "vec2") return { ...base, property: m.property, mode: m.mode, keys: bare(m.keys) };
       if (m.kind === "followPath") return { ...base, guidePathId: m.guidePathId, progressEasing: m.progressEasing };
+      if (m.kind === "color") return { ...base, keys: bare(m.keys) };
       return { ...base, tracks: Object.fromEntries(Object.entries(m.tracks).map(([k, keys]) => [k, bare(keys)])) };
     }),
   });
+
+  // The soundtrack is a timed clip beside the picture, as a drop in the editor would write it.
+  const audio = doc.audio
+    ? `\n    <audio id="${p}audio" class="clip" data-start="${Math.round((doc.audio.startFrame / fps) * 1000) / 1000}" data-duration="${Math.round((doc.audio.durationFrames / fps) * 1000) / 1000}" data-track-index="1" data-volume="${doc.audio.gain}" src="${doc.audio.src.replace(/"/g, "&quot;")}"></audio>`
+    : "";
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -156,7 +164,7 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
         ${defs.join("\n        ")}
       </defs>
       ${scene}
-    </svg>
+    </svg>${audio}
   </div>
   <script>
     (function () {
@@ -198,6 +206,7 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
           case "easeOutCubic": return 1 - Math.pow(1 - t, 3);
           case "easeInOutCubic": return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
           case "easeOutQuart": return 1 - Math.pow(1 - t, 4);
+          case "easeOutExpo": return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
           case "easeInSine": return 1 - Math.cos((t * Math.PI) / 2);
           case "easeOutSine": return Math.sin((t * Math.PI) / 2);
           case "easeInOutSine": return -(Math.cos(Math.PI * t) - 1) / 2;
@@ -217,6 +226,16 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
       }
       function scalarAt(keys, f, fallback) {
         return keys && keys.length ? between(keys, f, function (a, b, u) { return a.value + (b.value - a.value) * u; }) : fallback;
+      }
+      function channels(hex) {
+        var c = hex.replace("#", "");
+        return [parseInt(c.slice(0, 2), 16), parseInt(c.slice(2, 4), 16), parseInt(c.slice(4, 6), 16)];
+      }
+      function colorAt(keys, f) {
+        return between(keys, f, function (a, b, u) {
+          var ca = channels(a.color), cb = channels(b.color);
+          return "rgb(" + ca.map(function (v, i) { return Math.round(v + (cb[i] - v) * u); }).join(",") + ")";
+        });
       }
       function pointAt(keys, f, fallback) {
         return keys && keys.length ? between(keys, f, function (a, b, u) { return { x: a.x + (b.x - a.x) * u, y: a.y + (b.y - a.y) * u }; }) : fallback;
@@ -275,7 +294,7 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
 
           var x = node.base.x, y = node.base.y, rot = node.base.rotation || 0;
           var op = node.base.opacity === undefined ? 1 : node.base.opacity, blur = node.base.blur || 0;
-          var sx = 1, sy = 1, tracking = node.kind === "text" ? node.letterSpacing : 0, followed = null, params = null;
+          var sx = 1, sy = 1, tracking = node.kind === "text" ? node.letterSpacing : 0, followed = null, params = null, color = null;
           (motionsOf[node.id] || []).forEach(function (m) {
             if (frame < m.startFrame) return;
             var ended = frame > m.startFrame + m.durationFrames - 1;
@@ -292,6 +311,8 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
               if (m.property === "move") { x += p.x; y += p.y; } else { sx *= p.x; sy *= p.y; }
             } else if (m.kind === "followPath") {
               followed = along(m.guidePathId, eased(m.progressEasing, m.durationFrames <= 1 ? 1 : f / (m.durationFrames - 1)));
+            } else if (m.kind === "color") {
+              color = colorAt(m.keys, f);
             } else if (m.kind === "shaderParams") {
               params = params || Object.assign({}, node.fill.params);
               Object.keys(m.tracks).forEach(function (k) { params[k] = scalarAt(m.tracks[k], f, params[k]); });
@@ -306,6 +327,7 @@ export function compileToHyperframes(doc: MotionDocument, options: HyperframesOp
           el.style.opacity = String(Math.max(0, Math.min(1, op)));
           el.style.filter = blur > 0.2 ? "blur(" + blur.toFixed(1) + "px)" : "none";
           if (node.kind === "text") el.style.letterSpacing = tracking.toFixed(2) + "px";
+          if (node.ownFill) (node.kind === "text" ? el : el.firstElementChild).setAttribute("fill", color || node.ownFill);
           if (node.fill && node.fill.kind === "shader" && painters[node.fill.shaderId]) {
             var canvas = el$("canvas", node.id);
             painters[node.fill.shaderId](canvas.getContext("2d"), canvas.width, canvas.height, params || node.fill.params);

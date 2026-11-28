@@ -1,0 +1,39 @@
+project "Settles and floats" 1280x720 30fps timingStyles=[] brushes=[] authoringDefaults={emptyShapeFill: "none"}
+
+scene #settles_and_floats__scene-1 "Word by word" dur=90 bg=#F7F2EB motionBlockGroups=[]
+frame #phrase "Phrase" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=10
+  frame #line_1 "Line 1" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=1
+    frame #arrival_1 "Know" x=0 y=0 width=1280 height=720 originX=0.24546484375 originY=0.44166666666666665 z=1
+      text #w_know "Know" text="Know" x=224.07 y=271 width=180.25 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+    frame #arrival_2 "what you can spend" x=0 y=0 width=1280 height=720 originX=0.5762421875 originY=0.44166666666666665 z=2
+      text #w_what "what" text="what" x=419.25 y=271 width=159.95 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+      text #w_you "you" text="you" x=594.13 y=271 width=116.3 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=2
+      text #w_can "can" text="can" x=725.36 y=271 width=118.32 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=3
+      text #w_spend "spend" text="spend" x=858.6 y=271 width=197.33 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=4
+  frame #line_2 "Line 2" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=2
+    frame #arrival_3 "today." x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5583333333333333 z=3
+      text #w_today "today." text="today." x=544.86 y=355 width=190.28 height=94 fill=#333CEE fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+shape #glow_a "glow-a" ellipse x=167.7 y=100.2 width=540 height=331 fill=#DCFC5E blur=70 z=1
+shape #glow_b "glow-b" ellipse x=656 y=289.1 width=461 height=302 fill=#DCFC5E blur=70 z=2
+motion #act_phrase_lands "Know lands and falls a little past its size" #phrase scale custom at=0 dur=46 scaleX,scaleY*=[0:2.4,2.4 easeOutExpo 19:0.93,0.93 easeInOutSine 45:1,1]
+motion #act_phrase_dips "Know sinks as it lands, then floats up" #phrase move custom at=0 dur=46 x,y+=[0:0,0 easeOutExpo 19:0,8.64 easeInOutSine 45:0,0]
+motion #act_glow_a_lands "glow-a lands with the lead" #glow_a scale custom at=0 dur=46 scaleX,scaleY*=[0:1.42,1.42 easeOutExpo 19:0.979,0.979 easeInOutSine 45:1,1]
+motion #act_glow_a_closes_in "glow-a closes in" #glow_a move custom at=0 dur=46 x,y+=[0:-84.97,-39.61 easeOutExpo 19:4.25,1.98 easeInOutSine 45:0,0]
+motion #act_glow_b_lands "glow-b lands with the lead" #glow_b scale custom at=0 dur=46 scaleX,scaleY*=[0:1.42,1.42 easeOutExpo 19:0.979,0.979 easeInOutSine 45:1,1]
+motion #act_glow_b_closes_in "glow-b closes in" #glow_b move custom at=0 dur=46 x,y+=[0:103.53,33.64 easeOutExpo 19:-5.18,-1.68 easeInOutSine 45:0,0]
+motion #act_w_know_in "Know appears" #w_know opacity in at=0 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_what_in "what appears" #w_what opacity in at=18 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_what_join "what rises into place" #w_what move custom at=18 dur=15 x,y+=[0:0,44.64 cubic-bezier(0,0.28,0.2,0.95) 14:0,0]
+motion #act_w_you_in "you appears" #w_you opacity in at=21 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_you_join "you rises into place" #w_you move custom at=21 dur=15 x,y+=[0:0,44.64 cubic-bezier(0,0.28,0.2,0.95) 14:0,0]
+motion #act_w_can_in "can appears" #w_can opacity in at=24 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_can_join "can rises into place" #w_can move custom at=24 dur=15 x,y+=[0:0,44.64 cubic-bezier(0,0.28,0.2,0.95) 14:0,0]
+motion #act_w_spend_in "spend appears" #w_spend opacity in at=27 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_spend_join "spend rises into place" #w_spend move custom at=27 dur=15 x,y+=[0:0,44.64 cubic-bezier(0,0.28,0.2,0.95) 14:0,0]
+motion #act_w_today_in "today. appears" #w_today opacity in at=36 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_today_join "today. rises into place" #w_today move custom at=36 dur=15 x,y+=[0:0,44.64 cubic-bezier(0,0.28,0.2,0.95) 14:0,0]
+motion #act_line_1_makes_room "Know makes room" #line_1 move custom at=0 dur=40 x,y+=[0:325.81,42 hold 10:325.81,42 cubic-bezier(0.8452,0.0196,0.9147,0.5147) 18:229.28,29.56 cubic-bezier(0.0803,0.505,0.1751,1) 39:0,0]
+motion #act_phrase_drifts_size "Phrase pushes in" #phrase scale custom at=0 dur=79 scaleX,scaleY*=[0:0.9699,0.9699 linear 78:1.0199,1.0199]
+motion #act_phrase_goes "Phrase goes" #phrase move custom at=78 dur=12 x,y+=[0:0,0 cubic-bezier(0.58,0,1,0.8) 11:0,-64.8]
+motion #act_glow_a_goes "glow-a goes with the line" #glow_a move custom at=78 dur=12 x,y+=[0:0,0 cubic-bezier(0.58,0,1,0.8) 11:0,-19.44]
+motion #act_glow_b_goes "glow-b goes with the line" #glow_b move custom at=78 dur=12 x,y+=[0:0,0 cubic-bezier(0.58,0,1,0.8) 11:0,-19.44]

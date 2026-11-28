@@ -1,0 +1,394 @@
+{
+  "format": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationFrames": 66
+  },
+  "score": {
+    "shot": "word-by-word",
+    "cues": [
+      {
+        "name": "arrival-1",
+        "frame": 0,
+        "kind": "beat",
+        "weight": 1,
+        "why": "The lead. It has the stage to itself until the sentence joins it."
+      },
+      {
+        "name": "arrival-2",
+        "frame": 17,
+        "kind": "beat",
+        "weight": 0.9,
+        "why": "A word joins the line."
+      },
+      {
+        "name": "arrival-3",
+        "frame": 33,
+        "kind": "accent",
+        "weight": 1.15,
+        "why": "The arrival the sentence resolves on."
+      },
+      {
+        "name": "exit",
+        "frame": 57,
+        "kind": "structure",
+        "weight": 0.5,
+        "why": "The phrase starts to leave. The cut comes while it is still gaining speed."
+      }
+    ],
+    "subjects": [
+      {
+        "nodeId": "w_and",
+        "cue": "arrival-1",
+        "needsSec": 0.66,
+        "untilFrame": 66,
+        "accent": false
+      },
+      {
+        "nodeId": "w_then",
+        "cue": "arrival-1",
+        "needsSec": 0.66,
+        "untilFrame": 66,
+        "accent": false
+      },
+      {
+        "nodeId": "w_the",
+        "cue": "arrival-2",
+        "needsSec": 0.75,
+        "untilFrame": 66,
+        "accent": false
+      },
+      {
+        "nodeId": "w_lights",
+        "cue": "arrival-2",
+        "needsSec": 0.65,
+        "untilFrame": 66,
+        "accent": false
+      },
+      {
+        "nodeId": "w_flicker",
+        "cue": "arrival-3",
+        "needsSec": 0.8,
+        "untilFrame": 66,
+        "accent": true
+      },
+      {
+        "nodeId": "w_on",
+        "cue": "arrival-3",
+        "needsSec": 0.7,
+        "untilFrame": 66,
+        "accent": true
+      }
+    ],
+    "claimFrames": 6,
+    "regions": {
+      "phrase": {
+        "x": 179,
+        "y": 313,
+        "width": 923,
+        "height": 94
+      }
+    },
+    "safeArea": {
+      "x": 102,
+      "y": 65,
+      "width": 1076,
+      "height": 590
+    },
+    "invariants": [
+      {
+        "kind": "centred",
+        "nodeIds": [
+          "w_and",
+          "w_then"
+        ],
+        "frame": 0,
+        "x": 640,
+        "tolerance": 1.5,
+        "why": "The lead has the stage to itself and sits in the middle of it."
+      },
+      {
+        "kind": "centred",
+        "nodeIds": [
+          "w_and",
+          "w_then",
+          "w_the",
+          "w_lights",
+          "w_flicker",
+          "w_on"
+        ],
+        "frame": 36,
+        "x": 640,
+        "tolerance": 8.3,
+        "why": "Once every word has landed the sentence is centred where the lead stood."
+      },
+      {
+        "kind": "apart",
+        "a": "w_and",
+        "b": "w_then",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      },
+      {
+        "kind": "apart",
+        "a": "w_then",
+        "b": "w_the",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      },
+      {
+        "kind": "apart",
+        "a": "w_the",
+        "b": "w_lights",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      },
+      {
+        "kind": "apart",
+        "a": "w_lights",
+        "b": "w_flicker",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      },
+      {
+        "kind": "apart",
+        "a": "w_flicker",
+        "b": "w_on",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      }
+    ],
+    "handoff": {
+      "entry": {
+        "frame": 0,
+        "nodeId": "w_and",
+        "position": {
+          "x": 566.2,
+          "y": 360
+        },
+        "velocity": {
+          "x": -6,
+          "y": 0
+        },
+        "size": 118,
+        "color": "#000000"
+      },
+      "exit": {
+        "frame": 65,
+        "nodeId": "w_flicker",
+        "position": {
+          "x": 904.5,
+          "y": 409.7
+        },
+        "velocity": {
+          "x": 0,
+          "y": 685
+        },
+        "size": 209,
+        "color": "#000000"
+      }
+    },
+    "notes": [],
+    "intent": "Turn the film: the light is about to come on.",
+    "cast": {
+      "w_and": "lead",
+      "w_then": "lead",
+      "w_the": "link",
+      "w_lights": "link",
+      "w_flicker": "point",
+      "w_on": "link",
+      "phrase": "camera",
+      "glow_a": "ground",
+      "glow_b": "ground"
+    },
+    "pattern": {
+      "name": "lead",
+      "intent": "An opening that stresses one message. The lead takes the eye when the shot starts; it has the impact, not the meaning. It gives its place to the sentence once, the rest joins during that move, and the point arrives last and is marked.",
+      "relations": [
+        {
+          "id": "alone",
+          "kind": "alone",
+          "role": "lead",
+          "among": [
+            "link",
+            "point"
+          ],
+          "why": "The lead is alone on stage when it hits."
+        },
+        {
+          "id": "once",
+          "kind": "once",
+          "beat": "room",
+          "needs": [
+            "link",
+            "point"
+          ],
+          "why": "Room is made once, not once for every arrival."
+        },
+        {
+          "id": "joins",
+          "kind": "during",
+          "roles": [
+            "link",
+            "point"
+          ],
+          "beat": "room",
+          "why": "What follows the lead joins while room is being made, so the move throws the eye to it."
+        },
+        {
+          "id": "last",
+          "kind": "last",
+          "role": "point",
+          "after": [
+            "lead",
+            "link"
+          ],
+          "why": "The point is the last arrival: the sentence resolves on it."
+        },
+        {
+          "id": "marked",
+          "kind": "marked",
+          "role": "point",
+          "against": [
+            "lead",
+            "link"
+          ],
+          "beat": "mark",
+          "why": "The point is marked: it is what the viewer should remember."
+        },
+        {
+          "id": "composed",
+          "kind": "composed",
+          "roles": [
+            "lead",
+            "link",
+            "point"
+          ],
+          "beats": [
+            "prep",
+            "hit",
+            "settle",
+            "room",
+            "join"
+          ],
+          "region": "phrase",
+          "why": "When the last word has landed the sentence sits where its composition was declared."
+        },
+        {
+          "id": "whole",
+          "kind": "together",
+          "roles": [
+            "lead",
+            "link",
+            "point"
+          ],
+          "beat": "leave",
+          "why": "The sentence leaves as one."
+        }
+      ]
+    },
+    "hold": {
+      "completeFrame": 36,
+      "leaveFrame": 57
+    }
+  },
+  "audit": {
+    "ok": true,
+    "findings": [],
+    "measures": {
+      "reading": [
+        {
+          "nodeId": "w_and",
+          "label": "And",
+          "cue": "arrival-1",
+          "arrivesFrame": 0,
+          "untilFrame": 66,
+          "needsSec": 0.66,
+          "offeredSec": 2.2,
+          "clearSec": 2.2,
+          "clearBeforeLeavingSec": 1.9,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_then",
+          "label": "then",
+          "cue": "arrival-1",
+          "arrivesFrame": 0,
+          "untilFrame": 66,
+          "needsSec": 0.66,
+          "offeredSec": 2.2,
+          "clearSec": 2.2,
+          "clearBeforeLeavingSec": 1.9,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_the",
+          "label": "the",
+          "cue": "arrival-2",
+          "arrivesFrame": 17,
+          "untilFrame": 66,
+          "needsSec": 0.75,
+          "offeredSec": 1.6333333333333333,
+          "clearSec": 1.6333333333333333,
+          "clearBeforeLeavingSec": 1.3333333333333333,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_lights",
+          "label": "lights",
+          "cue": "arrival-2",
+          "arrivesFrame": 17,
+          "untilFrame": 66,
+          "needsSec": 0.65,
+          "offeredSec": 1.5333333333333334,
+          "clearSec": 1.5333333333333334,
+          "clearBeforeLeavingSec": 1.2333333333333334,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_flicker",
+          "label": "flicker",
+          "cue": "arrival-3",
+          "arrivesFrame": 33,
+          "untilFrame": 66,
+          "needsSec": 0.8,
+          "offeredSec": 1.1,
+          "clearSec": 0.8,
+          "clearBeforeLeavingSec": 0.5,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_on",
+          "label": "on.",
+          "cue": "arrival-3",
+          "arrivesFrame": 33,
+          "untilFrame": 66,
+          "needsSec": 0.7,
+          "offeredSec": 1,
+          "clearSec": 1,
+          "clearBeforeLeavingSec": 0.7,
+          "blockedBy": []
+        }
+      ],
+      "answers": [
+        {
+          "motionId": "act_line_1_makes_room",
+          "cue": "arrival-2",
+          "frame": 17,
+          "speedBefore": 46.374603665519516,
+          "speedAfter": 57.21355927511635,
+          "peakOffset": 0
+        }
+      ],
+      "stills": [],
+      "contrast": 18.86,
+      "hold": {
+        "completeFrame": 36,
+        "leaveFrame": 57,
+        "sec": 0.7,
+        "readsInSec": 2.21
+      }
+    }
+  }
+}

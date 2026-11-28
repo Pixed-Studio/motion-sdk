@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Three words on the beat</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=block" />
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #F7F2EB; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+</head>
+<body>
+  <div id="three_on_the_beat__root" data-composition-id="three_on_the_beat" data-start="0" data-width="1280" data-height="720" data-fps="30" data-duration="3" style="position:relative;width:1280px;height:720px;overflow:hidden;background:#F7F2EB">
+    <svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;display:block;overflow:hidden">
+      <defs>
+        
+      </defs>
+      <g data-ms-wrap="glow_a" data-slot="ambient" data-role="ambient"><g data-ms-node="glow_a"><ellipse cx="229" cy="140.5" rx="229" ry="140.5" fill="#DCFC5E"></ellipse></g></g>
+<g data-ms-wrap="glow_b" data-slot="ambient" data-role="ambient"><g data-ms-node="glow_b"><ellipse cx="195" cy="128" rx="195" ry="128" fill="#DCFC5E"></ellipse></g></g>
+<g data-ms-wrap="phrase" data-slot="arrivals-group" data-role="group"><g data-ms-node="phrase"><g data-ms-wrap="line_1" data-slot="arrivals-group" data-role="group"><g data-ms-node="line_1"><g data-ms-wrap="arrival_1" data-slot="arrivals-group" data-role="group"><g data-ms-node="arrival_1"><g data-ms-wrap="w_plan" data-slot="arrivals" data-role="subject"><text data-ms-node="w_plan" x="66.24" y="39.5" text-anchor="middle" dominant-baseline="central" fill="#000000" font-family="'Geist', system-ui, sans-serif" font-size="61" font-weight="420" style="letter-spacing:-1.3px">Plan.</text></g></g></g>
+<g data-ms-wrap="arrival_2" data-slot="arrivals-group" data-role="group"><g data-ms-node="arrival_2"><g data-ms-wrap="w_build" data-slot="arrivals" data-role="subject"><text data-ms-node="w_build" x="74.005" y="39.5" text-anchor="middle" dominant-baseline="central" fill="#000000" font-family="'Geist', system-ui, sans-serif" font-size="61" font-weight="420" style="letter-spacing:-1.3px">Build.</text></g></g></g>
+<g data-ms-wrap="arrival_3" data-slot="arrivals-group" data-role="group"><g data-ms-node="arrival_3"><g data-ms-wrap="w_ship" data-slot="arrivals" data-role="subject"><text data-ms-node="w_ship" x="67.095" y="39.5" text-anchor="middle" dominant-baseline="central" fill="#000000" font-family="'Geist', system-ui, sans-serif" font-size="61" font-weight="420" style="letter-spacing:-1.3px">Ship.</text></g></g></g></g></g></g></g>
+    </svg>
+  </div>
+  <script>
+    (function () {
+      var DOC = {"format":{"width":1280,"height":720,"fps":30,"durationFrames":90},"lives":{"phrase":{"start":0,"end":90},"line_1":{"start":0,"end":90},"arrival_1":{"start":0,"end":90},"w_plan":{"start":0,"end":90},"arrival_2":{"start":0,"end":90},"w_build":{"start":15,"end":90},"arrival_3":{"start":0,"end":90},"w_ship":{"start":30,"end":90},"glow_a":{"start":0,"end":90},"glow_b":{"start":0,"end":90}},"shaders":[],"nodes":[{"id":"phrase","kind":"frame","role":"group","base":{"x":0,"y":0,"width":1280,"height":720,"originX":0.5,"originY":0.5006944444444444}},{"id":"line_1","kind":"frame","role":"group","base":{"x":0,"y":0,"width":1280,"height":720,"originX":0.5,"originY":0.5}},{"id":"arrival_1","kind":"frame","role":"group","base":{"x":0,"y":0,"width":1280,"height":720,"originX":0.37992968749999995,"originY":0.5006944444444444}},{"id":"w_plan","kind":"text","role":"subject","base":{"x":420.07,"y":321,"width":132.48,"height":79},"letterSpacing":-1.3},{"id":"arrival_2","kind":"frame","role":"group","base":{"x":0,"y":0,"width":1280,"height":720,"originX":0.49933203125,"originY":0.5006944444444444}},{"id":"w_build","kind":"text","role":"subject","base":{"x":565.14,"y":321,"width":148.01,"height":79},"letterSpacing":-1.3},{"id":"arrival_3","kind":"frame","role":"group","base":{"x":0,"y":0,"width":1280,"height":720,"originX":0.61940234375,"originY":0.5006944444444444}},{"id":"w_ship","kind":"text","role":"subject","base":{"x":725.74,"y":321,"width":134.19,"height":79},"letterSpacing":-1.3},{"id":"glow_a","kind":"shape","role":"ambient","base":{"x":239.6,"y":140.1,"width":458,"height":281,"blur":70,"opacity":0.55,"originX":0.5,"originY":0.5}},{"id":"glow_b","kind":"shape","role":"ambient","base":{"x":653.9,"y":300.4,"width":390,"height":256,"blur":70,"opacity":0.4,"originX":0.5,"originY":0.5}}],"motions":[{"kind":"vec2","targetId":"glow_a","startFrame":0,"durationFrames":90,"property":"move","mode":"add","keys":[{"frame":0,"x":0,"y":0,"easing":{"kind":"easing","preset":"easeOutCubic"}},{"frame":6,"x":-7.25,"y":-3.38,"easing":{"kind":"linear"}},{"frame":10,"x":-10.15,"y":-4.73,"easing":{"kind":"easing","preset":"easeInQuad"}},{"frame":15,"x":-14.5,"y":-6.76,"easing":{"kind":"easing","preset":"easeOutCubic"}},{"frame":21,"x":-21.75,"y":-10.14,"easing":{"kind":"linear"}},{"frame":25,"x":-24.65,"y":-11.5,"easing":{"kind":"easing","preset":"easeInQuad"}},{"frame":30,"x":-29,"y":-13.52,"easing":{"kind":"easing","preset":"easeOutCubic"}},{"frame":36,"x":-36.25,"y":-16.9,"easing":{"kind":"linear"}},{"frame":89,"x":-39.15,"y":-18.26}]},{"kind":"vec2","targetId":"glow_b","startFrame":0,"durationFrames":90,"property":"move","mode":"add","keys":[{"frame":0,"x":0,"y":0,"easing":{"kind":"easing","preset":"easeOutCubic"}},{"frame":6,"x":7.61,"y":2.47,"easing":{"kind":"linear"}},{"frame":10,"x":10.65,"y":3.46,"easing":{"kind":"easing","preset":"easeInQuad"}},{"frame":15,"x":15.22,"y":4.94,"easing":{"kind":"easing","preset":"easeOutCubic"}},{"frame":21,"x":22.83,"y":7.42,"easing":{"kind":"linear"}},{"frame":25,"x":25.87,"y":8.41,"easing":{"kind":"easing","preset":"easeInQuad"}},{"frame":30,"x":30.43,"y":9.89,"easing":{"kind":"easing","preset":"easeOutCubic"}},{"frame":36,"x":38.04,"y":12.36,"easing":{"kind":"linear"}},{"frame":89,"x":41.09,"y":13.35}]},{"kind":"scalar","targetId":"w_plan","startFrame":0,"durationFrames":3,"property":"opacity","mode":"set","baseValue":1,"keys":[{"frame":0,"value":0.7,"easing":{"kind":"easing","preset":"easeOutQuad"}},{"frame":2,"value":1}]},{"kind":"scalar","targetId":"w_plan","startFrame":0,"durationFrames":3,"property":"layerBlur","mode":"set","baseValue":0,"keys":[{"frame":0,"value":9,"easing":{"kind":"easing","preset":"easeOutQuad"}},{"frame":2,"value":0}]},{"kind":"scalar","targetId":"w_build","startFrame":15,"durationFrames":3,"property":"opacity","mode":"set","baseValue":1,"keys":[{"frame":0,"value":0.7,"easing":{"kind":"easing","preset":"easeOutQuad"}},{"frame":2,"value":1}]},{"kind":"scalar","targetId":"w_build","startFrame":15,"durationFrames":3,"property":"layerBlur","mode":"set","baseValue":0,"keys":[{"frame":0,"value":9,"easing":{"kind":"easing","preset":"easeOutQuad"}},{"frame":2,"value":0}]},{"kind":"scalar","targetId":"w_ship","startFrame":30,"durationFrames":3,"property":"opacity","mode":"set","baseValue":1,"keys":[{"frame":0,"value":0.7,"easing":{"kind":"easing","preset":"easeOutQuad"}},{"frame":2,"value":1}]},{"kind":"scalar","targetId":"w_ship","startFrame":30,"durationFrames":3,"property":"layerBlur","mode":"set","baseValue":0,"keys":[{"frame":0,"value":9,"easing":{"kind":"easing","preset":"easeOutQuad"}},{"frame":2,"value":0}]},{"kind":"vec2","targetId":"line_1","startFrame":0,"durationFrames":34,"property":"move","mode":"add","keys":[{"frame":0,"x":153.69,"y":0},{"frame":15,"x":153.69,"y":0,"easing":{"kind":"easing","preset":"easeOutCubic"}},{"frame":18,"x":73.39,"y":0},{"frame":30,"x":73.39,"y":0,"easing":{"kind":"easing","preset":"easeOutCubic"}},{"frame":33,"x":0,"y":0}]}]};
+      var COMP_ID = "three_on_the_beat";
+      var ROOT = document.querySelector('[data-composition-id="' + COMP_ID + '"]');
+      var found = {};
+      var el$ = function (kind, id) {
+        var key = kind + ":" + id;
+        if (!(key in found)) found[key] = ROOT.querySelector("[data-ms-" + kind + '="' + id + '"]');
+        return found[key];
+      };
+
+      function bezier(x1, y1, x2, y2, x) {
+        if (x <= 0) return 0;
+        if (x >= 1) return 1;
+        var cx = function (t) { return (1 - 3 * x2 + 3 * x1) * t * t * t + (3 * x2 - 6 * x1) * t * t + 3 * x1 * t; };
+        var cy = function (t) { return (1 - 3 * y2 + 3 * y1) * t * t * t + (3 * y2 - 6 * y1) * t * t + 3 * y1 * t; };
+        var lo = 0, hi = 1, t = x;
+        for (var i = 0; i < 24; i++) {
+          var v = cx(t);
+          if (Math.abs(v - x) < 1e-6) break;
+          if (x > v) lo = t; else hi = t;
+          t = 0.5 * (lo + hi);
+        }
+        return cy(t);
+      }
+
+      function eased(spec, raw) {
+        var t = Math.max(0, Math.min(1, raw));
+        if (!spec || spec.kind === "linear") return t;
+        if (spec.kind === "hold") return t >= 1 ? 1 : 0;
+        if (spec.kind === "cubicBezier") return bezier(spec.x1, spec.y1, spec.x2, spec.y2, t);
+        switch (spec.preset) {
+          case "easeInQuad": return t * t;
+          case "easeOutQuad": return 1 - (1 - t) * (1 - t);
+          case "easeInOutQuad": return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+          case "easeInCubic": return t * t * t;
+          case "easeOutCubic": return 1 - Math.pow(1 - t, 3);
+          case "easeInOutCubic": return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          case "easeOutQuart": return 1 - Math.pow(1 - t, 4);
+          case "easeOutExpo": return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+          case "easeInSine": return 1 - Math.cos((t * Math.PI) / 2);
+          case "easeOutSine": return Math.sin((t * Math.PI) / 2);
+          case "easeInOutSine": return -(Math.cos(Math.PI * t) - 1) / 2;
+          default: return t;
+        }
+      }
+
+      function between(keys, f, read) {
+        if (f <= keys[0].frame) return read(keys[0], keys[0], 0);
+        var last = keys[keys.length - 1];
+        if (f >= last.frame) return read(last, last, 0);
+        for (var i = 0; i < keys.length - 1; i++) {
+          var a = keys[i], b = keys[i + 1];
+          if (f >= a.frame && f <= b.frame) return read(a, b, eased(a.easing, (f - a.frame) / Math.max(1e-6, b.frame - a.frame)));
+        }
+        return read(last, last, 0);
+      }
+      function scalarAt(keys, f, fallback) {
+        return keys && keys.length ? between(keys, f, function (a, b, u) { return a.value + (b.value - a.value) * u; }) : fallback;
+      }
+      function channels(hex) {
+        var c = hex.replace("#", "");
+        return [parseInt(c.slice(0, 2), 16), parseInt(c.slice(2, 4), 16), parseInt(c.slice(4, 6), 16)];
+      }
+      function colorAt(keys, f) {
+        return between(keys, f, function (a, b, u) {
+          var ca = channels(a.color), cb = channels(b.color);
+          return "rgb(" + ca.map(function (v, i) { return Math.round(v + (cb[i] - v) * u); }).join(",") + ")";
+        });
+      }
+      function pointAt(keys, f, fallback) {
+        return keys && keys.length ? between(keys, f, function (a, b, u) { return { x: a.x + (b.x - a.x) * u, y: a.y + (b.y - a.y) * u }; }) : fallback;
+      }
+
+      var guides = {};
+      DOC.nodes.forEach(function (n) {
+        if (n.kind !== "path" || n.role !== "guide") return;
+        var at = {}, pts = [], total = 0;
+        n.network.vertices.forEach(function (v) { at[v.id] = v; });
+        n.network.segments.forEach(function (seg, s) {
+          var p0 = at[seg.startVertexId], p3 = at[seg.endVertexId];
+          var ts = seg.tangentStart || { x: 0, y: 0 }, te = seg.tangentEnd || { x: 0, y: 0 };
+          var p1 = { x: p0.x + ts.x, y: p0.y + ts.y }, p2 = { x: p3.x + te.x, y: p3.y + te.y };
+          for (var k = s === 0 ? 0 : 1; k <= 24; k++) {
+            var t = k / 24, m = 1 - t;
+            var x = n.base.x + m * m * m * p0.x + 3 * m * m * t * p1.x + 3 * m * t * t * p2.x + t * t * t * p3.x;
+            var y = n.base.y + m * m * m * p0.y + 3 * m * m * t * p1.y + 3 * m * t * t * p2.y + t * t * t * p3.y;
+            if (pts.length) total += Math.hypot(x - pts[pts.length - 1].x, y - pts[pts.length - 1].y);
+            pts.push({ x: x, y: y, len: total });
+          }
+        });
+        guides[n.id] = { pts: pts, total: total };
+      });
+      function along(guideId, u) {
+        var g = guides[guideId];
+        if (!g || !g.pts.length) return { x: 0, y: 0 };
+        var target = Math.max(0, Math.min(1, u)) * g.total;
+        for (var i = 0; i < g.pts.length - 1; i++) {
+          var a = g.pts[i], b = g.pts[i + 1];
+          if (target >= a.len && target <= b.len) {
+            var f = (target - a.len) / Math.max(1e-6, b.len - a.len);
+            return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f };
+          }
+        }
+        return g.pts[g.pts.length - 1];
+      }
+
+      var painters = {};
+      DOC.shaders.forEach(function (s) {
+        if (s.canvas2d) painters[s.id] = new Function("ctx", "width", "height", "params", s.canvas2d);
+      });
+      var motionsOf = {};
+      DOC.motions.forEach(function (m) { (motionsOf[m.targetId] = motionsOf[m.targetId] || []).push(m); });
+
+      function pose(frame) {
+        DOC.nodes.forEach(function (node) {
+          if (node.role === "guide") return;
+          var el = el$("node", node.id);
+          if (!el) return;
+          var shown = el$("wrap", node.id) || el;
+          var life = DOC.lives[node.id];
+          // display, not visibility: a hidden group must hide what it carries.
+          if (frame < life.start || frame >= life.end) { shown.style.display = "none"; return; }
+          shown.style.display = "";
+
+          var x = node.base.x, y = node.base.y, rot = node.base.rotation || 0;
+          var op = node.base.opacity === undefined ? 1 : node.base.opacity, blur = node.base.blur || 0;
+          var sx = 1, sy = 1, tracking = node.kind === "text" ? node.letterSpacing : 0, followed = null, params = null, color = null;
+          (motionsOf[node.id] || []).forEach(function (m) {
+            if (frame < m.startFrame) return;
+            var ended = frame > m.startFrame + m.durationFrames - 1;
+            var f = Math.min(frame - m.startFrame, Math.max(0, m.durationFrames - 1));
+            if (m.kind === "scalar") {
+              if (ended && m.post === "none") return;
+              var v = scalarAt(m.keys, f, m.baseValue || 0);
+              if (m.property === "opacity") op = m.mode === "set" ? v : op + v;
+              else if (m.property === "layerBlur") blur = m.mode === "set" ? v : blur + v;
+              else if (m.property === "rotation") rot = m.mode === "set" ? v : rot + v;
+              else if (m.property === "letterSpacing") tracking = v;
+            } else if (m.kind === "vec2") {
+              var p = pointAt(m.keys, f, m.mode === "multiply" ? { x: 1, y: 1 } : { x: 0, y: 0 });
+              if (m.property === "move") { x += p.x; y += p.y; } else { sx *= p.x; sy *= p.y; }
+            } else if (m.kind === "followPath") {
+              followed = along(m.guidePathId, eased(m.progressEasing, m.durationFrames <= 1 ? 1 : f / (m.durationFrames - 1)));
+            } else if (m.kind === "color") {
+              color = colorAt(m.keys, f);
+            } else if (m.kind === "shaderParams") {
+              params = params || Object.assign({}, node.fill.params);
+              Object.keys(m.tracks).forEach(function (k) { params[k] = scalarAt(m.tracks[k], f, params[k]); });
+            }
+          });
+
+          var ox = node.base.width * (node.base.originX === undefined ? 0.5 : node.base.originX);
+          var oy = node.base.height * (node.base.originY === undefined ? 0.5 : node.base.originY);
+          var tx = followed ? followed.x - ox : x, ty = followed ? followed.y - oy : y;
+          el.setAttribute("transform", "translate(" + (tx + ox).toFixed(2) + "," + (ty + oy).toFixed(2) + ") rotate(" + rot.toFixed(2) + ") scale(" + sx.toFixed(4) + "," + sy.toFixed(4) + ") translate(" + (-ox).toFixed(2) + "," + (-oy).toFixed(2) + ")");
+          if (el.parentNode && el.parentNode.nodeName.toLowerCase() === "clippath") return;
+          el.style.opacity = String(Math.max(0, Math.min(1, op)));
+          el.style.filter = blur > 0.2 ? "blur(" + blur.toFixed(1) + "px)" : "none";
+          if (node.kind === "text") el.style.letterSpacing = tracking.toFixed(2) + "px";
+          if (node.ownFill) (node.kind === "text" ? el : el.firstElementChild).setAttribute("fill", color || node.ownFill);
+          if (node.fill && node.fill.kind === "shader" && painters[node.fill.shaderId]) {
+            var canvas = el$("canvas", node.id);
+            painters[node.fill.shaderId](canvas.getContext("2d"), canvas.width, canvas.height, params || node.fill.params);
+          }
+        });
+      }
+
+      window.__seekToFrame = pose;
+      window.__motionSdk = window.__motionSdk || {};
+      window.__motionSdk[COMP_ID] = { pose: pose, format: DOC.format };
+      pose(0);
+      if (window.gsap) {
+        var clock = { frame: 0 };
+        var tl = window.gsap.timeline({ paused: true });
+        tl.to(clock, {
+          frame: DOC.format.durationFrames,
+          duration: 3,
+          ease: "none",
+          onUpdate: function () { pose(Math.min(clock.frame, DOC.format.durationFrames - 1)); }
+        }, 0);
+        window.__timelines = window.__timelines || {};
+        window.__timelines[COMP_ID] = tl;
+      }
+    })();
+  </script>
+</body>
+</html>

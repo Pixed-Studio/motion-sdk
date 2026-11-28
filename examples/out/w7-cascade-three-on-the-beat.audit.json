@@ -99,7 +99,20 @@
         "color": "#000000"
       }
     },
-    "notes": []
+    "notes": [],
+    "intent": "Three equal steps, on the beat.",
+    "cast": {
+      "w_plan": "link",
+      "w_build": "link",
+      "w_ship": "point",
+      "phrase": "camera",
+      "glow_a": "ground",
+      "glow_b": "ground"
+    },
+    "hold": {
+      "completeFrame": 33,
+      "leaveFrame": 90
+    }
   },
   "audit": {
     "ok": true,
@@ -115,6 +128,7 @@
           "needsSec": 0.52,
           "offeredSec": 3,
           "clearSec": 2.933333333333333,
+          "clearBeforeLeavingSec": 2.933333333333333,
           "blockedBy": []
         },
         {
@@ -126,6 +140,7 @@
           "needsSec": 0.57,
           "offeredSec": 2.5,
           "clearSec": 2.433333333333333,
+          "clearBeforeLeavingSec": 2.433333333333333,
           "blockedBy": []
         },
         {
@@ -137,6 +152,7 @@
           "needsSec": 0.52,
           "offeredSec": 2,
           "clearSec": 1.9333333333333333,
+          "clearBeforeLeavingSec": 1.9333333333333333,
           "blockedBy": []
         }
       ],
@@ -175,7 +191,13 @@
         }
       ],
       "stills": [],
-      "contrast": 18.86
+      "contrast": 18.86,
+      "hold": {
+        "completeFrame": 33,
+        "leaveFrame": 90,
+        "sec": 1.9,
+        "readsInSec": 1.61
+      }
     }
   }
 }

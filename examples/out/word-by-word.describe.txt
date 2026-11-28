@@ -1,35 +1,61 @@
 word-by-word
 
-The viewer reads a sentence in the order and with the stress it would be spoken. Words do not all weigh the same: the sentence is given as arrivals, each a word or a few that land on one cue, and one arrival is the accent. Inside an arrival the words follow each other too fast to count, so it reads as one gesture. The accent is what the eye is given time for; when it comes first it can start large with the stage to itself and settle into the line as the rest joins. The line makes room as it grows, so what has arrived always sits centred.
+An opening that stresses one message: the viewer reads a sentence in the order and with the stress it would be spoken, and comes away with its point. The sentence is given as arrivals, each a word or a few on one cue. In the lead pattern (领词让位) the first arrival, the lead, takes the eye on the cut, alone; it has the impact, not the meaning. It gives its place to the sentence once, the rest joins during that move, and the point arrives last and is marked. That is all the pattern fixes, and the audit checks it. Every beat's movement is yours: its property, direction, amount, time and curve.
+
+Design it in this order
+1. Intent. One sentence: what should the viewer come away with? Write it in `intent`. It decides how heavy everything else is.
+2. Roles. Split the sentence into arrivals. Which is the lead (it takes the eye; an opener, never the meaning)? Which words are the point (mark them `key`)? What is between is the link and should not compete. Is there a ground, a prop?
+3. Beats. For each, decide what it is for here before how it moves: hit, settle, room, join, mark, hold, leave. A beat can be plain; that is a decision too.
+4. Moves. For each beat pick a name, or write it: a property (position, scale, rotation, opacity, blur, letterSpacing, color), from and to in em, seconds, a curve, a reason. Layer several; chain with `then`; add more on anyone with `extra`.
+5. Feel. The feels hold what the reference films measured; say a curve family (brake, launch, whip, even) and give it your seconds. Change any number with tuneFeel.
+6. Relations. Run audit(). It checks the pattern's relations and what each word was promised, never a value or a direction. A relation you mean to break is waived with its reason in `relations`.
 
 Slots
-- arrivals (1 or more; subject, focal): The sentence, split where a speaker would breathe or stress: "Into", then "a complete floor plan". Each entry lands on its own cue; several words in one entry come in together. Three words on three beats are three entries of one word. Mark the words the sentence is about with { text, key }. Two words joined by a non-breaking space (\u00a0) come in as one.
-- ambient (0 or more; ambient, backdrop): Soft shapes behind the phrase that move outward a little on every arrival, so the ground answers the words. They must hold the ink: check the audit's contrast. An empty list leaves a bare ground.
+- arrivals (1 or more; subject, focal): The sentence, split where a speaker would breathe or stress: "Into", then { text: "a complete floor plan", key: "floor plan" }. Each entry lands on its own cue; several words in one entry come in together, a moment apart. In the lead pattern the first entry is the lead. `key` takes the words the sentence is about, as written in `text` (or true for the whole entry); they are the point. With no key anywhere the last entry is the point. Two words joined by a non-breaking space (\u00a0) come in as one. { text, join } says how one entry joins when it should differ from the rest.
+- ambient (0 or more; ambient, backdrop): The ground: soft shapes behind the phrase. In the lead pattern they share the lead's landing and the line's leaving, each by its depth, and are still in between; in the cascade pattern they move outward a little on every arrival. They must hold the ink: check the audit's contrast. An empty list leaves a bare ground.
+- props (0 or more; support, foreground): Shapes of yours that carry an arrival in and then let go: { id, shape, rides: 2, at: { x: 1, y: 1 } } sits on the lower right corner of the second arrival's last word, travels in with it, then drifts off and fades. A prop that acts out the word is one way to mark the point.
 
 Decisions
+- intent: What this shot is for, in a sentence of your own. It is recorded with the shot and never checked. The audit notes when it is missing.
+- pattern: How the sentence comes together. "lead" (default): the pattern above, right for an opening that stresses one message. "cascade": every arrival takes its own step and shows where it rests, with one accent; right for words that are equals on a beat, left-aligned copy, and a second line after a lead line. Or a function of your own that brings the sentence on with the public pieces.
+- hit: 砸, the lead on the frame it shows. "large", "small", "plain": "large" (default) starts as large as the feel says and the safe area allows; "small" starts at 0.6 and is pushed in; "plain" is its own size. { scale, from, blur } gives the size, where it comes from (em, any direction) and its blur yourself. Or moves: [{ property: "scale", from: 3 }, { property: "rotation", from: -4 }]. Moves go on the whole sentence unless they say `on`. Cascade: how large the accent starts.
+- settle: 落定, how the hit's energy is spent (lead pattern). "fall", "swap", "float": "fall" (default) comes to size on the feel's curve; "swap" keeps its size and is cut to line size inside the room move's fastest step; "float" falls a little past its size and low, then floats up. { sec, curve, then } changes the speed and curve of the fall and adds what follows once it has settled: then: { property: "position", to: { y: -0.1 }, sec: 0.8 }.
+- room: 让, how the lead's place is given to the sentence (lead pattern). The distance is solved, so the finished sentence is centred. "whip", "glide": "whip" (default) is slow at both ends and fastest as the next word shows; "glide" starts at once and stops long. { sec, curve } gives yours; left to the feel, the move is kept under way until the last arrival has shown. As moves, { property: "position" } with no from is the move that makes room (give it your sec and curve) and anything else is layered on the line.
+- join: 入, how a word joins. "slide", "rise", "drop", "pop", "focus", "fade": "slide" (lead default) shows it beside its place and glides it in; "rise" and "drop" from below and above; "pop" in place; "focus" (cascade default) sharpens where it rests; "fade". { from, sec, curve, blur, fade } gives any direction in em: { from: { x: -2, y: 0.5 } }. Or moves, or a function of ({ arrival, count }) that returns moves, so each arrival can come differently.
+- mark: 亮, how the point is singled out. "colour", "focus", "flicker", "sweep", "none": "colour" (default) sets it in the look's primary; "focus" brings it into focus as it lands; "flicker" flickers it on; "sweep" sweeps a second colour across it during the hold. { kind, ... } gives each its numbers; several can be combined in a list; or moves written on each point word from the frame it shows. "none" marks nothing, which the lead pattern's `marked` relation reports unless it is waived.
+- hold: 留, what the finished line does while it is read, so that it is never a still. "out", "in", "left", "right", "up", "down", "still": "out" (lead default) eases back, "in" pushes in, the four directions travel, "still" (cascade default) holds. { scale, x, y } gives totals over its time on stage (x, y in em), and { sec } how long the complete sentence stays when the length is "fit". Or moves, counted from the frame the sentence is complete.
+- leave: 走, how the sentence leaves, as one. "recede", "left", "right", "up", "down", "cut", "shrink": "recede" (lead default) falls back about its middle; "left", "right", "up", "down" go that way; all are still gaining speed on the last frame, so the cut is on the movement and the next shot takes it over (handoff.exit). "cut" (cascade default) holds to the last frame; "shrink" fades to nothing. { to, scale, rotation, blur, sec, curve, fade } gives any direction and mix: { to: { x: 1.5, y: -0.6 }, curve: "launch" }. Or moves.
+- extra: More moves on anyone at any beat: [{ on: "lead", beat: "settle", moves: { property: "rotation", from: -3 } }]. `on` is "sentence", "line", "lead", "point", "link", "ground", "prop", { arrival: 2 } or { word: "plan" }; the moves are counted from that beat's moment.
+- relations: Lead pattern. A relation of the pattern you mean to break, with the reason: { marked: { none: "the film marks nothing here" } }. The audit reports it instead of checking it. The relations: alone, once, joins, last, marked, composed, whole.
+- crop: What may be cut by the edge of the picture when it shows, by role, with the reason: { lead: "the cut lands inside the word" }. Without it the audit reports the crop.
+- stagger: Seconds between the words of one arrival. Defaults to the feel's (two frames at 30 fps for snappy editorial). 0 brings them in together.
+- lands: Lead pattern. Which point of an arrival sits on its cue. "start" (default): it shows on the cue, and the room move is fastest there. "end": it comes to rest on the cue, and the room move ends with the first of them; right when words fly in from far and should hit the beat as they land.
+- tempo: The music's tempo. Lead pattern: the lead is on the first beat and each arrival one `step` later. Cascade: the arrivals land on the grid, the accent on a whole beat.
+- audio: A soundtrack to place on the shot's clock. Every compiler carries it; give its tempo as `tempo` so the arrivals land on it.
+- step: Lead pattern. How far apart the arrivals are: a number of beats (default 1, a whole beat, whatever the tempo; 0.5 is an eighth), or { sec } for seconds. Without a tempo and without a step, the feel's own spacing is used.
+- cueSeconds: Exact arrival times in seconds, one per arrival, for cutting to a voice or to marked audio. They replace the solver; the audit still checks them.
+- cueBeats: Lead pattern. Exact arrival times in beats of the tempo, one per arrival: [0, 1, 1.5].
+- durationSec: Length of the shot in seconds, or "fit" (default): as long as the content needs, which is every word's reading time, the hold and the exit, ending on a beat when there is a tempo. Given a number, entrances and the exit keep their length and extra time goes to the hold; the audit reports a hold much longer than the sentence takes to read.
+- look: Colours and type. Defaults to the Glean look.
+- feel: The numbers the beats draw on when you give none: measured from reference films and named (snappyEditorial, popAndGlide). They are taste, not rules; change any one with tuneFeel(feel, { room: { sec: 0.5 } }).
+- at: Centre of the phrase as fractions of the stage. Defaults to the middle.
+- size: Type size as a share of the stage's shorter relative side (its height on 16:9; a tall stage counts its width times 9/16), while the phrase fits. Defaults to 0.1 in the lead pattern and 0.085 in the cascade pattern.
+- maxWidth: Share of the safe width the widest line may take. Defaults to 0.86.
+- maxLines: Lines the phrase may wrap to before the type shrinks. Defaults to 2.
 - width: Stage width in pixels. Type and travel scale by the shorter relative side.
 - height: Stage height in pixels.
 - fps: Frames per second. Transients are in seconds and stay as sharp at 60 as at 30.
-- durationSec: Length of the shot. Entrances keep their length; extra time goes to holding the accent and the finished line.
-- look: Colours and type. Key words take the look's primary colour. Defaults to the Glean look.
-- feel: How fast words follow one another inside an arrival, how quickly they come into focus, and how an accent settles. Defaults to snappy editorial.
-- tempo: The music's tempo. With one, the arrivals land on its grid, the accent on a whole beat. Without one they share the time by weight.
-- accent: Which arrival carries the sentence. Defaults to the last, for a line that builds to its point. "first" states the point and lets the rest complete it: with the stage empty, the accent starts large (see punch). "none" gives every arrival the same time, for words that are equals on a beat.
-- hold: How many steps of time the accent keeps before the next arrival. Defaults to 1.5 for up to three arrivals and 2.5 above.
-- cueSeconds: Exact arrival times, one per arrival, for cutting to a voice or to marked audio. They replace the solver; the audit still checks them.
-- punch: How large the accent starts, as a multiple of its resting size. By default it starts large (the feel's punch, as far as the safe area allows) when it arrives on an empty stage, and barely larger than rest when other words are already beside it. false gives the accent no size change: it is marked by time alone.
-- enter: How a word comes into view. "focus" (default) sharpens from a blur in a few frames: quick and quiet, right for product copy. "rise" lifts each word into place: more physical, right when the line should feel built. "fade" only fades: use it over a busy ground where blur or travel would add noise.
-- layout: "recentre" (default) keeps whatever has arrived centred, so the line slides to make room for each word. "anchored" sets every word where it will rest: calmer, and the right choice for left-aligned copy or lines read as a list.
-- align: "center" (default) or "left". Left-aligned lines are anchored.
-- at: Centre of the phrase as fractions of the stage. Defaults to the middle.
-- size: Type size as a share of stage height, while the phrase fits. Defaults to 0.085.
-- maxWidth: Share of the safe width the widest line may take. Defaults to 0.86.
-- maxLines: Lines the phrase may wrap to before the type shrinks. Defaults to 2.
-- exit: "cut" (default) holds the finished line to the last frame, for the next shot to take over. "shrink" lets it fall back and fade over the feel's departure, when this shot hands over to nothing.
+- accent: Cascade pattern. Which arrival carries the sentence. Defaults to the last, for a line that builds to its point. "first" states the point and lets the rest complete it. "none" gives every arrival the same time, for words that are equals on a beat.
+- accentHold: Cascade pattern. How many steps of time the accent keeps before the next arrival. Defaults to 1.5 for up to three arrivals and 2.5 above.
+- layout: Cascade pattern. "recentre" (default) keeps whatever has arrived centred, so the line steps aside for each word. "anchored" sets every word where it will rest: calmer, and the right choice for left-aligned copy or lines read as a list.
+- align: Cascade pattern. "center" (default) or "left". Left-aligned lines are anchored. The lead pattern is always centred.
+- entry: Cascade pattern. "cut" (default): the line is where it rests from its first frame. "push": the whole line comes in from the right, slowing all the way, for a line that takes over the speed of the shot before. { em, sec, ease } gives the distance and time yourself.
 
 When the content changes
 1. The sentence: decide the arrivals before anything else. Split where it is stressed, not every word; a word that only joins two others travels with one of them.
-2. The accent: which arrival is the point. If it moved from first to last, the large entrance no longer has an empty stage; read the note the shot leaves.
-3. Word count: a longer sentence wraps or shrinks. Check the type size the shot settled on, and each arrival's clear reading time in the audit.
-4. Duration or tempo: check the gaps between arrivals against the feel's claim, then the hold the accent gets.
-5. The ground: after changing what is behind the phrase, read the audit's contrast and which object it says covers a word.
+2. The lead (lead pattern): it is the opener, short enough to read at a glance while it is large. If the point of the sentence moved to the front, the sentence wants the cascade pattern with accent "first", or rewording.
+3. The point: mark it as key. It belongs in the last arrival, where the line resolves; the `last` relation says so when it is not.
+4. Word count: a longer sentence wraps or shrinks. Check the type size the shot settled on, and each arrival's clear reading time in the audit.
+5. Tempo or step: read the cue frames, then measures.hold: how long the complete sentence stays before it starts to leave. Each word's clear time runs on to the cut while the line leaves whole and sharp, so read both.
+6. The cut: an exit that is still moving hands its speed to the next shot. Join the two with sequence([a, b]) and read what the join reports.
+7. The ground: after changing what is behind the phrase, read the audit's contrast and which object it says covers a word.

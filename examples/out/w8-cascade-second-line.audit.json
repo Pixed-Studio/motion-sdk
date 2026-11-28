@@ -1,0 +1,187 @@
+{
+  "format": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "durationFrames": 66
+  },
+  "score": {
+    "shot": "word-by-word",
+    "cues": [
+      {
+        "name": "arrival-1",
+        "frame": 0,
+        "kind": "beat",
+        "weight": 1,
+        "why": "An arrival."
+      },
+      {
+        "name": "arrival-2",
+        "frame": 9,
+        "kind": "beat",
+        "weight": 1,
+        "why": "An arrival."
+      },
+      {
+        "name": "exit",
+        "frame": 57,
+        "kind": "structure",
+        "weight": 0.5,
+        "why": "The phrase starts to leave. The cut comes while it is still gaining speed."
+      }
+    ],
+    "subjects": [
+      {
+        "nodeId": "w_while",
+        "cue": "arrival-1",
+        "needsSec": 0.71,
+        "untilFrame": 66,
+        "accent": false
+      },
+      {
+        "nodeId": "w_you",
+        "cue": "arrival-1",
+        "needsSec": 0.64,
+        "untilFrame": 66,
+        "accent": false
+      },
+      {
+        "nodeId": "w_sleep",
+        "cue": "arrival-2",
+        "needsSec": 0.57,
+        "untilFrame": 66,
+        "accent": false
+      }
+    ],
+    "claimFrames": 9,
+    "regions": {
+      "phrase": {
+        "x": 427,
+        "y": 321,
+        "width": 426,
+        "height": 79
+      }
+    },
+    "safeArea": {
+      "x": 102,
+      "y": 65,
+      "width": 1076,
+      "height": 590
+    },
+    "invariants": [],
+    "handoff": {
+      "entry": {
+        "frame": 0,
+        "nodeId": "w_while",
+        "position": {
+          "x": 706.7,
+          "y": 397.1
+        },
+        "velocity": {
+          "x": -1118,
+          "y": -319
+        },
+        "size": 144,
+        "color": "#000000"
+      },
+      "exit": {
+        "frame": 65,
+        "nodeId": "w_sleep",
+        "position": {
+          "x": 727.1,
+          "y": 360.5
+        },
+        "velocity": {
+          "x": -488,
+          "y": 0
+        },
+        "size": 102,
+        "color": "#333CEE"
+      }
+    },
+    "notes": [],
+    "intent": "Finish the thought the line before started.",
+    "cast": {
+      "w_while": "link",
+      "w_you": "link",
+      "w_sleep": "point",
+      "phrase": "camera",
+      "glow_a": "ground",
+      "glow_b": "ground"
+    },
+    "hold": {
+      "completeFrame": 20,
+      "leaveFrame": 57
+    }
+  },
+  "audit": {
+    "ok": true,
+    "findings": [],
+    "measures": {
+      "reading": [
+        {
+          "nodeId": "w_while",
+          "label": "while",
+          "cue": "arrival-1",
+          "arrivesFrame": 0,
+          "untilFrame": 66,
+          "needsSec": 0.71,
+          "offeredSec": 2.2,
+          "clearSec": 2.1333333333333333,
+          "clearBeforeLeavingSec": 1.9,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_you",
+          "label": "you",
+          "cue": "arrival-1",
+          "arrivesFrame": 0,
+          "untilFrame": 66,
+          "needsSec": 0.64,
+          "offeredSec": 2.1333333333333333,
+          "clearSec": 2.066666666666667,
+          "clearBeforeLeavingSec": 1.8333333333333333,
+          "blockedBy": []
+        },
+        {
+          "nodeId": "w_sleep",
+          "label": "sleep.",
+          "cue": "arrival-2",
+          "arrivesFrame": 9,
+          "untilFrame": 66,
+          "needsSec": 0.57,
+          "offeredSec": 1.9,
+          "clearSec": 1.8333333333333333,
+          "clearBeforeLeavingSec": 1.6,
+          "blockedBy": []
+        }
+      ],
+      "answers": [
+        {
+          "motionId": "act_glow_a_answers_2",
+          "cue": "arrival-2",
+          "frame": 9,
+          "speedBefore": 2.666863418667547,
+          "speedAfter": 3.3700254163749293,
+          "peakOffset": 0
+        },
+        {
+          "motionId": "act_glow_b_answers_2",
+          "cue": "arrival-2",
+          "frame": 9,
+          "speedBefore": 2.668708708877668,
+          "speedAfter": 3.372015657444382,
+          "peakOffset": 0
+        }
+      ],
+      "stills": [],
+      "contrast": 6.24,
+      "hold": {
+        "completeFrame": 20,
+        "leaveFrame": 57,
+        "sec": 1.23,
+        "readsInSec": 1.28
+      }
+    }
+  }
+}
