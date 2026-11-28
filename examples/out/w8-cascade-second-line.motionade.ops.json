@@ -1,0 +1,1102 @@
+[
+  {
+    "kind": "updateSceneName",
+    "sceneId": "second_line__scene-1",
+    "name": "Word by word"
+  },
+  {
+    "kind": "updateSceneDuration",
+    "sceneId": "second_line__scene-1",
+    "durationFrames": 66
+  },
+  {
+    "kind": "setSceneBackgroundFill",
+    "sceneId": "second_line__scene-1",
+    "background": {
+      "kind": "solid",
+      "color": "#F7F2EB"
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "phrase",
+      "kind": "frame",
+      "name": "Phrase",
+      "layer": 10,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "line_1",
+      "kind": "frame",
+      "name": "Line 1",
+      "parentId": "phrase",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "arrival_1",
+      "kind": "frame",
+      "name": "while you",
+      "parentId": "line_1",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.4335,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "w_while",
+      "kind": "text",
+      "name": "while",
+      "parentId": "arrival_1",
+      "layer": 1,
+      "base": {
+        "x": 499.35,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "while"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "w_you",
+      "kind": "text",
+      "name": "you",
+      "parentId": "arrival_1",
+      "layer": 2,
+      "base": {
+        "x": 633.36,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "you"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "arrival_2",
+      "kind": "frame",
+      "name": "sleep.",
+      "parentId": "line_1",
+      "layer": 2,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.6046992187500001,
+        "originY": 0.5006944444444444
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "w_sleep",
+      "kind": "text",
+      "name": "sleep.",
+      "parentId": "arrival_2",
+      "layer": 1,
+      "base": {
+        "x": 774.02,
+        "y": 321
+      },
+      "content": {
+        "design": {
+          "text": "sleep."
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 61,
+        "fontWeight": 420,
+        "letterSpacing": -1.3,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#333CEE"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "glow_a",
+      "kind": "shape",
+      "name": "glow-a",
+      "layer": 1,
+      "base": {
+        "x": 239.6,
+        "y": 140.1,
+        "width": 458,
+        "height": 281
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#DCFC5E"
+        },
+        "blur": 70
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "second_line__scene-1",
+    "object": {
+      "id": "glow_b",
+      "kind": "shape",
+      "name": "glow-b",
+      "layer": 2,
+      "base": {
+        "x": 653.9,
+        "y": 300.4,
+        "width": 390,
+        "height": 256
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#DCFC5E"
+        },
+        "blur": 70
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_a_answers_2_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_a_answers_2_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k1",
+                "frame": 6,
+                "value": {
+                  "x": -10.15,
+                  "y": -4.73
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k2",
+                "frame": 9,
+                "value": {
+                  "x": -14.5,
+                  "y": -6.76
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k3",
+                "frame": 15,
+                "value": {
+                  "x": -21.75,
+                  "y": -10.14
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_a_answers_2_k4",
+                "frame": 65,
+                "value": {
+                  "x": -24.65,
+                  "y": -11.5
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_a_answers_2",
+        "name": "glow-a answers the arrivals",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 66
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_b_answers_2_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_b_answers_2_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k1",
+                "frame": 6,
+                "value": {
+                  "x": 10.65,
+                  "y": 3.46
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k2",
+                "frame": 9,
+                "value": {
+                  "x": 15.22,
+                  "y": 4.94
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutCubic"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k3",
+                "frame": 15,
+                "value": {
+                  "x": 22.83,
+                  "y": 7.42
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_glow_b_answers_2_k4",
+                "frame": 65,
+                "value": {
+                  "x": 25.87,
+                  "y": 8.41
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_b_answers_2",
+        "name": "glow-b answers the arrivals",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 66
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_while_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_while_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_while_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_while_in",
+        "name": "while appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_while"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_while_join_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_while_join_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 36.6
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.1,
+                  "y1": 0.72,
+                  "x2": 0.56,
+                  "y2": 1
+                }
+              },
+              {
+                "id": "act_w_while_join_k1",
+                "frame": 15,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_while_join",
+        "name": "while rises into place",
+        "target": {
+          "kind": "object",
+          "objectId": "w_while"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 16
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_you_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_you_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_you_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_you_in",
+        "name": "you appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_you"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 2,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_you_join_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_you_join_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 36.6
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.1,
+                  "y1": 0.72,
+                  "x2": 0.56,
+                  "y2": 1
+                }
+              },
+              {
+                "id": "act_w_you_join_k1",
+                "frame": 15,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_you_join",
+        "name": "you rises into place",
+        "target": {
+          "kind": "object",
+          "objectId": "w_you"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 2,
+          "durationFrames": 16
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_sleep_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_sleep_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_sleep_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_sleep_in",
+        "name": "sleep. appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_sleep"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 9,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_sleep_join_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_sleep_join_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 36.6
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.1,
+                  "y1": 0.72,
+                  "x2": 0.56,
+                  "y2": 1
+                }
+              },
+              {
+                "id": "act_w_sleep_join_k1",
+                "frame": 15,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_sleep_join",
+        "name": "sleep. rises into place",
+        "target": {
+          "kind": "object",
+          "objectId": "w_sleep"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 9,
+          "durationFrames": 16
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_phrase_pushes_in_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_phrase_pushes_in_k0",
+                "frame": 0,
+                "value": {
+                  "x": 207.4,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeOutExpo"
+                }
+              },
+              {
+                "id": "act_phrase_pushes_in_k1",
+                "frame": 35,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_phrase_pushes_in",
+        "name": "Phrase pushes in",
+        "target": {
+          "kind": "object",
+          "objectId": "phrase"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 36
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_phrase_falls_back_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_phrase_falls_back_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1,
+                  "scaleY": 1
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.6,
+                  "y1": 0,
+                  "x2": 1,
+                  "y2": 0.8
+                }
+              },
+              {
+                "id": "act_phrase_falls_back_k1",
+                "frame": 8,
+                "value": {
+                  "scaleX": 0.65,
+                  "scaleY": 0.65
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_phrase_falls_back",
+        "name": "Phrase falls back",
+        "target": {
+          "kind": "object",
+          "objectId": "phrase"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 57,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "layerBlur",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_phrase_softens_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_phrase_softens_k0",
+                "frame": 0,
+                "value": 0,
+                "outgoingTiming": {
+                  "kind": "easing",
+                  "preset": "easeInQuad"
+                }
+              },
+              {
+                "id": "act_phrase_softens_k1",
+                "frame": 5,
+                "value": 4
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_phrase_softens",
+        "name": "Phrase softens as it goes",
+        "target": {
+          "kind": "object",
+          "objectId": "phrase"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 60,
+          "durationFrames": 6
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_a_falls_back_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_a_falls_back_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1,
+                  "scaleY": 1
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.6,
+                  "y1": 0,
+                  "x2": 1,
+                  "y2": 0.8
+                }
+              },
+              {
+                "id": "act_glow_a_falls_back_k1",
+                "frame": 8,
+                "value": {
+                  "scaleX": 0.895,
+                  "scaleY": 0.895
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_a_falls_back",
+        "name": "glow-a falls back",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 57,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_a_goes_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_a_goes_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.6,
+                  "y1": 0,
+                  "x2": 1,
+                  "y2": 0.8
+                }
+              },
+              {
+                "id": "act_glow_a_goes_k1",
+                "frame": 8,
+                "value": {
+                  "x": 18,
+                  "y": 8.39
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_a_goes",
+        "name": "glow-a goes with the line",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 57,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_b_falls_back_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_b_falls_back_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 1,
+                  "scaleY": 1
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.6,
+                  "y1": 0,
+                  "x2": 1,
+                  "y2": 0.8
+                }
+              },
+              {
+                "id": "act_glow_b_falls_back_k1",
+                "frame": 8,
+                "value": {
+                  "scaleX": 0.895,
+                  "scaleY": 0.895
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_b_falls_back",
+        "name": "glow-b falls back",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 57,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "second_line__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_b_goes_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_b_goes_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.6,
+                  "y1": 0,
+                  "x2": 1,
+                  "y2": 0.8
+                }
+              },
+              {
+                "id": "act_glow_b_goes_k1",
+                "frame": 8,
+                "value": {
+                  "x": -21.93,
+                  "y": -7.13
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_b_goes",
+        "name": "glow-b goes with the line",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 57,
+          "durationFrames": 9
+        }
+      }
+    }
+  }
+]

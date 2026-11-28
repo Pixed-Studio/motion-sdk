@@ -50,7 +50,8 @@ export interface StageDecisions {
   width?: number;
   height?: number;
   fps?: number;
-  durationSec?: number;
+  /** Seconds. `"fit"` lets the length follow the content, where the shot knows how to measure it. */
+  durationSec?: number | "fit";
 }
 
 export interface ShotDefinition<TDecisions extends StageDecisions, TSlots extends AnySlots> {
@@ -65,13 +66,37 @@ export interface ShotDefinition<TDecisions extends StageDecisions, TSlots extend
   decisions: { [K in keyof Required<TDecisions>]: string };
   /** What to reconsider when the content changes, in the order a designer would. */
   whenContentChanges: string[];
+  /** The questions to answer before filling anything in, in the order a designer asks them. `describe()` leads with them. */
+  design?: string[];
+  /** Decisions this shot once had under another name, so an author who writes the old one is told the new one. */
+  renamed?: Record<string, string>;
   stage: { width: number; height: number; fps: number; durationSec: number };
+  /**
+   * The seconds the content needs, used when the author gives no length or asks for `"fit"`.
+   * `compose` builds the shot at a trial length and returns its score, for a shot that measures itself.
+   */
+  fit?: (input: { decisions: TDecisions; slots: SlotsResolved<TSlots> }, compose: (durationSec: number) => Score) => number;
   /**
    * The shot's own content for slots the author leaves out. A slot given as an empty list stays
    * empty, so "no world" and "the usual world" are different requests.
    */
   defaults?: (decisions: TDecisions) => SlotsInput<TSlots>;
   compose: (score: Score, input: { decisions: TDecisions; slots: SlotsResolved<TSlots> }) => void;
+}
+
+/** How many single-character edits turn one word into the other. */
+function distance(a: string, b: string): number {
+  const row = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    let diagonal = row[0]!;
+    row[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const above = row[j]!;
+      row[j] = Math.min(above + 1, row[j - 1]! + 1, diagonal + (a[i - 1] === b[j - 1] ? 0 : 1));
+      diagonal = above;
+    }
+  }
+  return row[b.length]!;
 }
 
 export interface Shot {
@@ -99,7 +124,24 @@ export interface ShotParams<TDecisions, TSlots extends AnySlots> {
 export function defineShot<TDecisions extends StageDecisions, TSlots extends AnySlots>(
   def: ShotDefinition<TDecisions, TSlots>
 ) {
+  // A misspelt key in plain JavaScript would otherwise be dropped without a word.
+  const refuse = (what: string, given: string[], known: string[], renamed: Record<string, string> = {}) => {
+    const unknown = given.filter((key) => !known.includes(key));
+    if (unknown.length === 0) return;
+    const hints = unknown.map((key) => {
+      const close = (names: string[]) => names.map((k) => ({ k, d: distance(key, k) })).sort((a, b) => a.d - b.d).find((c) => c.d <= Math.max(1, Math.floor(key.length / 3)))?.k;
+      const old = renamed[key] ? key : close(Object.keys(renamed));
+      if (old) return `"${key}" (${old === key ? "" : `"${old}" is `}now "${renamed[old]}")`;
+      const near = close(known);
+      return near ? `"${key}" (did you mean "${near}"?)` : `"${key}"`;
+    });
+    throw new Error(`[${def.name}] Unknown ${what}${unknown.length > 1 ? "s" : ""} ${hints.join(", ")}. This shot's ${what}s: ${known.join(", ")}.`);
+  };
+
   const build = (params: ShotParams<TDecisions, TSlots> = {}): Shot => {
+    refuse("parameter", Object.keys(params), ["id", "name", "decisions", "slots"]);
+    refuse("decision", Object.keys(params.decisions ?? {}), Object.keys(def.decisions), def.renamed);
+    refuse("slot", Object.keys(params.slots ?? {}), Object.keys(def.slots));
     const decisions = (params.decisions ?? {}) as TDecisions;
     const given: Record<string, unknown> = { ...(def.defaults?.(decisions) ?? {}) };
     for (const [key, value] of Object.entries(params.slots ?? {})) {
@@ -125,14 +167,19 @@ export function defineShot<TDecisions extends StageDecisions, TSlots extends Any
     }
 
     const fps = Math.max(12, Math.round(decisions.fps ?? def.stage.fps));
-    const durationSec = decisions.durationSec ?? def.stage.durationSec;
-    const score = new Score(def.name, {
-      width: decisions.width ?? def.stage.width,
-      height: decisions.height ?? def.stage.height,
-      fps,
-      durationFrames: Math.max(2, Math.round(durationSec * fps)),
-    });
-    def.compose(score, { decisions, slots: resolved as SlotsResolved<TSlots> });
+    const input = { decisions, slots: resolved as SlotsResolved<TSlots> };
+    const composeAt = (durationSec: number) => {
+      const made = new Score(def.name, {
+        width: decisions.width ?? def.stage.width,
+        height: decisions.height ?? def.stage.height,
+        fps,
+        durationFrames: Math.max(2, Math.round(durationSec * fps)),
+      });
+      def.compose(made, input);
+      return made;
+    };
+    const asked = decisions.durationSec;
+    const score = composeAt(typeof asked === "number" ? asked : def.fit ? def.fit(input, composeAt) : def.stage.durationSec);
 
     const id = params.id ?? `${def.name.replace(/[^a-zA-Z0-9]+/g, "_")}_shot`;
     const ir = score.toDocument(id, params.name ?? def.name);
@@ -146,7 +193,13 @@ export function defineShot<TDecisions extends StageDecisions, TSlots extends Any
   };
 
   const describe = (): string => {
-    const lines = [`${def.name}`, "", def.intent, "", "Slots"];
+    const lines = [`${def.name}`, "", def.intent, ""];
+    if (def.design?.length) {
+      lines.push("Design it in this order");
+      def.design.forEach((text, i) => lines.push(`${i + 1}. ${text}`));
+      lines.push("");
+    }
+    lines.push("Slots");
     for (const [key, spec] of Object.entries(def.slots)) {
       const count = spec.cardinality === "many" ? `${spec.min ?? 0} or more` : spec.required ? "one" : "one, optional";
       lines.push(`- ${key} (${count}; ${spec.role}, ${spec.plane}): ${spec.describe}`);

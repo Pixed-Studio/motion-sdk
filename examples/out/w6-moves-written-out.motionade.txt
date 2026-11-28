@@ -1,0 +1,27 @@
+project "Moves written out" 1280x720 30fps timingStyles=[] brushes=[] authoringDefaults={emptyShapeFill: "none"}
+
+scene #moves_written_out__scene-1 "Word by word" dur=75 bg=#F7F2EB motionBlockGroups=[]
+frame #phrase "Phrase" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=10
+  frame #line_1 "Line 1" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=1
+    frame #arrival_1 "Then" x=0 y=0 width=1280 height=720 originX=0.36046484375000004 originY=0.5 z=1
+      text #w_then "Then" text="Then" x=383.22 y=313 width=156.35 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+    frame #arrival_2 "it all" x=0 y=0 width=1280 height=720 originX=0.48442968750000004 originY=0.5 z=2
+      text #w_it "it" text="it" x=554.49 y=313 width=41.92 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+      text #w_all "all" text="all" x=611.32 y=313 width=74.33 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=2
+    frame #arrival_3 "clicks." x=0 y=0 width=1280 height=720 originX=0.6239765625 originY=0.5 z=3
+      text #w_clicks "clicks." text="clicks." x=700.59 y=313 width=196.2 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+motion #act_phrase_hit_scales "Phrase changes size" #phrase scale custom at=0 dur=14 scaleX,scaleY*=[0:0.6,0.6 cubic-bezier(0.06,0.88,0.34,1) 13:1,1]
+motion #act_arrival_1_hit_turns "Then turns" #arrival_1 rotation custom at=0 dur=14 rotation+==[0:-6 cubic-bezier(0.06,0.88,0.34,1) 13:0]
+motion #act_arrival_1_hit_moves "It drops in from above." #arrival_1 move custom at=0 dur=14 x,y+=[0:0,-100.8 cubic-bezier(0.06,0.88,0.34,1) 13:0,0]
+motion #act_w_then_in "Then appears" #w_then opacity in at=0 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_it_in "it appears" #w_it opacity in at=19 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_it_join "it rises into place" #w_it move custom at=19 dur=12 x,y+=[0:0,-43.2 cubic-bezier(0.09,0.82,0.385,1) 11:0,0]
+motion #act_w_all_in "all appears" #w_all opacity in at=21 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_all_join "all rises into place" #w_all move custom at=21 dur=12 x,y+=[0:0,-43.2 cubic-bezier(0.09,0.82,0.385,1) 11:0,0]
+motion #act_w_clicks_in "clicks. appears" #w_clicks opacity in at=38 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_clicks_join "clicks. rises into place" #w_clicks move custom at=38 dur=12 x,y+=[0:0,64.8 cubic-bezier(0.09,0.82,0.385,1) 11:0,0]
+motion #act_line_1_makes_room "Then makes room" #line_1 move custom at=0 dur=42 x,y+=[0:178.6,0 hold 8:178.6,0 cubic-bezier(0.84,0,0.92,0.5) 19:119.07,0 cubic-bezier(0.08,0.5,0.16,1) 41:0,0]
+motion #act_phrase_hold_turns "Phrase turns" #phrase rotation custom at=45 dur=19 rotation+==[0:0 linear 18:-1]
+motion #act_phrase_goes "Phrase goes" #phrase move custom at=64 dur=11 x,y+=[0:0,0 cubic-bezier(0.625,0,1,0.75) 10:115.2,-72]
+motion #act_phrase_turns_away "Phrase turns as it goes" #phrase rotation custom at=64 dur=11 rotation+==[0:0 cubic-bezier(0.625,0,1,0.75) 10:4]
+motion #act_w_clicks_mark_colour "The point warms as it lands." #w_clicks color custom at=38 dur=12 color=[0:#000000 easeOutCubic 11:#C2410C]

@@ -1,0 +1,1048 @@
+[
+  {
+    "kind": "updateSceneName",
+    "sceneId": "point_flickers_on__scene-1",
+    "name": "Word by word"
+  },
+  {
+    "kind": "updateSceneDuration",
+    "sceneId": "point_flickers_on__scene-1",
+    "durationFrames": 66
+  },
+  {
+    "kind": "setSceneBackgroundFill",
+    "sceneId": "point_flickers_on__scene-1",
+    "background": {
+      "kind": "solid",
+      "color": "#F7F2EB"
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "phrase",
+      "kind": "frame",
+      "name": "Phrase",
+      "layer": 10,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "line_1",
+      "kind": "frame",
+      "name": "Line 1",
+      "parentId": "phrase",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.5,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "arrival_1",
+      "kind": "frame",
+      "name": "And then",
+      "parentId": "line_1",
+      "layer": 1,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.25236718750000003,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "w_and",
+      "kind": "text",
+      "name": "And",
+      "parentId": "arrival_1",
+      "layer": 1,
+      "base": {
+        "x": 242.65,
+        "y": 313
+      },
+      "content": {
+        "design": {
+          "text": "And"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 72,
+        "fontWeight": 420,
+        "letterSpacing": -1.5,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "w_then",
+      "kind": "text",
+      "name": "then",
+      "parentId": "arrival_1",
+      "layer": 2,
+      "base": {
+        "x": 394.55,
+        "y": 313
+      },
+      "content": {
+        "design": {
+          "text": "then"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 72,
+        "fontWeight": 420,
+        "letterSpacing": -1.5,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "arrival_2",
+      "kind": "frame",
+      "name": "the lights",
+      "parentId": "line_1",
+      "layer": 2,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.49224999999999997,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "w_the",
+      "kind": "text",
+      "name": "the",
+      "parentId": "arrival_2",
+      "layer": 1,
+      "base": {
+        "x": 535.43,
+        "y": 313
+      },
+      "content": {
+        "design": {
+          "text": "the"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 72,
+        "fontWeight": 420,
+        "letterSpacing": -1.5,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "w_lights",
+      "kind": "text",
+      "name": "lights",
+      "parentId": "arrival_2",
+      "layer": 2,
+      "base": {
+        "x": 690.59,
+        "y": 313
+      },
+      "content": {
+        "design": {
+          "text": "lights"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 72,
+        "fontWeight": 420,
+        "letterSpacing": -1.5,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "arrival_3",
+      "kind": "frame",
+      "name": "flicker on.",
+      "parentId": "line_1",
+      "layer": 3,
+      "base": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 720,
+        "originX": 0.73988671875,
+        "originY": 0.5
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "w_flicker",
+      "kind": "text",
+      "name": "flicker",
+      "parentId": "arrival_3",
+      "layer": 1,
+      "base": {
+        "x": 892.42,
+        "y": 313
+      },
+      "content": {
+        "design": {
+          "text": "flicker"
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 72,
+        "fontWeight": 420,
+        "letterSpacing": -1.5,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "w_on",
+      "kind": "text",
+      "name": "on.",
+      "parentId": "arrival_3",
+      "layer": 2,
+      "base": {
+        "x": 1054.24,
+        "y": 313
+      },
+      "content": {
+        "design": {
+          "text": "on."
+        }
+      },
+      "style": {
+        "fontFamily": "Geist",
+        "fontSize": 72,
+        "fontWeight": 420,
+        "letterSpacing": -1.5,
+        "textAlign": "center",
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#000000"
+        }
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "glow_a",
+      "kind": "shape",
+      "name": "glow-a",
+      "layer": 1,
+      "base": {
+        "x": 167.7,
+        "y": 100.2,
+        "width": 540,
+        "height": 331
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#DCFC5E"
+        },
+        "blur": 70
+      }
+    }
+  },
+  {
+    "kind": "addObject",
+    "sceneId": "point_flickers_on__scene-1",
+    "object": {
+      "id": "glow_b",
+      "kind": "shape",
+      "name": "glow-b",
+      "layer": 2,
+      "base": {
+        "x": 656,
+        "y": 289.1,
+        "width": 461,
+        "height": 302
+      },
+      "content": {
+        "shape": "ellipse"
+      },
+      "style": {
+        "primaryFill": {
+          "kind": "solid",
+          "color": "#DCFC5E"
+        },
+        "blur": 70
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_and_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_and_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_and_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_and_in",
+        "name": "And appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_and"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_then_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_then_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_then_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_then_in",
+        "name": "then appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_then"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_the_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_the_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_the_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_the_in",
+        "name": "the appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_the"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 17,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_lights_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_lights_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_lights_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_lights_in",
+        "name": "lights appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_lights"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 20,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_flicker_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_flicker_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_flicker_in",
+        "name": "flicker appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_flicker"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 33,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_on_in_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_on_in_k0",
+                "frame": 0,
+                "value": 1,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_on_in_k1",
+                "frame": 1,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_on_in",
+        "name": "on. appears",
+        "target": {
+          "kind": "object",
+          "objectId": "w_on"
+        },
+        "stage": "in",
+        "timing": {
+          "startFrame": 36,
+          "durationFrames": 2
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_line_1_makes_room_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_line_1_makes_room_k0",
+                "frame": 0,
+                "value": {
+                  "x": 316.97,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_line_1_makes_room_k1",
+                "frame": 9,
+                "value": {
+                  "x": 316.97,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.8452,
+                  "y1": 0.0196,
+                  "x2": 0.9147,
+                  "y2": 0.5147
+                }
+              },
+              {
+                "id": "act_line_1_makes_room_k2",
+                "frame": 17,
+                "value": {
+                  "x": 226.1,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.0803,
+                  "y1": 0.505,
+                  "x2": 0.1751,
+                  "y2": 1
+                }
+              },
+              {
+                "id": "act_line_1_makes_room_k3",
+                "frame": 39,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_line_1_makes_room",
+        "name": "And then makes room",
+        "target": {
+          "kind": "object",
+          "objectId": "line_1"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 40
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "scale",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_phrase_drifts_size_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_phrase_drifts_size_k0",
+                "frame": 0,
+                "value": {
+                  "scaleX": 0.9179,
+                  "scaleY": 0.9179
+                },
+                "outgoingTiming": {
+                  "kind": "linear"
+                }
+              },
+              {
+                "id": "act_phrase_drifts_size_k1",
+                "frame": 57,
+                "value": {
+                  "scaleX": 1.0479,
+                  "scaleY": 1.0479
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_phrase_drifts_size",
+        "name": "Phrase pushes in",
+        "target": {
+          "kind": "object",
+          "objectId": "phrase"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 0,
+          "durationFrames": 58
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_phrase_goes_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_phrase_goes_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.75,
+                  "y1": 0,
+                  "x2": 0.95,
+                  "y2": 0.6
+                }
+              },
+              {
+                "id": "act_phrase_goes_k1",
+                "frame": 8,
+                "value": {
+                  "x": 0,
+                  "y": 49.68
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_phrase_goes",
+        "name": "Phrase goes",
+        "target": {
+          "kind": "object",
+          "objectId": "phrase"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 57,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_a_goes_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_a_goes_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.75,
+                  "y1": 0,
+                  "x2": 0.95,
+                  "y2": 0.6
+                }
+              },
+              {
+                "id": "act_glow_a_goes_k1",
+                "frame": 8,
+                "value": {
+                  "x": 0,
+                  "y": 14.9
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_a_goes",
+        "name": "glow-a goes with the line",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_a"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 57,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "move",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_glow_b_goes_p",
+          "kind": "property.writeGroup",
+          "value": {
+            "keys": [
+              {
+                "id": "act_glow_b_goes_k0",
+                "frame": 0,
+                "value": {
+                  "x": 0,
+                  "y": 0
+                },
+                "outgoingTiming": {
+                  "kind": "cubicBezier",
+                  "x1": 0.75,
+                  "y1": 0,
+                  "x2": 0.95,
+                  "y2": 0.6
+                }
+              },
+              {
+                "id": "act_glow_b_goes_k1",
+                "frame": 8,
+                "value": {
+                  "x": 0,
+                  "y": 14.9
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_glow_b_goes",
+        "name": "glow-b goes with the line",
+        "target": {
+          "kind": "object",
+          "objectId": "glow_b"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 57,
+          "durationFrames": 9
+        }
+      }
+    }
+  },
+  {
+    "kind": "materializeActionFacets",
+    "sceneId": "point_flickers_on__scene-1",
+    "catalogId": "opacity",
+    "facets": [
+      {
+        "primitive": {
+          "id": "act_w_flicker_flickers_p",
+          "kind": "property.write",
+          "value": {
+            "keys": [
+              {
+                "id": "act_w_flicker_flickers_k0",
+                "frame": 0,
+                "value": 0.15,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k1",
+                "frame": 1,
+                "value": 0.15,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k2",
+                "frame": 2,
+                "value": 0.45,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k3",
+                "frame": 3,
+                "value": 0.15,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k4",
+                "frame": 4,
+                "value": 0.15,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k5",
+                "frame": 5,
+                "value": 0.79,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k6",
+                "frame": 6,
+                "value": 0.81,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k7",
+                "frame": 7,
+                "value": 0.32,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k8",
+                "frame": 8,
+                "value": 0.69,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k9",
+                "frame": 9,
+                "value": 0.87,
+                "outgoingTiming": {
+                  "kind": "hold"
+                }
+              },
+              {
+                "id": "act_w_flicker_flickers_k10",
+                "frame": 10,
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "action": {
+      "mode": "create",
+      "blockMetadata": {
+        "id": "act_w_flicker_flickers",
+        "name": "flicker flickers on",
+        "target": {
+          "kind": "object",
+          "objectId": "w_flicker"
+        },
+        "stage": "custom",
+        "timing": {
+          "startFrame": 33,
+          "durationFrames": 11
+        }
+      }
+    }
+  }
+]

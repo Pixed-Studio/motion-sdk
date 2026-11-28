@@ -274,3 +274,5 @@ export function stack(score: Score, lines: (string | StackLine)[], opts: StackOp
   if (opts.region) score.regions[opts.region] = region;
   return { group: holder, lines: nodes, region, fontSize };
 }
+
+export * from "./sentence.ts";

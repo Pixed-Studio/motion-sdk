@@ -1,0 +1,28 @@
+project "The point flickers on" 1280x720 30fps timingStyles=[] brushes=[] authoringDefaults={emptyShapeFill: "none"}
+
+scene #point_flickers_on__scene-1 "Word by word" dur=66 bg=#F7F2EB motionBlockGroups=[]
+frame #phrase "Phrase" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=10
+  frame #line_1 "Line 1" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=1
+    frame #arrival_1 "And then" x=0 y=0 width=1280 height=720 originX=0.25236718750000003 originY=0.5 z=1
+      text #w_and "And" text="And" x=178.59 y=313 width=128.11 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+      text #w_then "then" text="then" x=321.63 y=313 width=145.84 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=2
+    frame #arrival_2 "the lights" x=0 y=0 width=1280 height=720 originX=0.49224999999999997 originY=0.5 z=2
+      text #w_the "the" text="the" x=482.39 y=313 width=106.08 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+      text #w_lights "lights" text="lights" x=603.4 y=313 width=174.37 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=2
+    frame #arrival_3 "flicker on." x=0 y=0 width=1280 height=720 originX=0.73988671875 originY=0.5 z=3
+      text #w_flicker "flicker" text="flicker" x=792.7 y=313 width=199.44 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=1
+      text #w_on "on." text="on." x=1007.07 y=313 width=94.34 height=94 fill=#000000 fontFamily=Geist fontSize=72 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.5 z=2
+shape #glow_a "glow-a" ellipse x=167.7 y=100.2 width=540 height=331 fill=#DCFC5E blur=70 z=1
+shape #glow_b "glow-b" ellipse x=656 y=289.1 width=461 height=302 fill=#DCFC5E blur=70 z=2
+motion #act_w_and_in "And appears" #w_and opacity in at=0 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_then_in "then appears" #w_then opacity in at=0 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_the_in "the appears" #w_the opacity in at=17 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_lights_in "lights appears" #w_lights opacity in at=20 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_flicker_in "flicker appears" #w_flicker opacity in at=33 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_on_in "on. appears" #w_on opacity in at=36 dur=2 opacity=[0:1 hold 1:1]
+motion #act_line_1_makes_room "And then makes room" #line_1 move custom at=0 dur=40 x,y+=[0:316.97,0 hold 9:316.97,0 cubic-bezier(0.8452,0.0196,0.9147,0.5147) 17:226.1,0 cubic-bezier(0.0803,0.505,0.1751,1) 39:0,0]
+motion #act_phrase_drifts_size "Phrase pushes in" #phrase scale custom at=0 dur=58 scaleX,scaleY*=[0:0.9179,0.9179 linear 57:1.0479,1.0479]
+motion #act_phrase_goes "Phrase goes" #phrase move custom at=57 dur=9 x,y+=[0:0,0 cubic-bezier(0.75,0,0.95,0.6) 8:0,49.68]
+motion #act_glow_a_goes "glow-a goes with the line" #glow_a move custom at=57 dur=9 x,y+=[0:0,0 cubic-bezier(0.75,0,0.95,0.6) 8:0,14.9]
+motion #act_glow_b_goes "glow-b goes with the line" #glow_b move custom at=57 dur=9 x,y+=[0:0,0 cubic-bezier(0.75,0,0.95,0.6) 8:0,14.9]
+motion #act_w_flicker_flickers "flicker flickers on" #w_flicker opacity custom at=33 dur=11 opacity=[0:0.15 hold 1:0.15 hold 2:0.45 hold 3:0.15 hold 4:0.15 hold 5:0.79 hold 6:0.81 hold 7:0.32 hold 8:0.69 hold 9:0.87 hold 10:1]

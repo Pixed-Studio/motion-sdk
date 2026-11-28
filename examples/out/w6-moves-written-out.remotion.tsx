@@ -2,70 +2,22 @@ import React, { useMemo } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 
 const IR_DOCUMENT = {
-  "id": "three_on_the_beat",
-  "name": "Three words on the beat",
+  "id": "moves_written_out",
+  "name": "Moves written out",
   "format": {
     "width": 1280,
     "height": 720,
     "fps": 30,
-    "durationFrames": 90
+    "durationFrames": 75
   },
   "scene": {
-    "id": "three_on_the_beat__scene-1",
+    "id": "moves_written_out__scene-1",
     "name": "Word by word",
-    "durationFrames": 90,
+    "durationFrames": 75,
     "backgroundColor": "#F7F2EB"
   },
   "shaders": [],
   "nodes": [
-    {
-      "id": "glow_a",
-      "name": "glow-a",
-      "slot": "ambient",
-      "role": "ambient",
-      "plane": "backdrop",
-      "layer": 1,
-      "kind": "shape",
-      "shape": "ellipse",
-      "fill": {
-        "kind": "solid",
-        "color": "#DCFC5E"
-      },
-      "base": {
-        "x": 239.6,
-        "y": 140.1,
-        "width": 458,
-        "height": 281,
-        "blur": 70,
-        "opacity": 0.55,
-        "originX": 0.5,
-        "originY": 0.5
-      }
-    },
-    {
-      "id": "glow_b",
-      "name": "glow-b",
-      "slot": "ambient",
-      "role": "ambient",
-      "plane": "backdrop",
-      "layer": 2,
-      "kind": "shape",
-      "shape": "ellipse",
-      "fill": {
-        "kind": "solid",
-        "color": "#DCFC5E"
-      },
-      "base": {
-        "x": 653.9,
-        "y": 300.4,
-        "width": 390,
-        "height": 256,
-        "blur": 70,
-        "opacity": 0.4,
-        "originX": 0.5,
-        "originY": 0.5
-      }
-    },
     {
       "id": "phrase",
       "kind": "frame",
@@ -80,7 +32,7 @@ const IR_DOCUMENT = {
         "width": 1280,
         "height": 720,
         "originX": 0.5,
-        "originY": 0.5006944444444444
+        "originY": 0.5
       }
     },
     {
@@ -104,7 +56,7 @@ const IR_DOCUMENT = {
     {
       "id": "arrival_1",
       "kind": "frame",
-      "name": "Plan.",
+      "name": "Then",
       "slot": "arrivals-group",
       "role": "group",
       "plane": "focal",
@@ -115,30 +67,30 @@ const IR_DOCUMENT = {
         "y": 0,
         "width": 1280,
         "height": 720,
-        "originX": 0.37992968749999995,
-        "originY": 0.5006944444444444
+        "originX": 0.36046484375000004,
+        "originY": 0.5
       }
     },
     {
-      "id": "w_plan",
+      "id": "w_then",
       "kind": "text",
-      "name": "Plan.",
+      "name": "Then",
       "slot": "arrivals",
       "role": "subject",
       "plane": "focal",
       "parentId": "arrival_1",
       "layer": 1,
       "base": {
-        "x": 420.07,
-        "y": 321,
-        "width": 132.48,
-        "height": 79
+        "x": 383.22,
+        "y": 313,
+        "width": 156.35,
+        "height": 94
       },
-      "text": "Plan.",
+      "text": "Then",
       "fontFamily": "Geist",
-      "fontSize": 61,
+      "fontSize": 72,
       "fontWeight": 420,
-      "letterSpacing": -1.3,
+      "letterSpacing": -1.5,
       "textAlign": "center",
       "fill": {
         "kind": "solid",
@@ -148,7 +100,7 @@ const IR_DOCUMENT = {
     {
       "id": "arrival_2",
       "kind": "frame",
-      "name": "Build.",
+      "name": "it all",
       "slot": "arrivals-group",
       "role": "group",
       "plane": "focal",
@@ -159,30 +111,56 @@ const IR_DOCUMENT = {
         "y": 0,
         "width": 1280,
         "height": 720,
-        "originX": 0.49933203125,
-        "originY": 0.5006944444444444
+        "originX": 0.48442968750000004,
+        "originY": 0.5
       }
     },
     {
-      "id": "w_build",
+      "id": "w_it",
       "kind": "text",
-      "name": "Build.",
+      "name": "it",
       "slot": "arrivals",
       "role": "subject",
       "plane": "focal",
       "parentId": "arrival_2",
       "layer": 1,
       "base": {
-        "x": 565.14,
-        "y": 321,
-        "width": 148.01,
-        "height": 79
+        "x": 554.49,
+        "y": 313,
+        "width": 41.92,
+        "height": 94
       },
-      "text": "Build.",
+      "text": "it",
       "fontFamily": "Geist",
-      "fontSize": 61,
+      "fontSize": 72,
       "fontWeight": 420,
-      "letterSpacing": -1.3,
+      "letterSpacing": -1.5,
+      "textAlign": "center",
+      "fill": {
+        "kind": "solid",
+        "color": "#000000"
+      }
+    },
+    {
+      "id": "w_all",
+      "kind": "text",
+      "name": "all",
+      "slot": "arrivals",
+      "role": "subject",
+      "plane": "focal",
+      "parentId": "arrival_2",
+      "layer": 2,
+      "base": {
+        "x": 611.32,
+        "y": 313,
+        "width": 74.33,
+        "height": 94
+      },
+      "text": "all",
+      "fontFamily": "Geist",
+      "fontSize": 72,
+      "fontWeight": 420,
+      "letterSpacing": -1.5,
       "textAlign": "center",
       "fill": {
         "kind": "solid",
@@ -192,7 +170,7 @@ const IR_DOCUMENT = {
     {
       "id": "arrival_3",
       "kind": "frame",
-      "name": "Ship.",
+      "name": "clicks.",
       "slot": "arrivals-group",
       "role": "group",
       "plane": "focal",
@@ -203,30 +181,30 @@ const IR_DOCUMENT = {
         "y": 0,
         "width": 1280,
         "height": 720,
-        "originX": 0.61940234375,
-        "originY": 0.5006944444444444
+        "originX": 0.6239765625,
+        "originY": 0.5
       }
     },
     {
-      "id": "w_ship",
+      "id": "w_clicks",
       "kind": "text",
-      "name": "Ship.",
+      "name": "clicks.",
       "slot": "arrivals",
       "role": "subject",
       "plane": "focal",
       "parentId": "arrival_3",
       "layer": 1,
       "base": {
-        "x": 725.74,
-        "y": 321,
-        "width": 134.19,
-        "height": 79
+        "x": 700.59,
+        "y": 313,
+        "width": 196.2,
+        "height": 94
       },
-      "text": "Ship.",
+      "text": "clicks.",
       "fontFamily": "Geist",
-      "fontSize": 61,
+      "fontSize": 72,
       "fontWeight": 420,
-      "letterSpacing": -1.3,
+      "letterSpacing": -1.5,
       "textAlign": "center",
       "fill": {
         "kind": "solid",
@@ -237,23 +215,97 @@ const IR_DOCUMENT = {
   "masks": [],
   "motions": [
     {
-      "id": "act_glow_a_answers_2",
-      "name": "glow-a answers the arrivals",
-      "targetId": "glow_a",
+      "id": "act_phrase_hit_scales",
+      "name": "Phrase changes size",
+      "targetId": "phrase",
       "startFrame": 0,
-      "durationFrames": 90,
+      "durationFrames": 14,
       "reason": {
-        "purpose": "respond",
+        "purpose": "arrive",
         "cues": [
-          "arrival-1",
-          "arrival-2",
-          "arrival-3"
+          "arrival-1"
         ],
-        "lands": "peak",
-        "peaks": [
-          "arrival-2",
-          "arrival-3"
-        ]
+        "lands": "start",
+        "beat": "hit"
+      },
+      "kind": "vec2",
+      "property": "scale",
+      "mode": "multiply",
+      "stage": "custom",
+      "keys": [
+        {
+          "id": "act_phrase_hit_scales_k0",
+          "frame": 0,
+          "x": 0.6,
+          "y": 0.6,
+          "easing": {
+            "kind": "cubicBezier",
+            "x1": 0.06,
+            "y1": 0.88,
+            "x2": 0.34,
+            "y2": 1
+          }
+        },
+        {
+          "id": "act_phrase_hit_scales_k1",
+          "frame": 13,
+          "x": 1,
+          "y": 1
+        }
+      ]
+    },
+    {
+      "id": "act_arrival_1_hit_turns",
+      "name": "Then turns",
+      "targetId": "arrival_1",
+      "startFrame": 0,
+      "durationFrames": 14,
+      "reason": {
+        "purpose": "arrive",
+        "cues": [
+          "arrival-1"
+        ],
+        "lands": "start",
+        "beat": "hit"
+      },
+      "kind": "scalar",
+      "property": "rotation",
+      "mode": "add",
+      "stage": "custom",
+      "keys": [
+        {
+          "id": "act_arrival_1_hit_turns_k0",
+          "frame": 0,
+          "value": -6,
+          "easing": {
+            "kind": "cubicBezier",
+            "x1": 0.06,
+            "y1": 0.88,
+            "x2": 0.34,
+            "y2": 1
+          }
+        },
+        {
+          "id": "act_arrival_1_hit_turns_k1",
+          "frame": 13,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "act_arrival_1_hit_moves",
+      "name": "It drops in from above.",
+      "targetId": "arrival_1",
+      "startFrame": 0,
+      "durationFrames": 14,
+      "reason": {
+        "purpose": "arrive",
+        "cues": [
+          "arrival-1"
+        ],
+        "lands": "start",
+        "beat": "hit",
+        "why": "It drops in from above."
       },
       "kind": "vec2",
       "property": "move",
@@ -261,108 +313,108 @@ const IR_DOCUMENT = {
       "stage": "custom",
       "keys": [
         {
-          "id": "act_glow_a_answers_2_k0",
+          "id": "act_arrival_1_hit_moves_k0",
           "frame": 0,
           "x": 0,
-          "y": 0,
+          "y": -100.8,
           "easing": {
-            "kind": "easing",
-            "preset": "easeOutCubic"
+            "kind": "cubicBezier",
+            "x1": 0.06,
+            "y1": 0.88,
+            "x2": 0.34,
+            "y2": 1
           }
         },
         {
-          "id": "act_glow_a_answers_2_k1",
-          "frame": 6,
-          "x": -7.25,
-          "y": -3.38,
-          "easing": {
-            "kind": "linear"
-          }
-        },
-        {
-          "id": "act_glow_a_answers_2_k2",
-          "frame": 10,
-          "x": -10.15,
-          "y": -4.73,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeInQuad"
-          }
-        },
-        {
-          "id": "act_glow_a_answers_2_k3",
-          "frame": 15,
-          "x": -14.5,
-          "y": -6.76,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeOutCubic"
-          }
-        },
-        {
-          "id": "act_glow_a_answers_2_k4",
-          "frame": 21,
-          "x": -21.75,
-          "y": -10.14,
-          "easing": {
-            "kind": "linear"
-          }
-        },
-        {
-          "id": "act_glow_a_answers_2_k5",
-          "frame": 25,
-          "x": -24.65,
-          "y": -11.5,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeInQuad"
-          }
-        },
-        {
-          "id": "act_glow_a_answers_2_k6",
-          "frame": 30,
-          "x": -29,
-          "y": -13.52,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeOutCubic"
-          }
-        },
-        {
-          "id": "act_glow_a_answers_2_k7",
-          "frame": 36,
-          "x": -36.25,
-          "y": -16.9,
-          "easing": {
-            "kind": "linear"
-          }
-        },
-        {
-          "id": "act_glow_a_answers_2_k8",
-          "frame": 89,
-          "x": -39.15,
-          "y": -18.26
+          "id": "act_arrival_1_hit_moves_k1",
+          "frame": 13,
+          "x": 0,
+          "y": 0
         }
       ]
     },
     {
-      "id": "act_glow_b_answers_2",
-      "name": "glow-b answers the arrivals",
-      "targetId": "glow_b",
+      "kind": "scalar",
+      "id": "act_w_then_in",
+      "name": "Then appears",
+      "targetId": "w_then",
+      "property": "opacity",
+      "mode": "set",
+      "stage": "in",
       "startFrame": 0,
-      "durationFrames": 90,
+      "durationFrames": 2,
       "reason": {
-        "purpose": "respond",
+        "purpose": "arrive",
         "cues": [
-          "arrival-1",
-          "arrival-2",
-          "arrival-3"
+          "arrival-1"
         ],
-        "lands": "peak",
-        "peaks": [
-          "arrival-2",
-          "arrival-3"
-        ]
+        "lands": "start",
+        "beat": "join"
+      },
+      "keys": [
+        {
+          "id": "act_w_then_in_k0",
+          "frame": 0,
+          "value": 1,
+          "easing": {
+            "kind": "hold"
+          }
+        },
+        {
+          "id": "act_w_then_in_k1",
+          "frame": 1,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "kind": "scalar",
+      "id": "act_w_it_in",
+      "name": "it appears",
+      "targetId": "w_it",
+      "property": "opacity",
+      "mode": "set",
+      "stage": "in",
+      "startFrame": 19,
+      "durationFrames": 2,
+      "reason": {
+        "purpose": "arrive",
+        "cues": [
+          "arrival-2"
+        ],
+        "lands": "start",
+        "beat": "join"
+      },
+      "keys": [
+        {
+          "id": "act_w_it_in_k0",
+          "frame": 0,
+          "value": 1,
+          "easing": {
+            "kind": "hold"
+          }
+        },
+        {
+          "id": "act_w_it_in_k1",
+          "frame": 1,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "act_w_it_join",
+      "name": "it rises into place",
+      "targetId": "w_it",
+      "startFrame": 19,
+      "durationFrames": 12,
+      "reason": {
+        "purpose": "arrive",
+        "cues": [
+          "arrival-2"
+        ],
+        "lands": "start",
+        "beat": "join",
+        "why": "it rises into place"
       },
       "kind": "vec2",
       "property": "move",
@@ -370,353 +422,379 @@ const IR_DOCUMENT = {
       "stage": "custom",
       "keys": [
         {
-          "id": "act_glow_b_answers_2_k0",
+          "id": "act_w_it_join_k0",
           "frame": 0,
           "x": 0,
-          "y": 0,
+          "y": -43.2,
           "easing": {
-            "kind": "easing",
-            "preset": "easeOutCubic"
+            "kind": "cubicBezier",
+            "x1": 0.09,
+            "y1": 0.82,
+            "x2": 0.385,
+            "y2": 1
           }
         },
         {
-          "id": "act_glow_b_answers_2_k1",
-          "frame": 6,
-          "x": 7.61,
-          "y": 2.47,
-          "easing": {
-            "kind": "linear"
-          }
-        },
-        {
-          "id": "act_glow_b_answers_2_k2",
-          "frame": 10,
-          "x": 10.65,
-          "y": 3.46,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeInQuad"
-          }
-        },
-        {
-          "id": "act_glow_b_answers_2_k3",
-          "frame": 15,
-          "x": 15.22,
-          "y": 4.94,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeOutCubic"
-          }
-        },
-        {
-          "id": "act_glow_b_answers_2_k4",
-          "frame": 21,
-          "x": 22.83,
-          "y": 7.42,
-          "easing": {
-            "kind": "linear"
-          }
-        },
-        {
-          "id": "act_glow_b_answers_2_k5",
-          "frame": 25,
-          "x": 25.87,
-          "y": 8.41,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeInQuad"
-          }
-        },
-        {
-          "id": "act_glow_b_answers_2_k6",
-          "frame": 30,
-          "x": 30.43,
-          "y": 9.89,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeOutCubic"
-          }
-        },
-        {
-          "id": "act_glow_b_answers_2_k7",
-          "frame": 36,
-          "x": 38.04,
-          "y": 12.36,
-          "easing": {
-            "kind": "linear"
-          }
-        },
-        {
-          "id": "act_glow_b_answers_2_k8",
-          "frame": 89,
-          "x": 41.09,
-          "y": 13.35
+          "id": "act_w_it_join_k1",
+          "frame": 11,
+          "x": 0,
+          "y": 0
         }
       ]
     },
     {
       "kind": "scalar",
-      "id": "act_w_plan_in",
-      "name": "Plan. appears",
-      "targetId": "w_plan",
+      "id": "act_w_all_in",
+      "name": "all appears",
+      "targetId": "w_all",
       "property": "opacity",
       "mode": "set",
       "stage": "in",
-      "startFrame": 0,
-      "durationFrames": 3,
-      "reason": {
-        "purpose": "arrive",
-        "cues": [
-          "arrival-1"
-        ],
-        "lands": "start"
-      },
-      "keys": [
-        {
-          "id": "act_w_plan_in_k0",
-          "frame": 0,
-          "value": 0.7,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeOutQuad"
-          }
-        },
-        {
-          "id": "act_w_plan_in_k1",
-          "frame": 2,
-          "value": 1
-        }
-      ]
-    },
-    {
-      "kind": "scalar",
-      "id": "act_w_plan_focus",
-      "name": "Plan. comes into focus",
-      "targetId": "w_plan",
-      "property": "layerBlur",
-      "mode": "set",
-      "stage": "custom",
-      "startFrame": 0,
-      "durationFrames": 3,
-      "baseValue": 0,
-      "reason": {
-        "purpose": "arrive",
-        "cues": [
-          "arrival-1"
-        ],
-        "lands": "start"
-      },
-      "keys": [
-        {
-          "id": "act_w_plan_focus_k0",
-          "frame": 0,
-          "value": 9,
-          "easing": {
-            "kind": "easing",
-            "preset": "easeOutQuad"
-          }
-        },
-        {
-          "id": "act_w_plan_focus_k1",
-          "frame": 2,
-          "value": 0
-        }
-      ]
-    },
-    {
-      "kind": "scalar",
-      "id": "act_w_build_in",
-      "name": "Build. appears",
-      "targetId": "w_build",
-      "property": "opacity",
-      "mode": "set",
-      "stage": "in",
-      "startFrame": 15,
-      "durationFrames": 3,
+      "startFrame": 21,
+      "durationFrames": 2,
       "reason": {
         "purpose": "arrive",
         "cues": [
           "arrival-2"
         ],
-        "lands": "start"
+        "lands": "start",
+        "beat": "join"
       },
       "keys": [
         {
-          "id": "act_w_build_in_k0",
+          "id": "act_w_all_in_k0",
           "frame": 0,
-          "value": 0.7,
+          "value": 1,
           "easing": {
-            "kind": "easing",
-            "preset": "easeOutQuad"
+            "kind": "hold"
           }
         },
         {
-          "id": "act_w_build_in_k1",
-          "frame": 2,
+          "id": "act_w_all_in_k1",
+          "frame": 1,
           "value": 1
         }
       ]
     },
     {
-      "kind": "scalar",
-      "id": "act_w_build_focus",
-      "name": "Build. comes into focus",
-      "targetId": "w_build",
-      "property": "layerBlur",
-      "mode": "set",
-      "stage": "custom",
-      "startFrame": 15,
-      "durationFrames": 3,
-      "baseValue": 0,
+      "id": "act_w_all_join",
+      "name": "all rises into place",
+      "targetId": "w_all",
+      "startFrame": 21,
+      "durationFrames": 12,
       "reason": {
         "purpose": "arrive",
         "cues": [
           "arrival-2"
         ],
-        "lands": "start"
+        "lands": "start",
+        "beat": "join",
+        "why": "all rises into place"
       },
+      "kind": "vec2",
+      "property": "move",
+      "mode": "add",
+      "stage": "custom",
       "keys": [
         {
-          "id": "act_w_build_focus_k0",
+          "id": "act_w_all_join_k0",
           "frame": 0,
-          "value": 9,
+          "x": 0,
+          "y": -43.2,
           "easing": {
-            "kind": "easing",
-            "preset": "easeOutQuad"
+            "kind": "cubicBezier",
+            "x1": 0.09,
+            "y1": 0.82,
+            "x2": 0.385,
+            "y2": 1
           }
         },
         {
-          "id": "act_w_build_focus_k1",
-          "frame": 2,
-          "value": 0
+          "id": "act_w_all_join_k1",
+          "frame": 11,
+          "x": 0,
+          "y": 0
         }
       ]
     },
     {
       "kind": "scalar",
-      "id": "act_w_ship_in",
-      "name": "Ship. appears",
-      "targetId": "w_ship",
+      "id": "act_w_clicks_in",
+      "name": "clicks. appears",
+      "targetId": "w_clicks",
       "property": "opacity",
       "mode": "set",
       "stage": "in",
-      "startFrame": 30,
-      "durationFrames": 3,
+      "startFrame": 38,
+      "durationFrames": 2,
       "reason": {
         "purpose": "arrive",
         "cues": [
           "arrival-3"
         ],
-        "lands": "start"
+        "lands": "start",
+        "beat": "join"
       },
       "keys": [
         {
-          "id": "act_w_ship_in_k0",
+          "id": "act_w_clicks_in_k0",
           "frame": 0,
-          "value": 0.7,
+          "value": 1,
           "easing": {
-            "kind": "easing",
-            "preset": "easeOutQuad"
+            "kind": "hold"
           }
         },
         {
-          "id": "act_w_ship_in_k1",
-          "frame": 2,
+          "id": "act_w_clicks_in_k1",
+          "frame": 1,
           "value": 1
         }
       ]
     },
     {
-      "kind": "scalar",
-      "id": "act_w_ship_focus",
-      "name": "Ship. comes into focus",
-      "targetId": "w_ship",
-      "property": "layerBlur",
-      "mode": "set",
-      "stage": "custom",
-      "startFrame": 30,
-      "durationFrames": 3,
-      "baseValue": 0,
+      "id": "act_w_clicks_join",
+      "name": "clicks. rises into place",
+      "targetId": "w_clicks",
+      "startFrame": 38,
+      "durationFrames": 12,
       "reason": {
         "purpose": "arrive",
         "cues": [
           "arrival-3"
         ],
-        "lands": "start"
+        "lands": "start",
+        "beat": "join",
+        "why": "clicks. rises into place"
       },
+      "kind": "vec2",
+      "property": "move",
+      "mode": "add",
+      "stage": "custom",
       "keys": [
         {
-          "id": "act_w_ship_focus_k0",
+          "id": "act_w_clicks_join_k0",
           "frame": 0,
-          "value": 9,
+          "x": 0,
+          "y": 64.8,
           "easing": {
-            "kind": "easing",
-            "preset": "easeOutQuad"
+            "kind": "cubicBezier",
+            "x1": 0.09,
+            "y1": 0.82,
+            "x2": 0.385,
+            "y2": 1
           }
         },
         {
-          "id": "act_w_ship_focus_k1",
-          "frame": 2,
-          "value": 0
+          "id": "act_w_clicks_join_k1",
+          "frame": 11,
+          "x": 0,
+          "y": 0
         }
       ]
     },
     {
       "kind": "vec2",
-      "id": "act_line_1_room",
-      "name": "Line 1 makes room",
+      "id": "act_line_1_makes_room",
+      "name": "Then makes room",
       "targetId": "line_1",
       "property": "move",
       "mode": "add",
       "stage": "custom",
       "startFrame": 0,
-      "durationFrames": 34,
+      "durationFrames": 42,
       "reason": {
-        "purpose": "keep",
+        "purpose": "carry",
         "cues": [
-          "arrival-1",
-          "arrival-2",
-          "arrival-3"
-        ]
+          "arrival-2"
+        ],
+        "lands": "peak",
+        "beat": "room"
       },
       "keys": [
         {
-          "id": "act_line_1_room_k0",
+          "id": "act_line_1_makes_room_k0",
           "frame": 0,
-          "x": 153.69,
-          "y": 0
-        },
-        {
-          "id": "act_line_1_room_k1",
-          "frame": 15,
-          "x": 153.69,
+          "x": 178.6,
           "y": 0,
           "easing": {
-            "kind": "easing",
-            "preset": "easeOutCubic"
+            "kind": "hold"
           }
         },
         {
-          "id": "act_line_1_room_k2",
-          "frame": 18,
-          "x": 73.39,
-          "y": 0
-        },
-        {
-          "id": "act_line_1_room_k3",
-          "frame": 30,
-          "x": 73.39,
+          "id": "act_line_1_makes_room_k1",
+          "frame": 8,
+          "x": 178.6,
           "y": 0,
           "easing": {
-            "kind": "easing",
-            "preset": "easeOutCubic"
+            "kind": "cubicBezier",
+            "x1": 0.84,
+            "y1": 0,
+            "x2": 0.92,
+            "y2": 0.5
           }
         },
         {
-          "id": "act_line_1_room_k4",
-          "frame": 33,
+          "id": "act_line_1_makes_room_k2",
+          "frame": 19,
+          "x": 119.07,
+          "y": 0,
+          "easing": {
+            "kind": "cubicBezier",
+            "x1": 0.08,
+            "y1": 0.5,
+            "x2": 0.16,
+            "y2": 1
+          }
+        },
+        {
+          "id": "act_line_1_makes_room_k3",
+          "frame": 41,
           "x": 0,
           "y": 0
+        }
+      ]
+    },
+    {
+      "id": "act_phrase_hold_turns",
+      "name": "Phrase turns",
+      "targetId": "phrase",
+      "startFrame": 45,
+      "durationFrames": 19,
+      "reason": {
+        "purpose": "drift",
+        "beat": "hold"
+      },
+      "kind": "scalar",
+      "property": "rotation",
+      "mode": "add",
+      "stage": "custom",
+      "keys": [
+        {
+          "id": "act_phrase_hold_turns_k0",
+          "frame": 0,
+          "value": 0,
+          "easing": {
+            "kind": "linear"
+          }
+        },
+        {
+          "id": "act_phrase_hold_turns_k1",
+          "frame": 18,
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "act_phrase_goes",
+      "name": "Phrase goes",
+      "targetId": "phrase",
+      "startFrame": 64,
+      "durationFrames": 11,
+      "reason": {
+        "purpose": "depart",
+        "cues": [
+          "exit"
+        ],
+        "lands": "start",
+        "beat": "leave",
+        "why": "Phrase goes"
+      },
+      "kind": "vec2",
+      "property": "move",
+      "mode": "add",
+      "stage": "custom",
+      "keys": [
+        {
+          "id": "act_phrase_goes_k0",
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "easing": {
+            "kind": "cubicBezier",
+            "x1": 0.625,
+            "y1": 0,
+            "x2": 1,
+            "y2": 0.75
+          }
+        },
+        {
+          "id": "act_phrase_goes_k1",
+          "frame": 10,
+          "x": 115.2,
+          "y": -72
+        }
+      ]
+    },
+    {
+      "id": "act_phrase_turns_away",
+      "name": "Phrase turns as it goes",
+      "targetId": "phrase",
+      "startFrame": 64,
+      "durationFrames": 11,
+      "reason": {
+        "purpose": "depart",
+        "cues": [
+          "exit"
+        ],
+        "lands": "start",
+        "beat": "leave",
+        "why": "Phrase turns as it goes"
+      },
+      "kind": "scalar",
+      "property": "rotation",
+      "mode": "add",
+      "stage": "custom",
+      "keys": [
+        {
+          "id": "act_phrase_turns_away_k0",
+          "frame": 0,
+          "value": 0,
+          "easing": {
+            "kind": "cubicBezier",
+            "x1": 0.625,
+            "y1": 0,
+            "x2": 1,
+            "y2": 0.75
+          }
+        },
+        {
+          "id": "act_phrase_turns_away_k1",
+          "frame": 10,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "act_w_clicks_mark_colour",
+      "name": "The point warms as it lands.",
+      "targetId": "w_clicks",
+      "startFrame": 38,
+      "durationFrames": 12,
+      "reason": {
+        "purpose": "respond",
+        "cues": [
+          "arrival-3"
+        ],
+        "beat": "mark",
+        "why": "The point warms as it lands."
+      },
+      "kind": "color",
+      "property": "fill",
+      "stage": "custom",
+      "keys": [
+        {
+          "id": "act_w_clicks_mark_colour_k0",
+          "frame": 0,
+          "color": "#000000",
+          "easing": {
+            "kind": "easing",
+            "preset": "easeOutCubic"
+          }
+        },
+        {
+          "id": "act_w_clicks_mark_colour_k1",
+          "frame": 11,
+          "color": "#C2410C"
         }
       ]
     }
@@ -729,53 +807,67 @@ const IR_DOCUMENT = {
         "frame": 0,
         "kind": "beat",
         "weight": 1,
-        "why": "An arrival."
+        "why": "The lead. It has the stage to itself until the sentence joins it."
       },
       {
         "name": "arrival-2",
-        "frame": 15,
+        "frame": 19,
         "kind": "beat",
-        "weight": 1,
-        "why": "An arrival."
+        "weight": 0.9,
+        "why": "A word joins the line."
       },
       {
         "name": "arrival-3",
-        "frame": 30,
-        "kind": "beat",
-        "weight": 1,
-        "why": "An arrival."
+        "frame": 38,
+        "kind": "accent",
+        "weight": 1.15,
+        "why": "The arrival the sentence resolves on."
+      },
+      {
+        "name": "exit",
+        "frame": 64,
+        "kind": "structure",
+        "weight": 0.5,
+        "why": "The phrase starts to leave. The cut comes while it is still gaining speed."
       }
     ],
     "subjects": [
       {
-        "nodeId": "w_plan",
+        "nodeId": "w_then",
         "cue": "arrival-1",
-        "needsSec": 0.52,
-        "untilFrame": 90,
+        "needsSec": 0.48,
+        "untilFrame": 75,
         "accent": false
       },
       {
-        "nodeId": "w_build",
+        "nodeId": "w_it",
         "cue": "arrival-2",
         "needsSec": 0.57,
-        "untilFrame": 90,
+        "untilFrame": 75,
         "accent": false
       },
       {
-        "nodeId": "w_ship",
-        "cue": "arrival-3",
-        "needsSec": 0.52,
-        "untilFrame": 90,
+        "nodeId": "w_all",
+        "cue": "arrival-2",
+        "needsSec": 0.5,
+        "untilFrame": 75,
         "accent": false
+      },
+      {
+        "nodeId": "w_clicks",
+        "cue": "arrival-3",
+        "needsSec": 0.62,
+        "untilFrame": 75,
+        "accent": true
       }
     ],
     "claimFrames": 9,
     "regions": {
       "phrase": {
-        "x": 420,
-        "y": 321,
-        "width": 440,
-        "height": 79
+        "x": 383,
+        "y": 313,
+        "width": 514,
+        "height": 94
       }
     },
     "safeArea": {
@@ -784,41 +876,184 @@ const IR_DOCUMENT = {
       "width": 1076,
       "height": 590
     },
-    "invariants": [],
+    "invariants": [
+      {
+        "kind": "centred",
+        "nodeIds": [
+          "w_then"
+        ],
+        "frame": 0,
+        "x": 640,
+        "tolerance": 1.5,
+        "why": "The lead has the stage to itself and sits in the middle of it."
+      },
+      {
+        "kind": "centred",
+        "nodeIds": [
+          "w_then",
+          "w_it",
+          "w_all",
+          "w_clicks"
+        ],
+        "frame": 45,
+        "x": 640,
+        "tolerance": 5.6,
+        "why": "Once every word has landed the sentence is centred where the lead stood."
+      },
+      {
+        "kind": "apart",
+        "a": "w_then",
+        "b": "w_it",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      },
+      {
+        "kind": "apart",
+        "a": "w_it",
+        "b": "w_all",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      },
+      {
+        "kind": "apart",
+        "a": "w_all",
+        "b": "w_clicks",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      }
+    ],
     "handoff": {
       "entry": {
         "frame": 0,
-        "nodeId": "w_plan",
+        "nodeId": "w_then",
         "position": {
           "x": 640,
-          "y": 360.5
+          "y": 299.5
         },
         "velocity": {
           "x": 0,
-          "y": 0
+          "y": 587
         },
-        "size": 132,
+        "size": 94,
         "color": "#000000"
       },
       "exit": {
-        "frame": 89,
-        "nodeId": "w_ship",
+        "frame": 74,
+        "nodeId": "w_clicks",
         "position": {
-          "x": 792.8,
-          "y": 360.5
+          "x": 913.7,
+          "y": 296.3
         },
         "velocity": {
-          "x": 0,
-          "y": 0
+          "x": 1138,
+          "y": -604
         },
-        "size": 134,
+        "size": 196,
         "color": "#000000"
       }
     },
-    "notes": []
+    "notes": [],
+    "intent": "Make the release feel light: things fall into place.",
+    "cast": {
+      "w_then": "lead",
+      "w_it": "link",
+      "w_all": "link",
+      "w_clicks": "point",
+      "phrase": "camera"
+    },
+    "pattern": {
+      "name": "lead",
+      "intent": "An opening that stresses one message. The lead takes the eye when the shot starts; it has the impact, not the meaning. It gives its place to the sentence once, the rest joins during that move, and the point arrives last and is marked.",
+      "relations": [
+        {
+          "id": "alone",
+          "kind": "alone",
+          "role": "lead",
+          "among": [
+            "link",
+            "point"
+          ],
+          "why": "The lead is alone on stage when it hits."
+        },
+        {
+          "id": "once",
+          "kind": "once",
+          "beat": "room",
+          "needs": [
+            "link",
+            "point"
+          ],
+          "why": "Room is made once, not once for every arrival."
+        },
+        {
+          "id": "joins",
+          "kind": "during",
+          "roles": [
+            "link",
+            "point"
+          ],
+          "beat": "room",
+          "why": "What follows the lead joins while room is being made, so the move throws the eye to it."
+        },
+        {
+          "id": "last",
+          "kind": "last",
+          "role": "point",
+          "after": [
+            "lead",
+            "link"
+          ],
+          "why": "The point is the last arrival: the sentence resolves on it."
+        },
+        {
+          "id": "marked",
+          "kind": "marked",
+          "role": "point",
+          "against": [
+            "lead",
+            "link"
+          ],
+          "beat": "mark",
+          "why": "The point is marked: it is what the viewer should remember."
+        },
+        {
+          "id": "composed",
+          "kind": "composed",
+          "roles": [
+            "lead",
+            "link",
+            "point"
+          ],
+          "beats": [
+            "prep",
+            "hit",
+            "settle",
+            "room",
+            "join"
+          ],
+          "region": "phrase",
+          "why": "When the last word has landed the sentence sits where its composition was declared."
+        },
+        {
+          "id": "whole",
+          "kind": "together",
+          "roles": [
+            "lead",
+            "link",
+            "point"
+          ],
+          "beat": "leave",
+          "why": "The sentence leaves as one."
+        }
+      ]
+    },
+    "hold": {
+      "completeFrame": 45,
+      "leaveFrame": 64
+    }
   }
 } as const;
-const LIVES: Record<string, { start: number; end: number }> = {"glow_a":{"start":0,"end":90},"glow_b":{"start":0,"end":90},"phrase":{"start":0,"end":90},"line_1":{"start":0,"end":90},"arrival_1":{"start":0,"end":90},"w_plan":{"start":0,"end":90},"arrival_2":{"start":0,"end":90},"w_build":{"start":15,"end":90},"arrival_3":{"start":0,"end":90},"w_ship":{"start":30,"end":90}};
+const LIVES: Record<string, { start: number; end: number }> = {"phrase":{"start":0,"end":75},"line_1":{"start":0,"end":75},"arrival_1":{"start":0,"end":75},"w_then":{"start":0,"end":75},"arrival_2":{"start":0,"end":75},"w_it":{"start":19,"end":75},"w_all":{"start":21,"end":75},"arrival_3":{"start":0,"end":75},"w_clicks":{"start":38,"end":75}};
 const SVG_PATHS: Record<string, string> = {};
 
 function solveBezier(x1: number, y1: number, x2: number, y2: number, x: number): number {
@@ -848,6 +1083,7 @@ function easeValue(spec: any, rawT: number): number {
     case "easeInCubic": return t * t * t;
     case "easeOutCubic": return 1 - Math.pow(1 - t, 3);
     case "easeOutQuart": return 1 - Math.pow(1 - t, 4);
+    case "easeOutExpo": return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
     case "easeInSine": return 1 - Math.cos((t * Math.PI) / 2);
     case "easeOutSine": return Math.sin((t * Math.PI) / 2);
     case "easeInOutSine": return -(Math.cos(Math.PI * t) - 1) / 2;
@@ -885,15 +1121,31 @@ function sampleVec2(keys: readonly any[], localF: number, fallback: { x: number;
   return { x: last.x, y: last.y };
 }
 
-export const ThreeOnTheBeatMetadata = {
-  id: "three_on_the_beat",
+function sampleColor(keys: readonly any[], localF: number): string {
+  const channels = (hex: string) => [0, 2, 4].map((i) => parseInt(hex.replace("#", "").slice(i, i + 2), 16));
+  const mix = (a: string, b: string, u: number) => {
+    const ca = channels(a), cb = channels(b);
+    return `rgb(${ca.map((v, i) => Math.round(v + (cb[i]! - v) * u)).join(",")})`;
+  };
+  if (localF <= keys[0].frame) return keys[0].color;
+  const last = keys[keys.length - 1];
+  if (localF >= last.frame) return last.color;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const a = keys[i], b = keys[i + 1];
+    if (localF >= a.frame && localF <= b.frame) return mix(a.color, b.color, easeValue(a.easing, (localF - a.frame) / Math.max(1e-6, b.frame - a.frame)));
+  }
+  return last.color;
+}
+
+export const MovesWrittenOutMetadata = {
+  id: "moves_written_out",
   width: 1280,
   height: 720,
   fps: 30,
-  durationInFrames: 90,
+  durationInFrames: 75,
 };
 
-export const ThreeOnTheBeat: React.FC = () => {
+export const MovesWrittenOut: React.FC = () => {
   const frame = useCurrentFrame();
 
   const guideTables = useMemo(() => {
@@ -938,6 +1190,7 @@ export const ThreeOnTheBeat: React.FC = () => {
     let sx = 1, sy = 1;
     let letterSpacing = node.kind === "text" ? (node.letterSpacing as number) : 0;
     let followed: { x: number; y: number } | null = null;
+    let color: string | undefined;
 
     for (const m of IR_DOCUMENT.motions as readonly any[]) {
       if (m.targetId !== node.id || frame < m.startFrame) continue;
@@ -952,6 +1205,8 @@ export const ThreeOnTheBeat: React.FC = () => {
         const v = sampleVec2(m.keys, lf, m.mode === "multiply" ? { x: 1, y: 1 } : { x: 0, y: 0 });
         if (m.property === "move") { x += v.x; y += v.y; }
         else if (m.property === "scale") { sx *= v.x; sy *= v.y; }
+      } else if (m.kind === "color") {
+        color = sampleColor(m.keys, lf);
       } else if (m.kind === "followPath") {
         const g = guideTables.get(m.guidePathId);
         if (g && g.pts.length) {
@@ -977,7 +1232,7 @@ export const ThreeOnTheBeat: React.FC = () => {
     const tx = followed ? followed.x - ox : x;
     const ty = followed ? followed.y - oy : y;
     const transform = `translate(${tx.toFixed(2)},${ty.toFixed(2)}) translate(${ox.toFixed(2)},${oy.toFixed(2)}) rotate(${rot.toFixed(2)}) scale(${sx.toFixed(4)},${sy.toFixed(4)}) translate(${(-ox).toFixed(2)},${(-oy).toFixed(2)})`;
-    return { inRange, transform, opacity: Math.max(0, Math.min(1, op)), blur, letterSpacing };
+    return { inRange, transform, opacity: Math.max(0, Math.min(1, op)), blur, letterSpacing, color };
   };
 
   const nodes = IR_DOCUMENT.nodes as readonly any[];
@@ -1012,7 +1267,7 @@ export const ThreeOnTheBeat: React.FC = () => {
                 x={n.base.width / 2}
                 y={Math.round(n.fontSize * 0.92)}
                 textAnchor="middle"
-                fill={n.fill.color}
+                fill={st.color ?? n.fill.color}
                 fontFamily={`${n.fontFamily}, system-ui, sans-serif`}
                 fontSize={n.fontSize}
                 fontWeight={n.fontWeight}
@@ -1023,7 +1278,7 @@ export const ThreeOnTheBeat: React.FC = () => {
             </g>
           );
         }
-        const fillRef = n.fill.kind === "solid" ? n.fill.color : n.fill.kind === "linear" || n.fill.kind === "radial" ? `url(#grad_${n.id})` : "transparent";
+        const fillRef = st.color ?? (n.fill.kind === "solid" ? n.fill.color : n.fill.kind === "linear" || n.fill.kind === "radial" ? `url(#grad_${n.id})` : "transparent");
         if (n.kind === "shape") {
           return (
             <g key={n.id} data-slot={n.slot} clipPath={clipPath}>

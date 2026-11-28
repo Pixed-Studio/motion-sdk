@@ -1,0 +1,27 @@
+project "A second line" 1280x720 30fps timingStyles=[] brushes=[] authoringDefaults={emptyShapeFill: "none"}
+
+scene #second_line__scene-1 "Word by word" dur=66 bg=#F7F2EB motionBlockGroups=[]
+frame #phrase "Phrase" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5006944444444444 z=10
+  frame #line_1 "Line 1" x=0 y=0 width=1280 height=720 originX=0.5 originY=0.5 z=1
+    frame #arrival_1 "while you" x=0 y=0 width=1280 height=720 originX=0.4335 originY=0.5006944444444444 z=1
+      text #w_while "while" text="while" x=427.16 y=321 width=144.37 height=79 fill=#000000 fontFamily=Geist fontSize=61 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.3 z=1
+      text #w_you "you" text="you" x=584.12 y=321 width=98.48 height=79 fill=#000000 fontFamily=Geist fontSize=61 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.3 z=2
+    frame #arrival_2 "sleep." x=0 y=0 width=1280 height=720 originX=0.6046992187500001 originY=0.5006944444444444 z=2
+      text #w_sleep "sleep." text="sleep." x=695.19 y=321 width=157.65 height=79 fill=#333CEE fontFamily=Geist fontSize=61 fontWeight=420 textAlign=center textSizing=auto-width letterSpacing=-1.3 z=1
+shape #glow_a "glow-a" ellipse x=239.6 y=140.1 width=458 height=281 fill=#DCFC5E blur=70 z=1
+shape #glow_b "glow-b" ellipse x=653.9 y=300.4 width=390 height=256 fill=#DCFC5E blur=70 z=2
+motion #act_glow_a_answers_2 "glow-a answers the arrivals" #glow_a move custom at=0 dur=66 x,y+=[0:0,0 easeOutCubic 6:-10.15,-4.73 easeInQuad 9:-14.5,-6.76 easeOutCubic 15:-21.75,-10.14 linear 65:-24.65,-11.5]
+motion #act_glow_b_answers_2 "glow-b answers the arrivals" #glow_b move custom at=0 dur=66 x,y+=[0:0,0 easeOutCubic 6:10.65,3.46 easeInQuad 9:15.22,4.94 easeOutCubic 15:22.83,7.42 linear 65:25.87,8.41]
+motion #act_w_while_in "while appears" #w_while opacity in at=0 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_while_join "while rises into place" #w_while move custom at=0 dur=16 x,y+=[0:0,36.6 cubic-bezier(0.1,0.72,0.56,1) 15:0,0]
+motion #act_w_you_in "you appears" #w_you opacity in at=2 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_you_join "you rises into place" #w_you move custom at=2 dur=16 x,y+=[0:0,36.6 cubic-bezier(0.1,0.72,0.56,1) 15:0,0]
+motion #act_w_sleep_in "sleep. appears" #w_sleep opacity in at=9 dur=2 opacity=[0:1 hold 1:1]
+motion #act_w_sleep_join "sleep. rises into place" #w_sleep move custom at=9 dur=16 x,y+=[0:0,36.6 cubic-bezier(0.1,0.72,0.56,1) 15:0,0]
+motion #act_phrase_pushes_in "Phrase pushes in" #phrase move custom at=0 dur=36 x,y+=[0:207.4,0 easeOutExpo 35:0,0]
+motion #act_phrase_falls_back "Phrase falls back" #phrase scale custom at=57 dur=9 scaleX,scaleY*=[0:1,1 cubic-bezier(0.6,0,1,0.8) 8:0.65,0.65]
+motion #act_phrase_softens "Phrase softens as it goes" #phrase layerBlur custom at=60 dur=6 blur=[0:0 easeInQuad 5:4]
+motion #act_glow_a_falls_back "glow-a falls back" #glow_a scale custom at=57 dur=9 scaleX,scaleY*=[0:1,1 cubic-bezier(0.6,0,1,0.8) 8:0.895,0.895]
+motion #act_glow_a_goes "glow-a goes with the line" #glow_a move custom at=57 dur=9 x,y+=[0:0,0 cubic-bezier(0.6,0,1,0.8) 8:18,8.39]
+motion #act_glow_b_falls_back "glow-b falls back" #glow_b scale custom at=57 dur=9 scaleX,scaleY*=[0:1,1 cubic-bezier(0.6,0,1,0.8) 8:0.895,0.895]
+motion #act_glow_b_goes "glow-b goes with the line" #glow_b move custom at=57 dur=9 x,y+=[0:0,0 cubic-bezier(0.6,0,1,0.8) 8:-21.93,-7.13]

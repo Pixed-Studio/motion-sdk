@@ -6,6 +6,7 @@ export type EasingPreset =
   | "easeOutCubic"
   | "easeInOutCubic"
   | "easeOutQuart"
+  | "easeOutExpo"
   | "easeInSine"
   | "easeOutSine"
   | "easeInOutSine";
@@ -65,6 +66,9 @@ export function evaluateEasing(spec: EasingSpec | undefined, rawT: number): numb
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     case "easeOutQuart":
       return 1 - Math.pow(1 - t, 4);
+    case "easeOutExpo":
+      // What is left halves every tenth of the span: a landing that is mostly over in its first third.
+      return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
     case "easeInSine":
       return 1 - Math.cos((t * Math.PI) / 2);
     case "easeOutSine":

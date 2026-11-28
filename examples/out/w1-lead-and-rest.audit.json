@@ -11,16 +11,23 @@
       {
         "name": "arrival-1",
         "frame": 0,
-        "kind": "accent",
-        "weight": 1.15,
-        "why": "The arrival the phrase builds to. It keeps the stage longest and the world answers it hardest."
+        "kind": "beat",
+        "weight": 1,
+        "why": "The lead. It has the stage to itself until the sentence joins it."
       },
       {
         "name": "arrival-2",
         "frame": 17,
-        "kind": "beat",
-        "weight": 0.9,
-        "why": "An arrival."
+        "kind": "accent",
+        "weight": 1.15,
+        "why": "The arrival the sentence resolves on."
+      },
+      {
+        "name": "exit",
+        "frame": 42,
+        "kind": "structure",
+        "weight": 0.5,
+        "why": "The phrase starts to leave. The cut comes while it is still gaining speed."
       }
     ],
     "subjects": [
@@ -29,37 +36,37 @@
         "cue": "arrival-1",
         "needsSec": 0.48,
         "untilFrame": 51,
-        "accent": true
+        "accent": false
       },
       {
         "nodeId": "w_a",
         "cue": "arrival-2",
         "needsSec": 0.85,
         "untilFrame": 51,
-        "accent": false
+        "accent": true
       },
       {
         "nodeId": "w_complete",
         "cue": "arrival-2",
-        "needsSec": 0.85,
+        "needsSec": 0.78,
         "untilFrame": 51,
-        "accent": false
+        "accent": true
       },
       {
         "nodeId": "w_floor_plan",
         "cue": "arrival-2",
-        "needsSec": 0.85,
+        "needsSec": 0.72,
         "untilFrame": 51,
-        "accent": false
+        "accent": true
       }
     ],
     "claimFrames": 9,
     "regions": {
       "phrase": {
-        "x": 297,
-        "y": 321,
-        "width": 686,
-        "height": 79
+        "x": 235,
+        "y": 313,
+        "width": 811,
+        "height": 94
       }
     },
     "safeArea": {
@@ -68,38 +75,181 @@
       "width": 1076,
       "height": 590
     },
-    "invariants": [],
+    "invariants": [
+      {
+        "kind": "centred",
+        "nodeIds": [
+          "w_into"
+        ],
+        "frame": 0,
+        "x": 640,
+        "tolerance": 1.5,
+        "why": "The lead has the stage to itself and sits in the middle of it."
+      },
+      {
+        "kind": "centred",
+        "nodeIds": [
+          "w_into",
+          "w_a",
+          "w_complete",
+          "w_floor_plan"
+        ],
+        "frame": 33,
+        "x": 640,
+        "tolerance": 10.2,
+        "why": "Once every word has landed the sentence is centred where the lead stood."
+      },
+      {
+        "kind": "apart",
+        "a": "w_into",
+        "b": "w_a",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      },
+      {
+        "kind": "apart",
+        "a": "w_a",
+        "b": "w_complete",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      },
+      {
+        "kind": "apart",
+        "a": "w_complete",
+        "b": "w_floor_plan",
+        "why": "Words of a line keep their order while they come in.",
+        "maxShare": 0.1
+      }
+    ],
     "handoff": {
       "entry": {
         "frame": 0,
         "nodeId": "w_into",
         "position": {
           "x": 640,
-          "y": 360.5
+          "y": 360
         },
         "velocity": {
-          "x": 0,
+          "x": -23,
           "y": 0
         },
-        "size": 376,
+        "size": 426,
         "color": "#000000"
       },
       "exit": {
         "frame": 50,
         "nodeId": "w_floor_plan",
         "position": {
-          "x": 854.6,
-          "y": 360.5
+          "x": 796.6,
+          "y": 360
         },
         "velocity": {
-          "x": 0,
+          "x": -935,
           "y": 0
         },
-        "size": 257,
+        "size": 303,
         "color": "#333CEE"
       }
     },
-    "notes": []
+    "notes": [],
+    "intent": "Say what the sketch becomes: the result is the floor plan.",
+    "cast": {
+      "w_into": "lead",
+      "w_a": "link",
+      "w_complete": "link",
+      "w_floor_plan": "point",
+      "phrase": "camera"
+    },
+    "pattern": {
+      "name": "lead",
+      "intent": "An opening that stresses one message. The lead takes the eye when the shot starts; it has the impact, not the meaning. It gives its place to the sentence once, the rest joins during that move, and the point arrives last and is marked.",
+      "relations": [
+        {
+          "id": "alone",
+          "kind": "alone",
+          "role": "lead",
+          "among": [
+            "link",
+            "point"
+          ],
+          "why": "The lead is alone on stage when it hits."
+        },
+        {
+          "id": "once",
+          "kind": "once",
+          "beat": "room",
+          "needs": [
+            "link",
+            "point"
+          ],
+          "why": "Room is made once, not once for every arrival."
+        },
+        {
+          "id": "joins",
+          "kind": "during",
+          "roles": [
+            "link",
+            "point"
+          ],
+          "beat": "room",
+          "why": "What follows the lead joins while room is being made, so the move throws the eye to it."
+        },
+        {
+          "id": "last",
+          "kind": "last",
+          "role": "point",
+          "after": [
+            "lead",
+            "link"
+          ],
+          "why": "The point is the last arrival: the sentence resolves on it."
+        },
+        {
+          "id": "marked",
+          "kind": "marked",
+          "role": "point",
+          "against": [
+            "lead",
+            "link"
+          ],
+          "beat": "mark",
+          "why": "The point is marked: it is what the viewer should remember."
+        },
+        {
+          "id": "composed",
+          "kind": "composed",
+          "roles": [
+            "lead",
+            "link",
+            "point"
+          ],
+          "beats": [
+            "prep",
+            "hit",
+            "settle",
+            "room",
+            "join"
+          ],
+          "region": "phrase",
+          "why": "When the last word has landed the sentence sits where its composition was declared."
+        },
+        {
+          "id": "whole",
+          "kind": "together",
+          "roles": [
+            "lead",
+            "link",
+            "point"
+          ],
+          "beat": "leave",
+          "why": "The sentence leaves as one."
+        }
+      ]
+    },
+    "hold": {
+      "completeFrame": 33,
+      "leaveFrame": 42
+    }
   },
   "audit": {
     "ok": true,
@@ -114,7 +264,8 @@
           "untilFrame": 51,
           "needsSec": 0.48,
           "offeredSec": 1.7,
-          "clearSec": 1.6333333333333333,
+          "clearSec": 1.7,
+          "clearBeforeLeavingSec": 1.4,
           "blockedBy": []
         },
         {
@@ -125,7 +276,8 @@
           "untilFrame": 51,
           "needsSec": 0.85,
           "offeredSec": 1.1333333333333333,
-          "clearSec": 1.0666666666666667,
+          "clearSec": 1.1333333333333333,
+          "clearBeforeLeavingSec": 0.8333333333333334,
           "blockedBy": []
         },
         {
@@ -134,9 +286,10 @@
           "cue": "arrival-2",
           "arrivesFrame": 17,
           "untilFrame": 51,
-          "needsSec": 0.85,
+          "needsSec": 0.78,
           "offeredSec": 1.0666666666666667,
-          "clearSec": 1,
+          "clearSec": 1.0666666666666667,
+          "clearBeforeLeavingSec": 0.7666666666666667,
           "blockedBy": []
         },
         {
@@ -145,20 +298,31 @@
           "cue": "arrival-2",
           "arrivesFrame": 17,
           "untilFrame": 51,
-          "needsSec": 0.85,
+          "needsSec": 0.72,
           "offeredSec": 1,
-          "clearSec": 0.9333333333333333,
+          "clearSec": 1,
+          "clearBeforeLeavingSec": 0.7,
           "blockedBy": []
         }
       ],
-      "answers": [],
-      "stills": [
+      "answers": [
         {
-          "fromFrame": 24,
-          "toFrame": 50
+          "motionId": "act_line_1_makes_room",
+          "cue": "arrival-2",
+          "frame": 17,
+          "speedBefore": 40.204309856143595,
+          "speedAfter": 76.86093138278099,
+          "peakOffset": 0
         }
       ],
-      "contrast": 6.24
+      "stills": [],
+      "contrast": 6.24,
+      "hold": {
+        "completeFrame": 33,
+        "leaveFrame": 42,
+        "sec": 0.3,
+        "readsInSec": 1.33
+      }
     }
   }
 }

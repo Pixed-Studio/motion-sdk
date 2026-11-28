@@ -401,6 +401,41 @@ export function compileToMotionade(
           },
         },
       });
+    } else if (m.kind === "color") {
+      // Motionade's colour Action. It mixes its keys in HSLA, so a long blend between two hues passes
+      // through other mid-tones than the IR's own sRGB mix.
+      ops.push({
+        kind: "materializeActionFacets",
+        sceneId,
+        catalogId: "color",
+        facets: [
+          {
+            primitive: {
+              id: `${m.id}_p`,
+              kind: "property.write",
+              persistence: { post: "hold" },
+              value: {
+                keys: m.keys.map((k) => ({
+                  id: k.id,
+                  frame: k.frame,
+                  value: k.color,
+                  ...(k.easing ? { outgoingTiming: toMotionadeTiming(k.easing) } : {}),
+                })),
+              },
+            },
+          },
+        ],
+        action: {
+          mode: "create",
+          blockMetadata: {
+            id: m.id,
+            name: m.name,
+            target: { kind: "object", objectId: m.targetId },
+            stage: m.stage,
+            timing: { startFrame: m.startFrame, durationFrames: m.durationFrames },
+          },
+        },
+      });
     } else if (m.kind === "vec2") {
       ops.push({
         kind: "materializeActionFacets",
@@ -538,6 +573,9 @@ export function compileToMotionade(
       lines.push(
         `motion #${m.id} "${m.name}" #${m.targetId} ${m.property} ${m.stage} at=${m.startFrame} dur=${m.durationFrames} ${propLabel}[${ks}]`
       );
+    } else if (m.kind === "color") {
+      const ks = m.keys.map((k) => `${k.frame}:${k.color}${toTextEase(k.easing)}`).join(" ");
+      lines.push(`motion #${m.id} "${m.name}" #${m.targetId} color ${m.stage} at=${m.startFrame} dur=${m.durationFrames} color=[${ks}]`);
     } else if (m.kind === "followPath") {
       lines.push(
         `motion #${m.id} "${m.name}" #${m.targetId} followPath custom at=${m.startFrame} dur=${m.durationFrames} follow(path=#${m.guidePathId}, trail=t0, progress=[0:0${toTextEase(m.progressEasing)} #${m.id}:from ${m.durationFrames - 1}:1 #${m.id}:to])`

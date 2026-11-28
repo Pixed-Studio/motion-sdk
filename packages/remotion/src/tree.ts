@@ -1,4 +1,5 @@
 import {
+  sampleColorKeys,
   evaluateEasing,
   lifetime,
   sampleGuideNetworkAtProgress,
@@ -104,6 +105,7 @@ export function buildRemotionFrameElement<TEl = any>(
     let sy = 1;
     let letterSpacing = node.kind === "text" ? node.letterSpacing : 0;
     let followed: { x: number; y: number } | null = null;
+    let color: string | undefined;
 
     for (const m of doc.motions) {
       if (m.targetId !== node.id || frame < m.startFrame) continue;
@@ -127,6 +129,8 @@ export function buildRemotionFrameElement<TEl = any>(
           sx *= v.x;
           sy *= v.y;
         }
+      } else if (m.kind === "color") {
+        color = sampleColorKeys(m.keys, lf, color ?? "#000000");
       } else if (m.kind === "followPath") {
         const guide = nodeMap.get(m.guidePathId) as PathNodeIR | undefined;
         if (guide && guide.kind === "path") {
@@ -155,6 +159,7 @@ export function buildRemotionFrameElement<TEl = any>(
       opacity: Math.max(0, Math.min(1, op)),
       blur,
       letterSpacing,
+      color,
     };
   };
 
@@ -274,7 +279,7 @@ export function buildRemotionFrameElement<TEl = any>(
                   x: n.base.width / 2,
                   y: Math.round(n.fontSize * 0.92),
                   textAnchor: "middle",
-                  fill: n.fill.color,
+                  fill: st.color ?? n.fill.color,
                   fontFamily: `${n.fontFamily}, system-ui, sans-serif`,
                   fontSize: n.fontSize,
                   fontWeight: n.fontWeight,
@@ -289,11 +294,12 @@ export function buildRemotionFrameElement<TEl = any>(
           ];
         }
         const fillRef =
-          n.fill.kind === "solid"
+          st.color ??
+          (n.fill.kind === "solid"
             ? n.fill.color
             : n.fill.kind === "linear" || n.fill.kind === "radial"
               ? `url(#grad_${n.id})`
-              : "transparent";
+              : "transparent");
         if (n.kind === "shape") {
           const inner =
             n.shape === "ellipse"

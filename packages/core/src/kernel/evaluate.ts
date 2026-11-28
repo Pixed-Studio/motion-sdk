@@ -2,6 +2,7 @@ import { evaluateEasing } from "./easing.ts";
 import { sampleGuideNetworkAtProgress } from "./geometry.ts";
 import type {
   BBox,
+  ColorKey,
   MotionBlockIR,
   MotionDocument,
   PathNodeIR,
@@ -23,6 +24,8 @@ export interface NodeState {
   scale: number;
   opacity: number;
   blur: number;
+  /** Its solid fill on this frame, when a colour movement has written one. */
+  color?: string;
 }
 
 export interface SnapshotEntry {
@@ -73,6 +76,45 @@ export function sampleVec2Keys(keys: Vec2Key[], localFrame: number, fallback: Po
   return { x: last.x, y: last.y };
 }
 
+const channels = (hex: string): [number, number, number] => {
+  const clean = hex.replace("#", "");
+  const full = clean.length === 3 ? [...clean].map((c) => c + c).join("") : clean;
+  return [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16) || 0) as [number, number, number];
+};
+
+/** Two colours mixed channel by channel in sRGB. */
+export function mixColor(a: string, b: string, u: number): string {
+  const ca = channels(a);
+  const cb = channels(b);
+  return `#${ca.map((v, i) => Math.round(v + (cb[i]! - v) * u).toString(16).padStart(2, "0")).join("")}`.toUpperCase();
+}
+
+export function sampleColorKeys(keys: ColorKey[], localFrame: number, fallback: string): string {
+  if (keys.length === 0) return fallback;
+  const first = keys[0]!;
+  const last = keys[keys.length - 1]!;
+  if (localFrame <= first.frame) return first.color;
+  if (localFrame >= last.frame) return last.color;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const a = keys[i]!;
+    const b = keys[i + 1]!;
+    if (localFrame >= a.frame && localFrame <= b.frame) {
+      return mixColor(a.color, b.color, evaluateEasing(a.easing, (localFrame - a.frame) / Math.max(1e-6, b.frame - a.frame)));
+    }
+  }
+  return last.color;
+}
+
+/** How far through its keys a colour block is at a local frame, counting each pair of keys as one step. */
+function colorProgress(keys: ColorKey[], localFrame: number): number {
+  for (let i = keys.length - 2; i >= 0; i--) {
+    const a = keys[i]!;
+    const b = keys[i + 1]!;
+    if (localFrame >= a.frame) return i + evaluateEasing(a.easing, (localFrame - a.frame) / Math.max(1e-6, b.frame - a.frame));
+  }
+  return 0;
+}
+
 /**
  * The value a block writes at a frame (fractional frames allowed): a number for a scalar block or
  * one shader track, a point for a vec2 block, progress 0..1 for a follow path.
@@ -80,6 +122,7 @@ export function sampleVec2Keys(keys: Vec2Key[], localFrame: number, fallback: Po
 export function sampleMotion(m: MotionBlockIR, frame: number, track?: string): number | Point2D {
   const local = Math.min(Math.max(frame - m.startFrame, 0), Math.max(0, m.durationFrames - 1));
   if (m.kind === "scalar") return sampleScalarKeys(m.keys, local, m.baseValue ?? 0);
+  if (m.kind === "color") return colorProgress(m.keys, local);
   if (m.kind === "vec2") {
     return sampleVec2Keys(m.keys, local, m.mode === "multiply" ? { x: 1, y: 1 } : { x: 0, y: 0 });
   }
@@ -185,6 +228,7 @@ export function evaluateAt(doc: MotionDocument, frame: number): Map<string, Node
     let sx = 1;
     let sy = 1;
     let followed: Point2D | null = null;
+    let color: string | undefined;
 
     for (const m of doc.motions) {
       if (m.targetId !== node.id || frame < m.startFrame || m.kind === "shaderParams") continue;
@@ -205,6 +249,8 @@ export function evaluateAt(doc: MotionDocument, frame: number): Map<string, Node
           sx *= v.x;
           sy *= v.y;
         }
+      } else if (m.kind === "color") {
+        color = sampleColorKeys(m.keys, local, color ?? "#000000");
       } else {
         const guide = byId.get(m.guidePathId) as PathNodeIR | undefined;
         if (guide && guide.kind === "path") {
@@ -240,6 +286,7 @@ export function evaluateAt(doc: MotionDocument, frame: number): Map<string, Node
       opacity: worldOpacity,
       blur: (up ? up.blur : 0) + blur,
       world,
+      ...(color ? { color } : {}),
     };
     memo.set(node.id, state);
     return state;

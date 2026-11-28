@@ -181,7 +181,31 @@ export interface MotionReason {
    * `peak`: it is fastest there, having wound up before. `end`: it comes to rest there.
    */
   lands?: "start" | "peak" | "end";
+  /**
+   * The beat of the shot this movement belongs to: what the moment is for, not what moves. A pattern's
+   * relations are stated between beats and roles, so a movement that should count for one names it.
+   */
+  beat?: Beat;
+  /** Why the author wants it, in their words. */
+  why?: string;
 }
+
+/**
+ * What a moment of a shot is for. prep: a small move the other way before the effort. hit: something
+ * arrives with weight, usually on the cut or a beat. settle: the hit's energy is spent. room: what is
+ * on stage moves aside for what is coming. join: something new takes its place among what is there.
+ * mark: the point is singled out. hold: time to read, alive. leave: it goes. handoff: its speed or
+ * shape is given to the next shot. Beats overlap, repeat and can be left out, and a shot may name its own.
+ */
+export type Beat = "prep" | "hit" | "settle" | "room" | "join" | "mark" | "hold" | "leave" | "handoff" | (string & {});
+
+/**
+ * What an object is to the viewer's eye in a pattern, whatever it is made of. lead: what takes the eye
+ * first; it has the impact, not the meaning. point: what the shot wants remembered. link: what joins
+ * the two and should not compete. prop: something that helps a principal act. ground: the backdrop.
+ * camera: a group that carries the whole picture as one moving thing. A shot may name its own.
+ */
+export type Role = "lead" | "point" | "link" | "prop" | "ground" | "camera" | (string & {});
 
 /**
  * The shared vocabulary of purposes.
@@ -250,7 +274,28 @@ export interface ShaderMotionIR extends MotionBlockBase {
   tracks: Record<string, ScalarKey[]>;
 }
 
-export type MotionBlockIR = ScalarMotionIR | Vec2MotionIR | FollowPathMotionIR | ShaderMotionIR;
+export interface ColorKey {
+  id: string;
+  /** Relative to the block's startFrame. */
+  frame: number;
+  /** #RRGGBB. */
+  color: string;
+  easing?: EasingSpec;
+}
+
+/**
+ * The solid fill of a text or a shape over time. Before the block starts the object keeps its own
+ * fill; after it ends the last key holds. Colours between two keys are mixed channel by channel in
+ * sRGB (Motionade mixes in HSLA, so a long blend between two hues passes through other mid-tones there).
+ */
+export interface ColorMotionIR extends MotionBlockBase {
+  kind: "color";
+  property: "fill";
+  stage: "custom";
+  keys: ColorKey[];
+}
+
+export type MotionBlockIR = ScalarMotionIR | Vec2MotionIR | FollowPathMotionIR | ShaderMotionIR | ColorMotionIR;
 
 export interface AudioTrackIR {
   assetId: string;
@@ -291,7 +336,11 @@ export interface SubjectIR {
 /** A relation that must hold however the slots are filled. The audit evaluates each one. */
 export type InvariantIR =
   | { kind: "upright"; nodeId: string; toleranceDeg: number; why: string }
-  | { kind: "overlap"; a: string; b: string; frame: number; minShare: number; why: string };
+  | { kind: "overlap"; a: string; b: string; frame: number; minShare: number; why: string }
+  /** What is visible of these objects at `frame` is centred on `x`, within `tolerance` pixels. */
+  | { kind: "centred"; nodeIds: string[]; frame: number; x: number; tolerance: number; why: string }
+  /** `a` and `b` are never drawn over one another while both are on stage, beyond `maxShare` of the smaller of them (0 when left out). */
+  | { kind: "apart"; a: string; b: string; why: string; maxShare?: number };
 
 /** Where attention is, and how it moves, at one edge of the shot. Shots chain by matching these. */
 export interface HandoffIR {
@@ -308,9 +357,42 @@ export interface HandoffIR {
 /** Something a solver could not give, with the numbers and what would fix it. */
 export interface ScoreNote {
   rule: string;
-  severity: "error" | "warning";
+  /** `note` is for the author to read: something a solver decided, or a decision left to a default. It never fails an audit. */
+  severity: "error" | "warning" | "note";
   message: string;
   fix?: string;
+}
+
+/**
+ * One relation of a pattern, stated between roles and beats. None names a value, a direction, a curve
+ * or a property: whoever wrote the motion, the audit reads who is on stage and when things move.
+ *
+ * alone: on the frame `role` first shows, nothing cast as `among` is on stage.
+ * once: the movements of `beat` are one run of movement, not one per arrival.
+ * during: everything cast as `roles` first shows while the movements of `beat` are under way.
+ * last: nothing cast as `after` first shows later than what is cast as `role`.
+ * marked: what is cast as `role` looks different from what is cast as `against`, at rest or by a movement of `beat`.
+ * composed: once the movements of `beats` are over, what is cast as `roles` sits on the published `region`.
+ * together: under the movements of `beat`, what is cast as `roles` keeps its arrangement and goes at the same time.
+ */
+export type RelationIR = { id: string; why: string; waived?: string } & (
+  | { kind: "alone"; role: Role; among: Role[] }
+  | { kind: "once"; beat: Beat; needs: Role[] }
+  | { kind: "during"; roles: Role[]; beat: Beat }
+  | { kind: "last"; role: Role; after: Role[] }
+  | { kind: "marked"; role: Role; against: Role[]; beat: Beat }
+  | { kind: "composed"; roles: Role[]; beats: Beat[]; region: string }
+  | { kind: "together"; roles: Role[]; beat: Beat }
+);
+
+/**
+ * A pattern a shot declares it follows: what it is for, and the relations that make it that pattern.
+ * A relation the author means to break carries `waived`, the reason; it is reported, not checked.
+ */
+export interface PatternIR {
+  name: string;
+  intent: string;
+  relations: RelationIR[];
 }
 
 /** The designer's side of the document: the cues, what was promised to whom, and what must stay true. */
@@ -326,6 +408,15 @@ export interface ScoreIR {
   invariants: InvariantIR[];
   handoff: { entry?: HandoffIR; exit?: HandoffIR };
   notes: ScoreNote[];
+  /** What the shot is for, in the author's sentence. Recorded, never checked. */
+  intent?: string;
+  /** Who is who: the role of each object that has one, by object id. */
+  cast?: Record<string, Role>;
+  pattern?: PatternIR;
+  /** Objects meant to be cut by the edge of the picture, each with the reason. */
+  crops?: { nodeId: string; why: string }[];
+  /** The frame the shot's statement is complete and the frame it starts to leave: the hold between them is reported. */
+  hold?: { completeFrame: number; leaveFrame: number };
 }
 
 export interface MotionDocument {

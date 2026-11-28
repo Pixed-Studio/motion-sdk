@@ -9,6 +9,8 @@ import type {
   MotionBlockIR,
   MotionDocument,
   MotionFormat,
+  PatternIR,
+  Role,
   SceneNodeIR,
   ScoreNote,
   SubjectIR,
@@ -38,6 +40,15 @@ export class Score {
   readonly regions: Record<string, BBox> = {};
   readonly notes: ScoreNote[] = [];
   readonly handoff: { entry?: HandoffIR; exit?: HandoffIR } = {};
+  /** What the shot is for, in the author's sentence. */
+  intent: string | undefined;
+  /** Who is who. Set with `cast()`. */
+  readonly roles: Record<string, Role> = {};
+  /** The pattern the shot declares it follows. Set with `declarePattern()`. */
+  pattern: PatternIR | undefined;
+  readonly crops: { nodeId: string; why: string }[] = [];
+  /** The frame the statement is complete and the frame it starts to leave. */
+  hold: { completeFrame: number; leaveFrame: number } | undefined;
   #taken = new Set<string>();
 
   constructor(shot: string, format: MotionFormat) {
@@ -98,6 +109,32 @@ export class Score {
     return block;
   }
 
+  /**
+   * Says what objects are to the viewer's eye: `score.cast("lead", word)`. A pattern's relations are
+   * stated between roles, so the audit can check them whoever wrote the motion. An object has one role.
+   */
+  cast(role: Role, ...nodes: (string | { id: string })[]): void {
+    for (const n of nodes) {
+      const id = typeof n === "string" ? n : n.id;
+      this.node(id);
+      this.roles[id] = role;
+    }
+  }
+
+  /** The ids cast as any of these roles, in the order they were put on the score. */
+  castAs(...roles: Role[]): string[] {
+    return this.nodes.filter((n) => roles.includes(this.roles[n.id] ?? "")).map((n) => n.id);
+  }
+
+  /** Declares that an object is meant to be cut by the edge of the picture, and why. The audit reports it and does not object. */
+  crop(why: string, ...nodes: (string | { id: string })[]): void {
+    for (const n of nodes) {
+      const nodeId = typeof n === "string" ? n : n.id;
+      this.node(nodeId);
+      if (!this.crops.some((c) => c.nodeId === nodeId)) this.crops.push({ nodeId, why });
+    }
+  }
+
   cue(cue: CueIR): CueIR {
     if (this.cues.some((c) => c.name === cue.name)) {
       throw new Error(`[${this.shot}] Two cues are named "${cue.name}".`);
@@ -138,6 +175,11 @@ export class Score {
         invariants: this.invariants,
         handoff: this.handoff,
         notes: this.notes,
+        ...(this.intent ? { intent: this.intent } : {}),
+        ...(Object.keys(this.roles).length ? { cast: this.roles } : {}),
+        ...(this.pattern ? { pattern: this.pattern } : {}),
+        ...(this.crops.length ? { crops: this.crops } : {}),
+        ...(this.hold ? { hold: this.hold } : {}),
       },
     };
   }

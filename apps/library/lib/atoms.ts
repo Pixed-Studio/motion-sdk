@@ -1,5 +1,7 @@
 import {
   gleanEditorial,
+  popAndGlide,
+  snappyEditorial,
   statementConverge,
   veridianNoir,
   wordByWord,
@@ -87,65 +89,99 @@ const arrival = (line: string): string | Arrival => {
   return key.length ? { text, key: key.length === 1 ? key[0]! : key } : text;
 };
 
+const feels = { snappy: snappyEditorial, pop: popAndGlide };
+/** What each pattern does when a beat is left out: the page writes only what differs, and says which beats it left. */
+const patternDefaults = {
+  lead: { hit: "large", settle: "fall", join: "slide", mark: "colour", hold: "out", leave: "recede" },
+  cascade: { hit: "large", settle: "fall", join: "focus", mark: "colour", hold: "still", leave: "cut" },
+} as const;
 const wordDefaults: Settings = {
-  arrivals: "Into\na complete *floor plan*", accent: "first", bpm: 59, duration: 3, enter: "focus", layout: "recentre",
-  exit: "cut", ground: true, look: "glean", format: "wide",
+  arrivals: "Into\na complete *floor plan*", pattern: "lead", feel: "snappy", bpm: 59, duration: 1, hit: "large", settle: "fall", join: "slide", mark: "colour",
+  hold: "out", leave: "recede", accent: "last", layout: "recentre", ground: false, look: "glean", format: "wide",
 };
 const statementDefaults: Settings = {
   lines: "Work\ndifferently\nwith AI", accent: "last", bpm: 59, duration: 3, backdrop: true, look: "glean", format: "wide",
 };
+const options = (...values: [string, string][]) => values.map(([value, label]) => ({ value, label }));
 
 export const atoms: AtomEntry[] = [
   {
     slug: "word-by-word",
     call: "wordByWord",
     title: "Word by word",
-    line: "A sentence arrives a few words at a time, with the stress it would be spoken with.",
-    fittedTo: "Fitted to a product film's five-word line, measured frame by frame: a lead word that lands large and settles, then the rest two frames apart.",
+    line: "An opening that stresses one message: a lead takes the eye, gives its place to the sentence once, and the point arrives last and is marked. Every beat is yours to design.",
+    fittedTo:
+      "The lead pattern's relations and the feels' numbers come from eight sentences of three launch films, each rebuilt as an editable project and measured frame by frame: " +
+      "written with this atom, 34 of 35 words show on the film's frame, and word centres sit 2 to 7 px from the film's on average at 1280 wide.",
     describe: () => wordByWord.describe(),
     controls: [
-      { key: "arrivals", kind: "lines", label: "Arrivals", hint: "One per line: the words that land together on one cue. Wrap the words the sentence is about in *asterisks*." },
-      accentChoice("Which arrival carries the sentence. First has the stage to itself and starts large; last is what the line builds to."),
-      tempoRange,
-      { key: "duration", kind: "range", label: "Length", hint: "Entrances keep their length. Extra time goes to holding the accent and the finished line.", min: 1.5, max: 6, step: 0.1, unit: "s" },
-      { key: "enter", kind: "choice", label: "Words enter by", hint: "Focus is quick and quiet. Rise is more physical. Fade suits a busy ground.", options: [{ value: "focus", label: "Focus" }, { value: "rise", label: "Rise" }, { value: "fade", label: "Fade" }] },
-      { key: "layout", kind: "choice", label: "The line", hint: "Recentre keeps what has arrived centred, so the line slides to make room. Anchored sets each word where it will rest.", options: [{ value: "recentre", label: "Recentres" }, { value: "anchored", label: "Is anchored" }] },
-      { key: "exit", kind: "choice", label: "At the end", hint: "Cut holds the line for the next shot. Shrink lets it fall back and fade.", options: [{ value: "cut", label: "Cut" }, { value: "shrink", label: "Shrink" }] },
-      { key: "ground", kind: "toggle", label: "A ground that answers", hint: "Soft shapes behind the phrase that move a little on every arrival." },
+      { key: "arrivals", kind: "lines", label: "Arrivals", hint: "One per line: the words that land together on one cue. In the lead pattern the first line is the lead. Wrap the point, the words the sentence is about, in *asterisks*." },
+      { key: "pattern", kind: "choice", label: "Pattern", hint: "Lead: the lead has the stage, makes room once while the rest join, and the point comes last. Cascade: every arrival takes its own step and shows where it rests.", options: options(["lead", "Lead"], ["cascade", "Cascade"]) },
+      { key: "hit", kind: "choice", label: "Hit: the lead on the cut", hint: "Large lands as big as the safe area allows; small starts at 0.6 and is pushed in; plain is its own size. In code it also takes moves: a turn, a drop, a blur.", options: options(["large", "Large"], ["small", "Small"], ["plain", "Plain"]) },
+      { key: "settle", kind: "choice", label: "Settle: how the hit is spent", hint: "Lead pattern. Falls to size at once; floats: falls a little past its size and comes back up; swapped: keeps its size and is cut to line size inside the room move.", options: options(["fall", "Falls"], ["float", "Floats back up"], ["swap", "Is swapped"]) },
+      { key: "join", kind: "choice", label: "Join: how words come in", hint: "Slide, rise and drop show a word off its place and glide it in; pop appears in place; focus sharpens where it rests; fade suits a busy ground. In code, any direction.", options: options(["slide", "Slide"], ["rise", "Rise"], ["drop", "Drop"], ["pop", "Pop"], ["focus", "Focus"], ["fade", "Fade"]) },
+      { key: "mark", kind: "choice", label: "Mark: how the point is singled out", hint: "A colour; coming into focus as it lands; flickering on; a second colour sweeping across during the hold. None is reported by the lead pattern's check.", options: options(["colour", "Colour"], ["focus", "Focus"], ["flicker", "Flicker"], ["sweep", "Sweep"], ["none", "None"]) },
+      { key: "hold", kind: "choice", label: "Hold: while it is read", hint: "The finished line never sits still unless told to. Out eases back, so the landing, the hold and a receding exit read as one move.", options: options(["out", "Eases back"], ["in", "Pushes in"], ["left", "Drifts left"], ["right", "Drifts right"], ["up", "Drifts up"], ["down", "Drifts down"], ["still", "Holds still"]) },
+      { key: "leave", kind: "choice", label: "Leave: how it goes", hint: "Recede and the four directions are still gaining speed on the last frame: the cut is on the movement. Cut holds the line. Shrink fades to nothing.", options: options(["recede", "Recede"], ["left", "Left"], ["right", "Right"], ["up", "Up"], ["down", "Down"], ["cut", "Cut"], ["shrink", "Shrink"]) },
+      { key: "feel", kind: "choice", label: "Feel", hint: "The numbers the beats draw on, measured from films: snappy editorial shows words far off their place and glides long; pop and glide shows them almost in place.", options: options(["snappy", "Snappy editorial"], ["pop", "Pop and glide"]) },
+      { ...tempoRange, hint: "With a tempo the lead is on the first beat and each arrival a whole beat later, whatever the tempo. Off, the feel spaces them." },
+      { key: "duration", kind: "range", label: "Length", hint: "At the left end the length follows the content: reading time, the hold and the exit. Given a length, extra time goes to the hold, and the audit says when that is long.", min: 1, max: 6, step: 0.1, unit: "s", off: "Fits" },
+      accentChoice("Cascade pattern: which arrival carries the sentence. First has the stage to itself and starts large; last is what the line builds to."),
+      { key: "layout", kind: "choice", label: "The line (cascade pattern)", hint: "Recentre keeps what has arrived centred, stepping aside for each word. Anchored sets each word where it will rest.", options: options(["recentre", "Recentres"], ["anchored", "Is anchored"]) },
+      { key: "ground", kind: "toggle", label: "A ground behind the words", hint: "Soft shapes. Lead: they share the lead's landing and the line's leaving, by depth. Cascade: they move a little on every arrival." },
       lookChoice,
       formatChoice,
     ],
     defaults: wordDefaults,
     presets: [
-      { name: "A lead word, then the rest", note: "The accent comes first, alone, and starts large.", settings: wordDefaults },
-      { name: "Three words on the beat", note: "Three equals at 120 BPM: one word per beat, no accent.", settings: { ...wordDefaults, arrivals: "Plan.\nBuild.\nShip.", accent: "none", bpm: 120 } },
-      { name: "Five words that build", note: "Two more words. The accent stays last, so four arrivals run up to it.", settings: { ...wordDefaults, arrivals: "Plan,\nbuild,\ntest,\nship\n*together.*", accent: "last", duration: 3.4 } },
-      { name: "A longer sentence that leaves", note: "Three breaths, rising into place; the phrase wraps and falls back at the end.", settings: { ...wordDefaults, arrivals: "We want you\nto express yourself\n*your way.*", accent: "last", duration: 4.2, enter: "rise", exit: "shrink" } },
-      { name: "Vertical, dark, anchored", note: "The same atom on a tall stage in another look, words appearing where they rest.", settings: { ...wordDefaults, arrivals: "Meet\nagents that *ship*\nwhile you sleep.", duration: 3.6, layout: "anchored", look: "veridian", format: "tall" } },
+      { name: "The film's own", note: "The timing of the film the pattern was first measured on: the line drifts left while it is read and is thrown out to the left.", settings: { ...wordDefaults, hold: "left", leave: "left", duration: 1.7 } },
+      { name: "Settles and floats", note: "The lead falls a little past its size and floats back up; words rise; the line lifts away.", settings: { ...wordDefaults, arrivals: "Know\nwhat you can spend\n*today.*", feel: "pop", bpm: 100, settle: "float", join: "rise", hold: "in", leave: "up" } },
+      { name: "The point flickers on", note: "No size change: a plain lead, words popping on, and a point that flickers before it holds.", settings: { ...wordDefaults, arrivals: "And then\nthe lights\n*flicker* on.", feel: "pop", bpm: 109, hit: "plain", join: "pop", mark: "flicker", leave: "down" } },
+      { name: "A colour sweeps the point", note: "The mark runs over the hold: a second colour crosses the point while the sentence is read.", settings: { ...wordDefaults, arrivals: "Time\nto\n*change* it.", bpm: 100, mark: "sweep", leave: "right", look: "veridian" } },
+      { name: "A large word, swapped", note: "The lead keeps its size, then is cut to line size mid-move: a cut on the movement.", settings: { ...wordDefaults, arrivals: "Now\nit is *your turn*", feel: "pop", settle: "swap", hold: "in", leave: "up", duration: 2 } },
+      { name: "Vertical, dark", note: "A tall stage in another look. The sentence wraps, so the lead starts in the middle and moves to its line.", settings: { ...wordDefaults, arrivals: "Meet\nagents that *ship*", look: "veridian", format: "tall" } },
+      { name: "Cascade: three on the beat", note: "The other pattern. Three equals at 120 BPM: one word per beat where it rests, no accent.", settings: { ...wordDefaults, arrivals: "Plan.\nBuild.\nShip.", pattern: "cascade", accent: "none", bpm: 120, join: "focus", hold: "still", leave: "cut", duration: 3, ground: true } },
     ],
-    build: (s) =>
-      wordByWord({
+    build: (s) => {
+      const pattern = s.pattern as "lead" | "cascade";
+      const base = stage(s);
+      const lead = pattern === "lead";
+      return wordByWord({
         decisions: {
-          ...stage(s),
-          enter: s.enter as "focus" | "rise" | "fade",
-          layout: s.layout as "recentre" | "anchored",
-          exit: s.exit as "cut" | "shrink",
+          width: base.width, height: base.height, look: base.look, tempo: base.tempo,
+          durationSec: Number(s.duration) > 1 ? Number(s.duration) : "fit",
+          pattern,
+          feel: feels[s.feel as keyof typeof feels],
+          hit: s.hit as "large" | "small" | "plain",
+          join: s.join as "slide" | "rise" | "drop" | "pop" | "focus" | "fade",
+          mark: s.mark as "colour" | "focus" | "flicker" | "sweep" | "none",
+          hold: s.hold as "out" | "in" | "left" | "right" | "up" | "down" | "still",
+          leave: s.leave as "recede" | "left" | "right" | "up" | "down" | "cut" | "shrink",
+          ...(lead ? { settle: s.settle as "fall" | "float" | "swap", room: "whip" as const } : { accent: base.accent, layout: s.layout as "recentre" | "anchored" }),
         },
         slots: { arrivals: lines(String(s.arrivals)).map(arrival), ...(s.ground ? {} : { ambient: [] }) },
-      }),
+      });
+    },
     code: (s) => {
+      const pattern = s.pattern as "lead" | "cascade";
+      const usual = patternDefaults[pattern];
+      const beat = (key: keyof typeof usual) => [key, s[key] !== usual[key] && (pattern === "lead" || key !== "settle") ? quote(s[key]) : undefined] as [string, string | undefined];
       const decisions = object([
-        ...stageCode(s, wordDefaults).map(([k, v]): [string, string | undefined] => (k === "accent" ? [k, s.accent !== "last" ? quote(s.accent) : undefined] : [k, v])),
-        ["enter", s.enter !== "focus" ? quote(s.enter) : undefined],
-        ["layout", s.layout !== "recentre" ? quote(s.layout) : undefined],
-        ["exit", s.exit !== "cut" ? quote(s.exit) : undefined],
+        ...stageCode(s, wordDefaults).filter(([k]) => k !== "accent" && k !== "durationSec"),
+        ["durationSec", Number(s.duration) > 1 ? String(s.duration) : undefined],
+        ["pattern", pattern !== "lead" ? quote(pattern) : undefined],
+        ["feel", s.feel === "pop" ? "popAndGlide" : undefined],
+        beat("hit"), beat("settle"), beat("join"), beat("mark"), beat("hold"), beat("leave"),
+        ["accent", pattern === "cascade" && s.accent !== "last" ? quote(s.accent) : undefined],
+        ["layout", pattern === "cascade" && s.layout !== "recentre" ? quote(s.layout) : undefined],
       ]);
       const arrivals = lines(String(s.arrivals)).map((l) => {
         const a = arrival(l);
         return typeof a === "string" ? quote(a) : `{ text: ${quote(a.text)}, key: ${quote(a.key)} }`;
       });
       const slots = `{ arrivals: [${arrivals.join(", ")}]${s.ground ? "" : ", ambient: []"} }`;
-      return `import { ${s.look === "veridian" ? "veridianNoir, " : ""}wordByWord } from "motion-sdk";\n\nconst shot = wordByWord({\n${decisions ? `  decisions: ${decisions},\n` : ""}  slots: ${slots},\n});\n\nshot.audit(); // read it after every change`;
+      const names = [s.feel === "pop" ? "popAndGlide" : "", s.look === "veridian" ? "veridianNoir" : "", "wordByWord"].filter(Boolean).join(", ");
+      return `import { ${names} } from "motion-sdk";\n\nconst shot = wordByWord({\n${decisions ? `  decisions: ${decisions},\n` : ""}  slots: ${slots},\n});\n\nshot.audit(); // read it after every change: it names the beats still left to the defaults`;
     },
   },
   {
